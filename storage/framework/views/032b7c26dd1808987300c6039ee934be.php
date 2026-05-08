@@ -1,0 +1,61 @@
+<?php $attributes ??= new \Illuminate\View\ComponentAttributeBag;
+
+$__newAttributes = [];
+$__propNames = \Illuminate\View\ComponentAttributeBag::extractPropNames((['label' => null, 'name' => null, 'icon' => null]));
+
+foreach ($attributes->all() as $__key => $__value) {
+    if (in_array($__key, $__propNames)) {
+        $$__key = $$__key ?? $__value;
+    } else {
+        $__newAttributes[$__key] = $__value;
+    }
+}
+
+$attributes = new \Illuminate\View\ComponentAttributeBag($__newAttributes);
+
+unset($__propNames);
+unset($__newAttributes);
+
+foreach (array_filter((['label' => null, 'name' => null, 'icon' => null]), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
+    $$__key = $$__key ?? $__value;
+}
+
+$__defined_vars = get_defined_vars();
+
+foreach ($attributes->all() as $__key => $__value) {
+    if (array_key_exists($__key, $__defined_vars)) unset($$__key);
+}
+
+unset($__defined_vars, $__key, $__value); ?>
+
+<div class="space-y-2">
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($label): ?>
+    <label for="<?php echo e($name); ?>" class="block text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">
+        <?php echo e($label); ?>
+
+    </label>
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+    
+    <div class="relative group">
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($icon): ?>
+        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-500 transition-colors z-10">
+            <i class="fas <?php echo e($icon); ?> text-xs"></i>
+        </div>
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+        
+        <select 
+            name="<?php echo e($name); ?>" 
+            id="<?php echo e($name); ?>" 
+            <?php echo e($attributes->merge(['class' => ($icon ? 'pl-11' : 'px-4') . ' w-full bg-slate-900/50 border border-white/5 rounded-xl py-3 text-xs font-bold text-white outline-none focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition-all backdrop-blur-md appearance-none'])); ?>
+
+        >
+            <?php echo e($slot); ?>
+
+        </select>
+
+        <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-blue-500 transition-colors">
+            <i class="fas fa-chevron-down text-[10px]"></i>
+        </div>
+    </div>
+</div>
+<?php /**PATH C:\laragon\www\opeshis\resources\views\components\cc-select.blade.php ENDPATH**/ ?>

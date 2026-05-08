@@ -1,6 +1,17 @@
-<x-cc-shell title='Opeshis OS'>
+<?php if (isset($component)) { $__componentOriginal5f9e428c85f73cee41ce4c693f314c57 = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginal5f9e428c85f73cee41ce4c693f314c57 = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.cc-shell','data' => ['title' => 'Opeshis OS']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('cc-shell'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['title' => 'Opeshis OS']); ?>
+<?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::processComponentKey($component); ?>
 
-@section('title', 'Telemedicine Hub - Opeshis OS')
+
+<?php $__env->startSection('title', 'Telemedicine Hub - Opeshis OS'); ?>
 
 
 <div class="max-w-7xl mx-auto space-y-8 animate-fade-in pb-20">
@@ -24,12 +35,12 @@
             <div class="flex items-center justify-between mb-2 px-2">
                 <h3 class="text-sm font-bold text-slate-200">Scheduled Consultations</h3>
                 <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded text-[9px] font-bold uppercase tracking-wider">
-                    {{ $consultations->count() }} Sessions Today
+                    <?php echo e($consultations->count()); ?> Sessions Today
                 </span>
             </div>
 
             <div class="space-y-4">
-                @forelse($consultations as $c)
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $consultations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $c): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                     <div class="bg-slate-800 rounded-xl border border-slate-700/60 p-6 shadow-sm hover:border-blue-500/40 transition-all group relative overflow-hidden">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                             <div class="flex items-center gap-6">
@@ -37,24 +48,24 @@
                                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                                 </div>
                                 <div>
-                                    <h3 class="text-lg font-bold text-slate-100 uppercase tracking-tight group-hover:text-blue-400 transition-colors">{{ $c->full_name }}</h3>
-                                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">{{ $c->medical_id }} • Scheduled: {{ \Carbon\Carbon::parse($c->scheduled_at)->format('H:i') }}</p>
+                                    <h3 class="text-lg font-bold text-slate-100 uppercase tracking-tight group-hover:text-blue-400 transition-colors"><?php echo e($c->full_name); ?></h3>
+                                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1"><?php echo e($c->medical_id); ?> • Scheduled: <?php echo e(\Carbon\Carbon::parse($c->scheduled_at)->format('H:i')); ?></p>
                                 </div>
                             </div>
                             <div class="flex flex-col md:items-end gap-3 w-full md:w-auto">
-                                <span class="px-3 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-lg text-[9px] font-bold uppercase tracking-wider text-center">{{ $c->status }}</span>
-                                <a href="{{ $c->meeting_link }}" target="_blank" class="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all shadow-md shadow-blue-600/10 text-center">
+                                <span class="px-3 py-1 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-lg text-[9px] font-bold uppercase tracking-wider text-center"><?php echo e($c->status); ?></span>
+                                <a href="<?php echo e($c->meeting_link); ?>" target="_blank" class="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all shadow-md shadow-blue-600/10 text-center">
                                     Join Video Call
                                 </a>
                             </div>
                         </div>
                     </div>
-                @empty
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                     <div class="bg-slate-800 rounded-xl border border-slate-700/60 p-16 text-center shadow-sm">
                         <svg class="mx-auto h-12 w-12 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
                         <p class="mt-4 text-sm text-slate-500 uppercase tracking-wider">No active virtual consultations.</p>
                     </div>
-                @endforelse
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </div>
         </div>
 
@@ -99,8 +110,8 @@
             <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
             Schedule Telemedicine Call
         </h3>
-        <form method="POST" action="{{ route('telemedicine.schedule') }}" class="space-y-6">
-            @csrf
+        <form method="POST" action="<?php echo e(route('telemedicine.schedule')); ?>" class="space-y-6">
+            <?php echo csrf_field(); ?>
             <div>
                 <label class="block text-xs font-bold text-slate-500 uppercase mb-3">Patient Medical ID</label>
                 <input type="text" name="patient_id" required placeholder="Enter Patient ID..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-sm font-bold text-slate-200 outline-none focus:ring-2 focus:ring-blue-600 transition-all uppercase">
@@ -116,4 +127,14 @@
         </form>
     </div>
 </div>
-</x-cc-shell>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginal5f9e428c85f73cee41ce4c693f314c57)): ?>
+<?php $attributes = $__attributesOriginal5f9e428c85f73cee41ce4c693f314c57; ?>
+<?php unset($__attributesOriginal5f9e428c85f73cee41ce4c693f314c57); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal5f9e428c85f73cee41ce4c693f314c57)): ?>
+<?php $component = $__componentOriginal5f9e428c85f73cee41ce4c693f314c57; ?>
+<?php unset($__componentOriginal5f9e428c85f73cee41ce4c693f314c57); ?>
+<?php endif; ?>
+<?php /**PATH C:\laragon\www\opeshis\resources\views\telemedicine\index.blade.php ENDPATH**/ ?>
