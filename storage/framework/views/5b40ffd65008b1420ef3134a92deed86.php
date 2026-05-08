@@ -1,11 +1,39 @@
-@props(['title' => 'Opeshis OS'])
+<?php $attributes ??= new \Illuminate\View\ComponentAttributeBag;
+
+$__newAttributes = [];
+$__propNames = \Illuminate\View\ComponentAttributeBag::extractPropNames((['title' => 'Opeshis OS']));
+
+foreach ($attributes->all() as $__key => $__value) {
+    if (in_array($__key, $__propNames)) {
+        $$__key = $$__key ?? $__value;
+    } else {
+        $__newAttributes[$__key] = $__value;
+    }
+}
+
+$attributes = new \Illuminate\View\ComponentAttributeBag($__newAttributes);
+
+unset($__propNames);
+unset($__newAttributes);
+
+foreach (array_filter((['title' => 'Opeshis OS']), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
+    $$__key = $$__key ?? $__value;
+}
+
+$__defined_vars = get_defined_vars();
+
+foreach ($attributes->all() as $__key => $__value) {
+    if (array_key_exists($__key, $__defined_vars)) unset($$__key);
+}
+
+unset($__defined_vars, $__key, $__value); ?>
 
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $title }}</title>
+    <title><?php echo e($title); ?></title>
 
     <!-- DNS Prefetch & Preconnect for all external resources -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -21,14 +49,15 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plh7eecsDa4A4e/eq+4e7V8zn3iHg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @livewireStyles
+    <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
+    <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::styles(); ?>
+
 </head>
 <body class="bg-slate-950 text-slate-300 antialiased selection:bg-indigo-500 selection:text-white">
     <div class="flex h-screen overflow-hidden">
         
         <!-- Institutional Sidebar -->
-        @include('partials.sidebar')
+        <?php echo $__env->make('partials.sidebar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
         <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
             <!-- Top Navigation Bar -->
@@ -50,21 +79,25 @@
                     
                     <div class="flex items-center gap-3">
                         <div class="text-right hidden sm:block">
-                            <p class="text-[10px] font-black text-white uppercase leading-none">{{ Auth::user()->name ?? 'System Admin' }}</p>
-                            <p class="text-[8px] font-black text-blue-500 uppercase tracking-widest mt-1">{{ Auth::user()->role ?? 'Institutional Personnel' }}</p>
+                            <p class="text-[10px] font-black text-white uppercase leading-none"><?php echo e(Auth::user()->name ?? 'System Admin'); ?></p>
+                            <p class="text-[8px] font-black text-blue-500 uppercase tracking-widest mt-1"><?php echo e(Auth::user()->role ?? 'Institutional Personnel'); ?></p>
                         </div>
                         <div class="w-9 h-9 bg-gradient-to-br from-blue-500 to-indigo-700 rounded-xl flex items-center justify-center font-black text-white text-xs shadow-lg shadow-blue-600/20">
-                            {{ substr(Auth::user()->name ?? 'A', 0, 1) }}
+                            <?php echo e(substr(Auth::user()->name ?? 'A', 0, 1)); ?>
+
                         </div>
                     </div>
                 </div>
             </header>
 
             <main class="flex-1 overflow-y-auto p-12 no-scrollbar scroll-smooth">
-                {{ $slot }}
+                <?php echo e($slot); ?>
+
             </main>
         </div>
     </div>
-    @livewireScripts
+    <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::scripts(); ?>
+
 </body>
 </html>
+<?php /**PATH C:\laragon\www\opeshis\resources\views\components\cc-shell.blade.php ENDPATH**/ ?>
