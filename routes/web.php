@@ -19,6 +19,7 @@ Route::get('/features', [PublicController::class, 'features'])->name('features')
 Route::get('/faq', [PublicController::class, 'faq'])->name('faq');
 Route::get('/blog', [PublicController::class, 'blog'])->name('blog');
 Route::get('/contact', [PublicController::class, 'contact'])->name('contact');
+Route::post('/contact', [PublicController::class, 'contactSubmit'])->name('contact.submit');
 
 // Authentication Infrastructure
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PublicController extends Controller
 {
@@ -56,5 +57,24 @@ class PublicController extends Controller
     public function contact()
     {
         return view('public.contact');
+    }
+
+    /**
+     * Handle contact form submission
+     */
+    public function contactSubmit(Request $request)
+    {
+        $validated = $request->validate([
+            'name'        => 'required|string|max:120',
+            'email'       => 'required|email|max:200',
+            'institution' => 'nullable|string|max:200',
+            'subject'     => 'nullable|string|max:120',
+            'message'     => 'required|string|min:10|max:3000',
+        ]);
+
+        // Log the inquiry institutionally (replace with Mail::send when SMTP is configured)
+        Log::info('Opeshis Contact Inquiry', $validated);
+
+        return redirect()->route('contact')->with('success', 'Your message has been received. Our team will respond within one business day.');
     }
 }
