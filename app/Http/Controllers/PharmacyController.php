@@ -23,7 +23,12 @@ class PharmacyController extends Controller
     {
         $tab = $request->query('subtab', 'dispensing');
 
-        $pending = Prescription::with('patient')
+        $pending = Prescription::when(auth()->user()->branch_id, function ($query, $branchId) {
+                return $query->whereHas('patient', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                });
+            })
+            ->with('patient')
             ->where('status', 'pending')
             ->orderBy('created_at', 'asc')
             ->get();
@@ -41,7 +46,12 @@ class PharmacyController extends Controller
             ->limit(50)
             ->get();
 
-        $history = Prescription::with('patient')
+        $history = Prescription::when(auth()->user()->branch_id, function ($query, $branchId) {
+                return $query->whereHas('patient', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                });
+            })
+            ->with('patient')
             ->where('status', 'dispensed')
             ->orderBy('dispensed_at', 'desc')
             ->limit(100)
@@ -71,14 +81,20 @@ class PharmacyController extends Controller
 
         try {
             if ($action === 'dispense') {
+                $request->validate(['prescription_id' => 'required|uuid']);
                 $dispenseAction->execute($request->input('prescription_id'));
                 return redirect()->route('pharmacy', ['subtab' => 'dispensing'])->with('success', 'Institutional medication dispensing protocol finalized.');
 
             } elseif ($action === 'request_stock') {
-                $requestStockAction->execute($request->all());
+                $validated = $request->validate([
+                    'inventory_id' => 'required|uuid',
+                    'qty' => 'required|numeric|min:1'
+                ]);
+                $requestStockAction->execute($validated);
                 return redirect()->route('pharmacy', ['subtab' => 'orders'])->with('success', 'Institutional stock requisition sent to warehouse.');
 
             } elseif ($action === 'acknowledge_receipt') {
+                $request->validate(['req_id' => 'required|uuid']);
                 $receiptAction->execute($request->input('req_id'));
                 return redirect()->route('pharmacy', ['subtab' => 'orders'])->with('success', 'Institutional stock receipt acknowledged and updated.');
             }

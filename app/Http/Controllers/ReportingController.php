@@ -20,7 +20,14 @@ class ReportingController extends Controller
      */
     public function index(): View
     {
-        $this->ensureTablesExist();
+        if (Dhis2Config::count() === 0) {
+            Dhis2Config::insert([
+                'instance_url' => 'https://dhis2.moh.gov.test',
+                'api_user' => 'opeshis_sync',
+                'api_password' => 'secret',
+                'org_unit_id' => 'OU_12345'
+            ]);
+        }
 
         $reports = Dhis2Reports::with('generator')
             ->orderBy('created_at', 'desc')
@@ -82,18 +89,4 @@ class ReportingController extends Controller
         return redirect()->back()->with('error', 'Transmission failed. Check network or credentials.');
     }
 
-    private function ensureTablesExist()
-    {
-        DB::statement("CREATE TABLE IF NOT EXISTS dhis2_config (id SERIAL PRIMARY KEY, instance_url TEXT, api_user TEXT, api_password TEXT, org_unit_id TEXT, is_active BOOLEAN DEFAULT TRUE)");
-        DB::statement("CREATE TABLE IF NOT EXISTS dhis2_reports (id UUID PRIMARY KEY, report_period VARCHAR(20), report_type VARCHAR(50), generated_by UUID REFERENCES users(id), data_payload JSONB, status VARCHAR(20), created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");
-        
-        if (Dhis2Config::count() === 0) {
-            Dhis2Config::insert([
-                'instance_url' => 'https://dhis2.moh.gov.test',
-                'api_user' => 'opeshis_sync',
-                'api_password' => 'secret',
-                'org_unit_id' => 'OU_12345'
-            ]);
-        }
-    }
 }

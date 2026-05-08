@@ -16,7 +16,10 @@ class NursingController extends Controller
      */
     public function index()
     {
-        $admissions = Admission::with(['patient', 'bed.ward'])
+        $admissions = Admission::when(auth()->user()->branch_id, function ($query, $branchId) {
+                return $query->where('branch_id', $branchId);
+            })
+            ->with(['patient', 'bed.ward'])
             ->where('status', 'admitted')
             ->get();
 
@@ -38,35 +41,41 @@ class NursingController extends Controller
      */
     public function saveRound(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'admission_id' => 'required|uuid|exists:admissions,id',
             'notes' => 'nullable|string',
+            'temp' => 'nullable|numeric',
+            'pulse' => 'nullable|integer',
+            'bp_sys' => 'nullable|integer',
+            'bp_dia' => 'nullable|integer',
+            'spo2' => 'nullable|numeric',
+            'respiratory_rate' => 'nullable|integer',
         ]);
 
-        \Illuminate\Support\Facades\DB::transaction(function() use ($request) {
+        \Illuminate\Support\Facades\DB::transaction(function() use ($validated) {
             $round = NursingRound::create([
-                'admission_id' => $request->input('admission_id'),
+                'admission_id' => $validated['admission_id'],
                 'staff_id' => auth()->id(),
                 'scheduled_at' => now(),
                 'completed_at' => now(),
                 'task_type' => 'Full Institutional Assessment',
                 'status' => 'completed',
-                'notes' => $request->input('notes')
+                'notes' => $validated['notes'] ?? null
             ]);
 
-            $news = \App\Services\NEWS2Service::calculate($request->all());
+            $news = \App\Services\NEWS2Service::calculate($validated);
 
             VitalsRecord::create([
-                'admission_id' => $request->input('admission_id'),
+                'admission_id' => $validated['admission_id'],
                 'round_id' => $round->id,
-                'temp' => $request->input('temp'),
-                'pulse' => $request->input('pulse'),
-                'bp_sys' => $request->input('bp_sys'),
-                'bp_dia' => $request->input('bp_dia'),
-                'spo2' => $request->input('spo2'),
-                'respiratory_rate' => $request->input('respiratory_rate'),
-                'news2_score' => $news['score'],
-                'risk_level' => $news['risk_level'],
+                'temp' => $validated['temp'] ?? null,
+                'pulse' => $validated['pulse'] ?? null,
+                'bp_sys' => $validated['bp_sys'] ?? null,
+                'bp_dia' => $validated['bp_dia'] ?? null,
+                'spo2' => $validated['spo2'] ?? null,
+                'respiratory_rate' => $validated['respiratory_rate'] ?? null,
+                'news2_score' => $news['score'] ?? 0,
+                'risk_level' => $news['risk_level'] ?? 'low',
                 'recorded_by' => auth()->id(),
                 'recorded_at' => now()
             ]);
@@ -75,7 +84,7 @@ class NursingController extends Controller
                 'NURSING_ROUND_RECORD',
                 'nursing_rounds',
                 $round->id,
-                "Recorded vitals and clinical notes for admission: {$request->input('admission_id')}"
+                "Recorded vitals and clinical notes for admission: {$validated['admission_id']}"
             );
         });
 

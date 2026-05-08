@@ -38,7 +38,12 @@ class BillingController extends Controller
         ];
 
         if ($tab !== 'providers') {
-            $query = BillingInvoice::with(['patient', 'provider']);
+            $query = BillingInvoice::when(auth()->user()->branch_id, function ($query, $branchId) {
+                    return $query->whereHas('patient', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    });
+                })
+                ->with(['patient', 'provider']);
 
             if ($tab === 'pending') {
                 $query->where('status', 'unpaid')->orderBy('created_at', 'asc');
@@ -78,15 +83,27 @@ class BillingController extends Controller
 
         try {
             if ($action === 'pay_invoice') {
+                $request->validate([
+                    'invoice_id' => 'required|uuid',
+                    'payment_method' => 'required|string',
+                ]);
                 $paymentAction->execute($request->input('invoice_id'), $request->input('payment_method'));
                 return redirect()->route('billing', ['subtab' => 'pending'])->with('success', 'Institutional patient settlement recorded.');
 
             } elseif ($action === 'submit_claim') {
+                $request->validate(['invoice_id' => 'required|uuid']);
                 $claimAction->execute($request->input('invoice_id'));
                 return redirect()->route('billing', ['subtab' => 'insurance'])->with('success', 'Institutional claim submitted to provider.');
 
             } elseif ($action === 'add_provider') {
-                $providerAction->execute($request->all());
+                $validated = $request->validate([
+                    'name' => 'required|string',
+                    'contact' => 'required|string',
+                    'email' => 'required|email',
+                    'phone' => 'required|string',
+                    'co_pay' => 'nullable|numeric'
+                ]);
+                $providerAction->execute($validated);
                 return redirect()->route('billing', ['subtab' => 'providers'])->with('success', 'Institutional insurance provider enrolled.');
             }
         } catch (\Exception $e) {
