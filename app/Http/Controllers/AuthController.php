@@ -40,7 +40,7 @@ class AuthController extends Controller
             
             session(['mfa_user_id' => $user->id]);
             
-            return redirect()->route('otp.show')->with('info', 'Institutional security code dispatched.');
+            return redirect()->route('login.otp')->with('info', 'Institutional security code dispatched.');
         }
 
         return back()->withErrors([
