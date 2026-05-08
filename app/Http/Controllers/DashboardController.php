@@ -51,11 +51,11 @@ class DashboardController extends Controller
             $myInpatients = Admission::with(['patient', 'bed.ward'])
                 ->where('status', 'admitted')->get();
 
-            // Resolve to plain array — Closures in map() cannot be serialized to file cache
+            // Resolve to plain stdClass — Closures in map() cannot be serialized to file cache
             $bioSignals = LabOrderItem::with(['order.patient', 'test'])
                 ->whereIn('flag', ['High', 'Low', 'Critical', 'Abnormal'])
                 ->orderBy('created_at', 'desc')->limit(5)->get()
-                ->map(fn($item) => [
+                ->map(fn($item) => (object)[
                     'full_name'    => optional(optional($item->order)->patient)->full_name ?? 'Unknown',
                     'test_name'    => optional($item->test)->name ?? '—',
                     'result_value' => $item->result_value,
@@ -70,14 +70,14 @@ class DashboardController extends Controller
                 ->where('updated_at', '>=', now()->subDays(7))->where('status', 'paid')
                 ->groupBy('date')->orderBy('date')->get();
 
-            // Resolve withCount to plain array — Closures cannot be serialized
+            // Resolve withCount to stdClass — Closures cannot be serialized
             $wardOccupancy = Ward::withCount([
                 'beds',
-                'beds as occupied_beds' => fn($q) => $q->where('status', 'occupied'),
-            ])->get()->map(fn($w) => [
-                'name'          => $w->name,
-                'beds_count'    => $w->beds_count,
-                'occupied_beds' => $w->occupied_beds,
+                'beds as occupied_beds_count' => fn($q) => $q->where('status', 'occupied'),
+            ])->get()->map(fn($w) => (object)[
+                'name'                => $w->name,
+                'beds_count'          => $w->beds_count,
+                'occupied_beds_count' => $w->occupied_beds_count,
             ])->toArray();
 
             $recent_patients = Patient::orderBy('created_at', 'desc')->limit(5)->get();
