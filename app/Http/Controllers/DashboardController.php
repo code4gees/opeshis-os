@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use App\Models\Patient;
 use App\Models\ActiveQueue;
 use App\Models\Appointment;
@@ -26,112 +27,86 @@ class DashboardController extends Controller
     {
         $user_id = auth()->id();
 
-        // Institutional Telemetry Caching (Neural Link Synchronization)
-        return \Illuminate\Support\Facades\Cache::remember(
-            "dashboard_telemetry_{$user_id}",
-            now()->addMinutes(5),
-            function () use ($user_id) {
-                $stats = [
-                    'total_patients' => Patient::count(),
-                    'active_visits' => ActiveQueue::where('status', '!=', 'completed')->count(),
-                    'appointments_today' => Appointment::whereDate('appointment_date', now()->toDateString())->count(),
-                    'active_admissions' => Admission::where('status', 'admitted')->count(),
-                    'pending_labs' => LabOrder::where('status', 'pending')->count(),
-                    'pending_radiology' => RadiologyOrder::where('status', 'pending')->count(),
-                    'pharmacy_orders' => Prescription::where('status', 'pending')->count(),
-                    'revenue_today' => BillingInvoice::whereDate('updated_at', now()->toDateString())->where('status', 'paid')->sum('total_amount') ?: 0,
-                    'low_stock_items' => Inventory::where('stock_level', '<', 10)->count(), 
-                ];
+        // Cache only the DATA — never cache a View object (Closures are not serializable)
+        $data = Cache::remember("dashboard_telemetry_{$user_id}", now()->addMinutes(5), function () use ($user_id) {
 
-                // My Appointments Today
-                $myAppointments = Appointment::with('patient')
-                    ->where('doctor_id', $user_id)
-                    ->whereDate('appointment_date', now()->toDateString())
-                    ->whereIn('status', ['scheduled', 'confirmed'])
-                    ->get();
+            $stats = [
+                'total_patients'     => Patient::count(),
+                'active_visits'      => ActiveQueue::where('status', '!=', 'completed')->count(),
+                'appointments_today' => Appointment::whereDate('appointment_date', now()->toDateString())->count(),
+                'active_admissions'  => Admission::where('status', 'admitted')->count(),
+                'pending_labs'       => LabOrder::where('status', 'pending')->count(),
+                'pending_radiology'  => RadiologyOrder::where('status', 'pending')->count(),
+                'pharmacy_orders'    => Prescription::where('status', 'pending')->count(),
+                'revenue_today'      => BillingInvoice::whereDate('updated_at', now()->toDateString())->where('status', 'paid')->sum('total_amount') ?: 0,
+                'low_stock_items'    => Inventory::where('stock_level', '<', 10)->count(),
+            ];
 
-                // My Active Inpatients
-                $myInpatients = Admission::with(['patient', 'bed.ward'])
-                    ->where('status', 'admitted')
-                    ->get();
+            $myAppointments = Appointment::with('patient')
+                ->where('doctor_id', $user_id)
+                ->whereDate('appointment_date', now()->toDateString())
+                ->whereIn('status', ['scheduled', 'confirmed'])
+                ->get();
 
-                // Lab/Radiology Alerts (Critical Results)
-                $bioSignals = LabOrderItem::with(['order.patient', 'test'])
-                    ->whereIn('flag', ['High', 'Low', 'Critical', 'Abnormal'])
-                    ->orderBy('created_at', 'desc')
-                    ->limit(5)
-                        ->get()
-                        ->map(fn($item) => (object)[
-                            'full_name' => $item->order->patient->full_name,
-                            'test_name' => $item->test->name,
-                            'result_value' => $item->result_value,
-                            'flag' => $item->flag
-                        ]);
+            $myInpatients = Admission::with(['patient', 'bed.ward'])
+                ->where('status', 'admitted')->get();
 
-                // Chart: Patient Enrollment Trend (Last 7 Days)
-                $patientTrend = Patient::select(DB::raw("DATE(created_at) as date"), DB::raw("COUNT(*) as count"))
-                    ->where('created_at', '>=', now()->subDays(7))
-                    ->groupBy('date')
-                    ->orderBy('date')
-                    ->get();
+            // Resolve to plain array — Closures in map() cannot be serialized to file cache
+            $bioSignals = LabOrderItem::with(['order.patient', 'test'])
+                ->whereIn('flag', ['High', 'Low', 'Critical', 'Abnormal'])
+                ->orderBy('created_at', 'desc')->limit(5)->get()
+                ->map(fn($item) => [
+                    'full_name'    => optional(optional($item->order)->patient)->full_name ?? 'Unknown',
+                    'test_name'    => optional($item->test)->name ?? '—',
+                    'result_value' => $item->result_value,
+                    'flag'         => $item->flag,
+                ])->toArray();
 
-                // Chart: Revenue Pulse (Last 7 Days)
-                $revenueTrend = BillingInvoice::select(DB::raw("DATE(updated_at) as date"), DB::raw("SUM(total_amount) as total"))
-                    ->where('updated_at', '>=', now()->subDays(7))
-                    ->where('status', 'paid')
-                    ->groupBy('date')
-                    ->orderBy('date')
-                    ->get();
+            $patientTrend = Patient::select(DB::raw("DATE(created_at) as date"), DB::raw("COUNT(*) as count"))
+                ->where('created_at', '>=', now()->subDays(7))
+                ->groupBy('date')->orderBy('date')->get();
 
-                // Ward Census (New Infrastructure)
-                $wardOccupancy = Ward::withCount(['beds', 'beds as occupied_beds' => function($query) {
-                    $query->where('status', 'occupied');
-                }])->get();
+            $revenueTrend = BillingInvoice::select(DB::raw("DATE(updated_at) as date"), DB::raw("SUM(total_amount) as total"))
+                ->where('updated_at', '>=', now()->subDays(7))->where('status', 'paid')
+                ->groupBy('date')->orderBy('date')->get();
 
-                $recent_patients = Patient::orderBy('created_at', 'desc')->limit(5)->get();
+            // Resolve withCount to plain array — Closures cannot be serialized
+            $wardOccupancy = Ward::withCount([
+                'beds',
+                'beds as occupied_beds' => fn($q) => $q->where('status', 'occupied'),
+            ])->get()->map(fn($w) => [
+                'name'          => $w->name,
+                'beds_count'    => $w->beds_count,
+                'occupied_beds' => $w->occupied_beds,
+            ])->toArray();
 
-                $active_queue = ActiveQueue::with('patient')
-                    ->where('status', '!=', 'completed')
-                    ->orderBy('created_at', 'desc')
-                    ->limit(10)
-                    ->get();
+            $recent_patients = Patient::orderBy('created_at', 'desc')->limit(5)->get();
 
-                // Morbidity Pulse: Top 5 Diagnoses
-                $morbidityPulse = MedicalRecord::select('diagnosis', DB::raw("COUNT(*) as count"))
-                    ->whereNotNull('diagnosis')
-                    ->groupBy('diagnosis')
-                    ->orderBy('count', 'desc')
-                    ->limit(5)
-                    ->get();
+            $active_queue = ActiveQueue::with('patient')
+                ->where('status', '!=', 'completed')
+                ->orderBy('created_at', 'desc')->limit(10)->get();
 
-                // Institutional Forensic Pulse: Recent Audit Logs
-                $auditLogs = \App\Models\AuditLog::with('user')
-                    ->orderBy('created_at', 'desc')
-                    ->limit(5)
-                    ->get();
+            $morbidityPulse = MedicalRecord::select('diagnosis', DB::raw("COUNT(*) as count"))
+                ->whereNotNull('diagnosis')->groupBy('diagnosis')
+                ->orderBy('count', 'desc')->limit(5)->get();
 
-                // System Alerts / Notifications
-                $systemAlerts = [
-                    ['type' => 'security', 'message' => 'Zero-Trust Protocol Active', 'time' => '1m ago'],
-                    ['type' => 'clinical', 'message' => 'ICU Capacity at 85%', 'time' => '12m ago'],
-                    ['type' => 'supply', 'message' => 'Blood Bank: O+ Low Stock', 'time' => '45m ago'],
-                ];
+            $auditLogs = \App\Models\AuditLog::with('user')
+                ->orderBy('created_at', 'desc')->limit(5)->get();
 
-                return view('dashboard', compact(
-                    'stats', 
-                    'recent_patients', 
-                    'active_queue', 
-                    'patientTrend', 
-                    'revenueTrend', 
-                    'wardOccupancy', 
-                    'myAppointments', 
-                    'myInpatients', 
-                    'bioSignals',
-                    'morbidityPulse',
-                    'auditLogs',
-                    'systemAlerts'
-                ));
-            }
-        );
+            $systemAlerts = [
+                ['type' => 'security', 'message' => 'Zero-Trust Protocol Active', 'time' => '1m ago'],
+                ['type' => 'clinical', 'message' => 'ICU Capacity at 85%',         'time' => '12m ago'],
+                ['type' => 'supply',   'message' => 'Blood Bank: O+ Low Stock',    'time' => '45m ago'],
+            ];
+
+            return compact(
+                'stats', 'recent_patients', 'active_queue', 'patientTrend',
+                'revenueTrend', 'wardOccupancy', 'myAppointments', 'myInpatients',
+                'bioSignals', 'morbidityPulse', 'auditLogs', 'systemAlerts'
+            );
+        });
+
+        // Render view OUTSIDE the cache block — View objects contain Closures and cannot be serialized
+        return view('dashboard', $data);
     }
 }
