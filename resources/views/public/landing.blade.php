@@ -1,290 +1,218 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Opeshis OS — Institutional-grade hospital operating system for high-density clinical environments.">
-    <title>Opeshis OS — Medical Intelligence Without Limits</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,300&display=swap" rel="stylesheet">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <style>
-        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-        :root{--indigo:#6366f1;--indigo-dark:#4f46e5;--emerald:#10b981;--rose:#f43f5e;--s950:#020617;--s900:#0f172a;--s800:#1e293b;--s700:#334155;--s400:#94a3b8}
-        html{scroll-behavior:smooth}
-        body{font-family:'Inter',sans-serif;background:var(--s950);color:#fff;overflow-x:hidden}
-        a{text-decoration:none;color:inherit}
-
-        /* NAV */
-        nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 5%;border-bottom:1px solid rgba(255,255,255,0.05);background:rgba(2,6,23,0.8);backdrop-filter:blur(20px)}
-        .nav-brand{display:flex;align-items:center;gap:.65rem}
-        .nav-icon{width:36px;height:36px;background:var(--indigo);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(99,102,241,.5)}
-        .nav-name{font-size:.95rem;font-weight:900;letter-spacing:-.03em;text-transform:uppercase}
-        .nav-links{display:flex;align-items:center;gap:2rem}
-        .nav-link{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.45);transition:color .2s}
-        .nav-link:hover{color:#fff}
-        .nav-cta{padding:.55rem 1.25rem;background:var(--indigo);border-radius:10px;font-size:.65rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;transition:background .2s,transform .15s;box-shadow:0 4px 20px rgba(99,102,241,.35)}
-        .nav-cta:hover{background:var(--indigo-dark);transform:translateY(-1px)}
-
-        /* HERO */
-        .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 5% 5rem;position:relative;overflow:hidden}
-        .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(99,102,241,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.05) 1px,transparent 1px);background-size:60px 60px}
-        .hero-grid::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(99,102,241,.12),transparent 70%)}
-        .orb{position:absolute;border-radius:50%;filter:blur(100px);animation:orbFloat 20s ease-in-out infinite alternate}
-        .orb-a{width:700px;height:700px;background:radial-gradient(circle,rgba(99,102,241,.15),transparent 70%);top:-200px;left:-200px}
-        .orb-b{width:500px;height:500px;background:radial-gradient(circle,rgba(16,185,129,.1),transparent 70%);bottom:-150px;right:-150px;animation-delay:-10s}
-        @keyframes orbFloat{0%{transform:translate(0,0) scale(1)}100%{transform:translate(25px,20px) scale(1.06)}}
-        .hero-inner{position:relative;z-index:10;max-width:900px;margin:0 auto}
-        .hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem 1rem;background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.3);border-radius:999px;font-size:.6rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#a5b4fc;margin-bottom:2rem}
-        .hero-dot{width:6px;height:6px;background:var(--indigo);border-radius:50%;box-shadow:0 0 8px var(--indigo);animation:pulse 2s infinite}
-        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-        .hero-title{font-size:clamp(3rem,8vw,6.5rem);font-weight:900;line-height:.92;letter-spacing:-.05em;text-transform:uppercase;margin-bottom:1.75rem}
-        .hero-title-grad{color:transparent;background:linear-gradient(135deg,#c7d2fe,#818cf8 40%,#6366f1 70%,#a5b4fc);-webkit-background-clip:text;background-clip:text}
-        .hero-sub{font-size:1.1rem;font-weight:300;line-height:1.75;color:rgba(255,255,255,.45);max-width:600px;margin:0 auto 2.5rem;font-style:italic}
-        .hero-btns{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center}
-        .btn-primary{padding:.9rem 2.25rem;background:var(--indigo);border-radius:14px;font-size:.72rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;box-shadow:0 6px 30px rgba(99,102,241,.4);transition:all .2s}
-        .btn-primary:hover{background:var(--indigo-dark);transform:translateY(-2px);box-shadow:0 12px 40px rgba(99,102,241,.5)}
-        .btn-ghost{padding:.9rem 2.25rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;font-size:.72rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;transition:all .2s}
-        .btn-ghost:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);transform:translateY(-2px)}
-
-        /* STATS BAR */
-        .stats-bar{padding:4rem 5%;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);background:rgba(15,23,42,.6)}
-        .stats-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:2rem}
-        @media(min-width:640px){.stats-inner{grid-template-columns:repeat(4,1fr)}}
-        .stat{text-align:center}
-        .stat-num{font-size:2.5rem;font-weight:900;letter-spacing:-.05em;background:linear-gradient(135deg,#fff,rgba(255,255,255,.6));-webkit-background-clip:text;background-clip:text;color:transparent}
-        .stat-lbl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:rgba(255,255,255,.3);margin-top:.35rem}
-
-        /* MODULES */
-        .section{padding:7rem 5%}
-        .section-inner{max-width:1200px;margin:0 auto}
-        .section-tag{display:inline-block;padding:.3rem .8rem;background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.2);border-radius:6px;font-size:.6rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#818cf8;margin-bottom:1.25rem}
-        .section-title{font-size:clamp(2rem,4vw,3.25rem);font-weight:900;letter-spacing:-.04em;text-transform:uppercase;line-height:.95;margin-bottom:1rem}
-        .section-desc{font-size:.95rem;font-weight:300;color:rgba(255,255,255,.4);max-width:500px;line-height:1.7;font-style:italic;margin-bottom:3.5rem}
-
-        .modules-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
-        @media(min-width:768px){.modules-grid{grid-template-columns:repeat(3,1fr)}}
-        @media(min-width:1200px){.modules-grid{grid-template-columns:repeat(4,1fr)}}
-        .mod-card{padding:1.75rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:20px;transition:all .25s;cursor:default}
-        .mod-card:hover{background:rgba(255,255,255,.04);border-color:rgba(99,102,241,.3);transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.4)}
-        .mod-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.1rem}
-        .mod-name{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#fff;margin-bottom:.35rem}
-        .mod-desc{font-size:.65rem;font-weight:400;color:rgba(255,255,255,.35);line-height:1.5}
-
-        /* FEATURE HIGHLIGHT */
-        .highlight-grid{display:grid;gap:3rem}
-        @media(min-width:768px){.highlight-grid{grid-template-columns:1fr 1fr;align-items:center}}
-        .highlight-visual{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:24px;padding:2.5rem;min-height:280px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-        .highlight-visual::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 50%,rgba(99,102,241,.08),transparent 60%)}
-        .highlight-points{display:flex;flex-direction:column;gap:1.25rem}
-        .hpoint{display:flex;align-items:flex-start;gap:.875rem}
-        .hpoint-dot{width:8px;height:8px;border-radius:50%;background:var(--indigo);box-shadow:0 0 10px var(--indigo);flex-shrink:0;margin-top:.3rem}
-        .hpoint-title{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#fff;margin-bottom:.2rem}
-        .hpoint-desc{font-size:.7rem;font-weight:400;color:rgba(255,255,255,.4);line-height:1.5}
-
-        /* CTA */
-        .cta-section{padding:8rem 5%;position:relative;overflow:hidden;text-align:center;border-top:1px solid rgba(255,255,255,.05)}
-        .cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(99,102,241,.1),transparent 70%)}
-        .cta-inner{max-width:700px;margin:0 auto;position:relative;z-index:10}
-        .cta-title{font-size:clamp(2.5rem,5vw,4rem);font-weight:900;letter-spacing:-.05em;text-transform:uppercase;line-height:.95;margin-bottom:1.25rem}
-        .cta-sub{font-size:1rem;font-weight:300;color:rgba(255,255,255,.4);font-style:italic;margin-bottom:2.75rem;line-height:1.7}
-
-        /* FOOTER */
-        footer{padding:2.5rem 5%;border-top:1px solid rgba(255,255,255,.05);display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between}
-        .footer-brand{display:flex;align-items:center;gap:.5rem}
-        .footer-icon{width:28px;height:28px;background:var(--indigo);border-radius:8px;display:flex;align-items:center;justify-content:center}
-        .footer-name{font-size:.75rem;font-weight:900;text-transform:uppercase;letter-spacing:-.02em}
-        .footer-links{display:flex;gap:1.5rem;flex-wrap:wrap}
-        .footer-link{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.25);transition:color .2s}
-        .footer-link:hover{color:rgba(255,255,255,.6)}
-        .footer-copy{font-size:.6rem;color:rgba(255,255,255,.2);letter-spacing:.06em;text-transform:uppercase}
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Opeshis OS — Institutional-grade hospital operating system. 40+ clinical modules. Zero-trust security. Offline-first.">
+<title>Opeshis OS — Hospital Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+@vite(['resources/css/app.css', 'resources/js/app.js'])
+<style>
+body{font-family:'Inter',sans-serif;background:#020617;color:#f8fafc;overflow-x:hidden;}
+.grid-bg{background-image:linear-gradient(rgba(99,102,241,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.06) 1px,transparent 1px);background-size:56px 56px;}
+.glow-text{background:linear-gradient(135deg,#e0e7ff 0%,#a5b4fc 40%,#818cf8 70%,#c7d2fe 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.glass{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);backdrop-filter:blur(12px);}
+.mod-card{background:rgba(15,23,42,.8);border:1px solid rgba(255,255,255,.06);transition:all .25s cubic-bezier(.4,0,.2,1);}
+.mod-card:hover{border-color:rgba(99,102,241,.4);transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.5),0 0 0 1px rgba(99,102,241,.15);}
+.btn-primary{background:linear-gradient(135deg,#6366f1,#4f46e5);box-shadow:0 4px 24px rgba(99,102,241,.35);}
+.btn-primary:hover{box-shadow:0 8px 40px rgba(99,102,241,.5);transform:translateY(-2px);}
+.orb1{position:absolute;width:800px;height:800px;background:radial-gradient(circle,rgba(99,102,241,.12) 0%,transparent 65%);border-radius:50%;top:-300px;left:-200px;filter:blur(60px);animation:drift 20s ease-in-out infinite alternate;}
+.orb2{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(16,185,129,.08) 0%,transparent 65%);border-radius:50%;bottom:-200px;right:-100px;filter:blur(60px);animation:drift 25s ease-in-out infinite alternate-reverse;}
+@keyframes drift{0%{transform:translate(0,0)}100%{transform:translate(30px,20px)}}
+.pulse-dot{animation:pdot 2s ease-in-out infinite;}
+@keyframes pdot{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(16,185,129,.4)}50%{opacity:.7;box-shadow:0 0 0 6px rgba(16,185,129,0)}}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid rgba(255,255,255,.05);background:rgba(2,6,23,.85);backdrop-filter:blur(24px);}
+</style>
 </head>
 <body>
 
-<!-- NAV -->
+{{-- ─── NAV ─── --}}
 <nav>
-    <div class="nav-brand">
-        <div class="nav-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="white"/>
-                <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
-        <span class="nav-name">Opeshis OS</span>
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3">
+      <div class="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-600/40">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5Z" fill="white"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="font-black text-white tracking-tight text-sm uppercase">Opeshis OS</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="/features" class="text-slate-400 hover:text-white text-xs font-semibold uppercase tracking-widest transition-colors">Features</a>
+      <a href="/about" class="text-slate-400 hover:text-white text-xs font-semibold uppercase tracking-widest transition-colors">About</a>
+      <a href="/faq" class="text-slate-400 hover:text-white text-xs font-semibold uppercase tracking-widest transition-colors">FAQ</a>
+      <a href="/contact" class="text-slate-400 hover:text-white text-xs font-semibold uppercase tracking-widest transition-colors">Contact</a>
+      <a href="/login" class="btn-primary px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest text-white transition-all duration-200">Enter Portal</a>
     </div>
-    <div class="nav-links">
-        <a href="/features" class="nav-link">Features</a>
-        <a href="/about" class="nav-link">About</a>
-        <a href="/faq" class="nav-link">FAQ</a>
-        <a href="/contact" class="nav-link">Contact</a>
-        <a href="/login" class="nav-cta">Enter Portal →</a>
-    </div>
+  </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-    <div class="hero-grid"></div>
-    <div class="orb orb-a"></div>
-    <div class="orb orb-b"></div>
-    <div class="hero-inner">
-        <div class="hero-badge">
-            <span class="hero-dot"></span>
-            Sentinel v2.2 · Now Live · Multi-Branch Ready
-        </div>
-        <h1 class="hero-title">
-            Medical<br>
-            <span class="hero-title-grad">Intelligence.</span><br>
-            Without Limits.
-        </h1>
-        <p class="hero-sub">The world's first offline-first, institutional-grade hospital operating system. Built for high-density clinical environments where data sovereignty is non-negotiable.</p>
-        <div class="hero-btns">
-            <a href="/login" class="btn-primary">Enter Institutional Portal →</a>
-            <a href="/features" class="btn-ghost">View All Features</a>
-        </div>
+{{-- ─── HERO ─── --}}
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden grid-bg">
+  <div class="orb1"></div><div class="orb2"></div>
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#020617]"></div>
+  <div class="relative z-10 max-w-5xl mx-auto px-6 text-center pt-24 pb-20">
+    <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-indigo-500/30 bg-indigo-500/8 mb-8">
+      <span class="w-2 h-2 bg-emerald-400 rounded-full pulse-dot"></span>
+      <span class="text-xs font-bold text-indigo-300 uppercase tracking-widest">Sentinel v2.2 · Now Live</span>
     </div>
+    <h1 class="text-[clamp(3.5rem,9vw,7rem)] font-black leading-[.9] tracking-[-0.05em] uppercase text-white mb-8">
+      The Operating<br><span class="glow-text">System for</span><br>Modern Healthcare.
+    </h1>
+    <p class="text-lg md:text-xl text-slate-400 font-light leading-relaxed max-w-2xl mx-auto mb-12 italic">
+      40+ integrated clinical modules. Offline-first architecture. Zero-trust security perimeter. Built for institutions where every second is a clinical decision.
+    </p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="/login" class="btn-primary px-8 py-4 rounded-2xl text-sm font-bold uppercase tracking-widest text-white transition-all duration-200 flex items-center gap-3">
+        <span>Enter Institutional Portal</span>
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="/features" class="px-8 py-4 rounded-2xl text-sm font-bold uppercase tracking-widest text-slate-300 border border-white/10 hover:bg-white/5 hover:border-white/20 transition-all duration-200">
+        View Platform Features
+      </a>
+    </div>
+  </div>
 </section>
 
-<!-- STATS -->
-<div class="stats-bar">
-    <div class="stats-inner">
-        <div class="stat">
-            <div class="stat-num">40+</div>
-            <div class="stat-lbl">Clinical Modules</div>
-        </div>
-        <div class="stat">
-            <div class="stat-num">99.9%</div>
-            <div class="stat-lbl">Uptime SLA</div>
-        </div>
-        <div class="stat">
-            <div class="stat-num">HIPAA</div>
-            <div class="stat-lbl">Compliant</div>
-        </div>
-        <div class="stat">
-            <div class="stat-num">0ms</div>
-            <div class="stat-lbl">Offline Latency</div>
-        </div>
+{{-- ─── PROOF BAR ─── --}}
+<div class="border-y border-white/5 bg-slate-900/40">
+  <div class="max-w-5xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+    @foreach([['40+','Clinical Modules'],['99.9%','Uptime SLA'],['HIPAA','Compliant'],['AES-256','Encrypted at Rest']] as [$num,$lbl])
+    <div class="text-center">
+      <div class="text-3xl font-black tracking-tight text-white mb-1">{{$num}}</div>
+      <div class="text-[10px] font-bold uppercase tracking-widest text-slate-500">{{$lbl}}</div>
     </div>
+    @endforeach
+  </div>
 </div>
 
-<!-- MODULES -->
-<section class="section" style="background:var(--s950);">
-    <div class="section-inner">
-        <div class="section-tag">Core Platform</div>
-        <h2 class="section-title">Every Clinical<br>Department. One OS.</h2>
-        <p class="section-desc">From the ICU to the pharmacy counter — Opeshis OS unifies every care touchpoint into a single, high-performance institutional nerve center.</p>
-
-        <div class="modules-grid">
-            @php
-            $modules = [
-                ['bg'=>'rgba(99,102,241,.15)','color'=>'#818cf8','icon'=>'🩺','name'=>'EMR & Consultations','desc'=>'SOAP engine with ICD-11 coding & clinical decision support'],
-                ['bg'=>'rgba(16,185,129,.12)','color'=>'#6ee7b7','icon'=>'💊','name'=>'Pharmacy & Dispensary','desc'=>'Real-time dispensing, drug interactions & POS integration'],
-                ['bg'=>'rgba(59,130,246,.12)','color'=>'#93c5fd','icon'=>'🔬','name'=>'Laboratory','desc'=>'Order management, result entry & critical flag alerts'],
-                ['bg'=>'rgba(245,158,11,.12)','color'=>'#fcd34d','icon'=>'📡','name'=>'Radiology & Imaging','desc'=>'DICOM worklist, order tracking & reporting portal'],
-                ['bg'=>'rgba(236,72,153,.12)','color'=>'#f9a8d4','icon'=>'🫀','name'=>'ICU & Critical Care','desc'=>'SOFA scoring, ventilator logs & 24hr vitals monitoring'],
-                ['bg'=>'rgba(99,102,241,.12)','color'=>'#c4b5fd','icon'=>'🤱','name'=>'Obstetrics & Maternal','desc'=>'ANC tracking, partograph & delivery suite management'],
-                ['bg'=>'rgba(16,185,129,.12)','color'=>'#6ee7b7','icon'=>'👶','name'=>'Paediatrics & NICU','desc'=>'Growth charts, immunisation registry & neonatal care'],
-                ['bg'=>'rgba(239,68,68,.12)','color'=>'#fca5a5','icon'=>'🚑','name'=>'Emergency & Trauma','desc'=>'Rapid triage, resuscitation logs & mass casualty mode'],
-                ['bg'=>'rgba(168,85,247,.12)','color'=>'#d8b4fe','icon'=>'🧠','name'=>'Psychiatry','desc'=>'Mental status exams, risk scoring & medication trails'],
-                ['bg'=>'rgba(20,184,166,.12)','color'=>'#5eead4','icon'=>'🧬','name'=>'Oncology','desc'=>'Chemo cycles, protocol management & oncology nursing'],
-                ['bg'=>'rgba(245,158,11,.12)','color'=>'#fcd34d','icon'=>'💰','name'=>'Billing & Finance','desc'=>'Insurance claims, NHIF integration & revenue analytics'],
-                ['bg'=>'rgba(99,102,241,.12)','color'=>'#a5b4fc','icon'=>'📊','name'=>'BI & Reporting','desc'=>'Morbidity pulse, DHIS2 export & institutional KPIs'],
-            ];
-            @endphp
-            @foreach($modules as $m)
-            <div class="mod-card">
-                <div class="mod-icon" style="background:{{$m['bg']}};">
-                    <span>{{$m['icon']}}</span>
-                </div>
-                <div class="mod-name">{{$m['name']}}</div>
-                <div class="mod-desc">{{$m['desc']}}</div>
-            </div>
-            @endforeach
-        </div>
+{{-- ─── MODULE GRID ─── --}}
+<section class="py-28 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-16 max-w-2xl">
+      <div class="inline-block px-3 py-1 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-5">Platform Modules</div>
+      <h2 class="text-5xl font-black tracking-tight uppercase text-white leading-[.95] mb-4">Every Department.<br>One Platform.</h2>
+      <p class="text-slate-500 font-light leading-relaxed">From the triage desk to the executive boardroom — Opeshis OS is the single source of clinical truth for your institution.</p>
     </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      @php
+      $modules = [
+        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>','color'=>'indigo','name'=>'EMR & Consultations','desc'=>'SOAP documentation, ICD-11 coding, clinical decision support'],
+        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>','color'=>'emerald','name'=>'Pharmacy & Dispensary','desc'=>'Real-time dispensing, drug interactions, POS integration'],
+        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>','color'=>'blue','name'=>'Laboratory','desc'=>'Order management, result entry, critical flag alerts'],
+        ['ic'=>'<circle cx="11" cy="11" r="8" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m21 21-4.35-4.35M11 8v6m-3-3h6"/>','color'=>'violet','name'=>'Radiology & Imaging','desc'=>'DICOM worklist, order tracking, reporting portal'],
+        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>','color'=>'rose','name'=>'ICU & Critical Care','desc'=>'SOFA scoring, ventilator logs, 24-hr vitals monitoring'],
+        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>','color'=>'pink','name'=>'Obstetrics & Maternal','desc'=>'ANC tracking, partograph, delivery suite management'],
+        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>','color'=>'teal','name'=>'Paediatrics & NICU','desc'=>'Growth charts, immunisation registry, neonatal care'],
+        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>','color'=>'amber','name'=>'Emergency & Trauma','desc'=>'Rapid triage, resuscitation logs, mass casualty mode'],
+        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>','color'=>'purple','name'=>'Psychiatry','desc'=>'MSE, risk assessment, medication trails'],
+        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>','color'=>'indigo','name'=>'Oncology','desc'=>'Chemo cycles, protocol management, oncology nursing'],
+        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/>','color'=>'emerald','name'=>'Billing & Finance','desc'=>'Insurance claims, NHIF integration, revenue analytics'],
+        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>','color'=>'sky','name'=>'BI & Reporting','desc'=>'Morbidity pulse, DHIS2 export, institutional KPIs'],
+      ];
+      $colorMap=['indigo'=>['bg'=>'bg-indigo-500/10','text'=>'text-indigo-400','border'=>'border-indigo-500/20'],'emerald'=>['bg'=>'bg-emerald-500/10','text'=>'text-emerald-400','border'=>'border-emerald-500/20'],'blue'=>['bg'=>'bg-blue-500/10','text'=>'text-blue-400','border'=>'border-blue-500/20'],'violet'=>['bg'=>'bg-violet-500/10','text'=>'text-violet-400','border'=>'border-violet-500/20'],'rose'=>['bg'=>'bg-rose-500/10','text'=>'text-rose-400','border'=>'border-rose-500/20'],'pink'=>['bg'=>'bg-pink-500/10','text'=>'text-pink-400','border'=>'border-pink-500/20'],'teal'=>['bg'=>'bg-teal-500/10','text'=>'text-teal-400','border'=>'border-teal-500/20'],'amber'=>['bg'=>'bg-amber-500/10','text'=>'text-amber-400','border'=>'border-amber-500/20'],'purple'=>['bg'=>'bg-purple-500/10','text'=>'text-purple-400','border'=>'border-purple-500/20'],'sky'=>['bg'=>'bg-sky-500/10','text'=>'text-sky-400','border'=>'border-sky-500/20']];
+      @endphp
+      @foreach($modules as $m)
+      @php $c=$colorMap[$m['color']]??$colorMap['indigo']; @endphp
+      <div class="mod-card rounded-2xl p-6 group cursor-default">
+        <div class="w-10 h-10 rounded-xl {{$c['bg']}} border {{$c['border']}} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200">
+          <svg class="w-5 h-5 {{$c['text']}}" fill="none" stroke="currentColor" viewBox="0 0 24 24">{!! $m['ic'] !!}</svg>
+        </div>
+        <h3 class="text-sm font-bold text-white mb-1.5 tracking-tight">{{$m['name']}}</h3>
+        <p class="text-xs text-slate-500 leading-relaxed font-light">{{$m['desc']}}</p>
+      </div>
+      @endforeach
+    </div>
+  </div>
 </section>
 
-<!-- HIGHLIGHT -->
-<section class="section" style="background:rgba(15,23,42,.5);border-top:1px solid rgba(255,255,255,.05);">
-    <div class="section-inner">
-        <div class="highlight-grid">
-            <div>
-                <div class="section-tag">Architecture</div>
-                <h2 class="section-title">Engineered for<br>Institutional Scale</h2>
-                <p class="section-desc">Built on battle-tested Laravel, PostgreSQL, and a zero-trust security perimeter — Opeshis OS is designed for multi-branch, high-concurrency hospital environments.</p>
-                <div class="highlight-points">
-                    <div class="hpoint">
-                        <div class="hpoint-dot"></div>
-                        <div>
-                            <div class="hpoint-title">Multi-Branch Tenant Isolation</div>
-                            <div class="hpoint-desc">Every query is scoped to branch_id at the framework level — data leakage between facilities is architecturally impossible.</div>
-                        </div>
-                    </div>
-                    <div class="hpoint">
-                        <div class="hpoint-dot" style="background:var(--emerald);box-shadow:0 0 10px var(--emerald);"></div>
-                        <div>
-                            <div class="hpoint-title">Offline-First Protocol</div>
-                            <div class="hpoint-desc">Full clinical workflows function without internet. Local-first sync ensures continuity in low-bandwidth environments.</div>
-                        </div>
-                    </div>
-                    <div class="hpoint">
-                        <div class="hpoint-dot" style="background:#f59e0b;box-shadow:0 0 10px #f59e0b;"></div>
-                        <div>
-                            <div class="hpoint-title">Institutional Forensic Audit</div>
-                            <div class="hpoint-desc">Every state-changing action creates an immutable audit log — who did what, when, on which record, from which IP.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="highlight-visual">
-                <div style="position:relative;z-index:10;text-align:center;">
-                    <div style="font-size:4rem;font-weight:900;letter-spacing:-.06em;background:linear-gradient(135deg,#6366f1,#818cf8,#c7d2fe);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;">Zero<br>Trust</div>
-                    <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.2em;color:rgba(255,255,255,.3);margin-top:.75rem;">Security Architecture</div>
-                    <div style="display:flex;gap:.75rem;justify-content:center;margin-top:1.5rem;flex-wrap:wrap;">
-                        @foreach(['AES-256','MFA','RBAC','PII Vault','HTTPS','Audit Log'] as $badge)
-                        <span style="padding:.25rem .65rem;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.25);border-radius:6px;font-size:.55rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#a5b4fc;">{{$badge}}</span>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
+{{-- ─── ARCHITECTURE ─── --}}
+<section class="py-28 px-6 border-t border-white/5 bg-slate-900/30">
+  <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+    <div>
+      <div class="inline-block px-3 py-1 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-5">Architecture</div>
+      <h2 class="text-5xl font-black tracking-tight uppercase text-white leading-[.95] mb-6">Engineered for<br>Institutional Scale.</h2>
+      <p class="text-slate-500 font-light leading-relaxed mb-10">Built on battle-tested Laravel, PostgreSQL, and a zero-trust security perimeter. Designed to serve multi-branch hospital networks under heavy concurrent load.</p>
+      <div class="space-y-6">
+        @foreach([
+          ['Multi-Branch Tenant Isolation','Every query is scoped to branch_id at framework level. Data leakage between facilities is architecturally impossible.','indigo'],
+          ['Offline-First Clinical Protocol','Full clinical workflows function without internet connectivity. Local-first sync ensures care continuity in low-bandwidth environments.','emerald'],
+          ['Immutable Forensic Audit Trail','Every state-changing action creates a tamper-proof log — who acted, on which record, from which IP, at what time.','amber'],
+        ] as [$t,$d,$c])
+        <div class="flex gap-4">
+          <div class="w-2 h-2 rounded-full bg-{{$c}}-500 shadow-[0_0_8px_theme(colors.{{$c}}.500)] mt-1.5 flex-shrink-0"></div>
+          <div>
+            <div class="text-sm font-bold text-white mb-1 uppercase tracking-tight">{{$t}}</div>
+            <div class="text-sm text-slate-500 font-light leading-relaxed">{{$d}}</div>
+          </div>
         </div>
+        @endforeach
+      </div>
     </div>
+    <div class="glass rounded-3xl p-10 relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-indigo-600/5 to-transparent"></div>
+      <div class="relative z-10">
+        <div class="text-[10px] font-black uppercase tracking-widest text-slate-600 mb-6">Security Architecture</div>
+        <div class="grid grid-cols-2 gap-3 mb-8">
+          @foreach(['AES-256 Encryption','Zero-Trust Perimeter','Role-Based Access','PII Vault','MFA Enforcement','Audit Logging','HTTPS Enforced','Session Isolation'] as $b)
+          <div class="flex items-center gap-2.5 p-3 rounded-xl bg-white/[.03] border border-white/[.06]">
+            <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full flex-shrink-0"></div>
+            <span class="text-xs font-semibold text-slate-400">{{$b}}</span>
+          </div>
+          @endforeach
+        </div>
+        <div class="flex items-center justify-between pt-6 border-t border-white/5">
+          <div class="text-center">
+            <div class="text-2xl font-black text-white tracking-tight">HIPAA</div>
+            <div class="text-[9px] font-bold uppercase tracking-widest text-slate-600 mt-1">Compliant</div>
+          </div>
+          <div class="w-px h-10 bg-white/5"></div>
+          <div class="text-center">
+            <div class="text-2xl font-black text-white tracking-tight">DHIS2</div>
+            <div class="text-[9px] font-bold uppercase tracking-widest text-slate-600 mt-1">Integration</div>
+          </div>
+          <div class="w-px h-10 bg-white/5"></div>
+          <div class="text-center">
+            <div class="text-2xl font-black text-white tracking-tight">ISO</div>
+            <div class="text-[9px] font-bold uppercase tracking-widest text-slate-600 mt-1">Standards</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- CTA -->
-<section class="cta-section">
-    <div class="cta-inner">
-        <h2 class="cta-title">Ready for<br>Institutional<br>Excellence.</h2>
-        <p class="cta-sub">Standardize your facility today with the most resilient hospital operating system built for Africa and beyond.</p>
-        <div class="hero-btns">
-            <a href="/login" class="btn-primary">Launch Institutional Portal →</a>
-            <a href="/contact" class="btn-ghost">Contact Enterprise Team</a>
-        </div>
+{{-- ─── CTA ─── --}}
+<section class="py-32 px-6 relative overflow-hidden">
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-indigo-950/20 to-transparent pointer-events-none"></div>
+  <div class="max-w-3xl mx-auto text-center relative z-10">
+    <h2 class="text-6xl font-black tracking-tight uppercase text-white leading-[.9] mb-6">Ready to<br><span class="glow-text">Modernize</span><br>Your Institution?</h2>
+    <p class="text-slate-500 text-lg font-light leading-relaxed mb-10 italic">Join the institutions already running on Africa's most sophisticated hospital operating system.</p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="/login" class="btn-primary px-10 py-4 rounded-2xl text-sm font-bold uppercase tracking-widest text-white transition-all duration-200 flex items-center gap-3">
+        <span>Launch Institutional Portal</span>
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="/contact" class="px-10 py-4 rounded-2xl text-sm font-bold uppercase tracking-widest text-slate-300 border border-white/10 hover:bg-white/5 hover:border-white/20 transition-all duration-200">Contact Sales Team</a>
     </div>
+  </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-    <div class="footer-brand">
-        <div class="footer-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="white"/>
-                <path d="M2 17L12 22L22 17" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-                <path d="M2 12L12 17L22 12" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-            </svg>
-        </div>
-        <span class="footer-name">Opeshis OS</span>
+{{-- ─── FOOTER ─── --}}
+<footer class="border-t border-white/5 bg-slate-900/30 px-6 py-8">
+  <div class="max-w-7xl mx-auto flex flex-wrap gap-6 items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5Z" fill="white"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
+      </div>
+      <span class="text-sm font-black uppercase tracking-tight text-white">Opeshis OS</span>
     </div>
-    <div class="footer-links">
-        <a href="/about" class="footer-link">About</a>
-        <a href="/features" class="footer-link">Features</a>
-        <a href="/faq" class="footer-link">FAQ</a>
-        <a href="/blog" class="footer-link">Blog</a>
-        <a href="/contact" class="footer-link">Contact</a>
+    <div class="flex gap-6 flex-wrap">
+      @foreach(['About'=>'/about','Features'=>'/features','FAQ'=>'/faq','Blog'=>'/blog','Contact'=>'/contact','Portal Login'=>'/login'] as $lbl=>$href)
+      <a href="{{$href}}" class="text-[10px] font-bold uppercase tracking-widest text-slate-600 hover:text-slate-300 transition-colors">{{$lbl}}</a>
+      @endforeach
     </div>
-    <div class="footer-copy">© 2026 Opesware Innovation · Cameroon</div>
+    <div class="text-[10px] font-mono uppercase tracking-widest text-slate-700">© 2026 Opesware Innovation · Cameroon</div>
+  </div>
 </footer>
 
 </body>

@@ -35,17 +35,22 @@ class AuthController extends Controller
         $user = User::where('email', $credentials['email'])->first();
 
         if ($user && Hash::check($request->password, $user->password_hash)) {
-            // Institutional MFA: Restore Secure Boundary
-            $otpAction->execute($user);
-            
-            session(['mfa_user_id' => $user->id]);
-            
-            return redirect()->route('login.otp')->with('info', 'Institutional security code dispatched.');
+            // ── MFA DISABLED (re-enable when requested) ──────────────────────
+            // $otpAction->execute($user);
+            // session(['mfa_user_id' => $user->id]);
+            // return redirect()->route('login.otp')->with('info', 'Institutional security code dispatched.');
+            // ─────────────────────────────────────────────────────────────────
+
+            Auth::login($user, $request->boolean('remember'));
+            $request->session()->regenerate();
+
+            return redirect()->intended('/dashboard');
         }
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
+
     }
 
     /**
