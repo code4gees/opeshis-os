@@ -1,8 +1,8 @@
 <aside class="w-72 glass-panel border-r border-white/5 flex flex-col h-screen sticky top-0" style="width:288px;min-width:288px">
     <div class="p-8 pb-4">
         <div class="flex items-center gap-3 mb-8">
-            <div class="w-10 h-10 bg-indigo-500 rounded-[1rem] flex items-center justify-center shadow-[0_0_15px_rgba(99,102,241,0.5)]">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7L12 12L22 7L12 2Z" fill="white"/><path d="M2 17L12 22L22 17" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12L12 17L22 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="w-10 h-10 bg-emerald-500/10 border border-emerald-500/20 rounded-[1rem] flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#10b981"/><path d="M2 17L12 22L22 17" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12L12 17L22 12" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <div>
                 <h1 class="text-lg font-black text-white tracking-tighter uppercase">Opeshis OS</h1>
@@ -32,8 +32,8 @@
         $nav = function($href, $label, $pattern) {
             $active = request()->is(ltrim($pattern,'/').'*') || request()->is(ltrim($href,'/'));
             $cls = $active
-                ? 'bg-indigo-500 text-white shadow-[0_0_10px_rgba(99,102,241,0.3)]'
-                : 'text-slate-400 hover:text-white hover:bg-white/5';
+                ? 'bg-teal-500/10 text-teal-400 border border-teal-500/20 shadow-[0_0_10px_rgba(20,184,166,0.1)]'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.02] border border-transparent';
             return "<a href=\"{$href}\" class=\"flex items-center px-3 py-2 text-xs font-bold rounded-xl {$cls} transition-all\">{$label}</a>";
         };
         @endphp

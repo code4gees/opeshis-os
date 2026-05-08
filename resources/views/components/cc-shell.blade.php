@@ -24,7 +24,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="bg-slate-950 text-slate-300 antialiased selection:bg-indigo-500 selection:text-white">
+<body class="bg-[#020617] text-slate-300 antialiased selection:bg-teal-500/30 selection:text-teal-200">
     <div class="flex h-screen overflow-hidden">
         
         <!-- Institutional Sidebar -->
@@ -36,9 +36,9 @@
                 <div class="flex items-center gap-8 flex-1">
                     <div class="relative w-full max-w-xl group">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <i class="fas fa-search text-slate-500 group-focus-within:text-blue-500 transition-colors"></i>
+                            <i class="fas fa-search text-slate-500 group-focus-within:text-teal-400 transition-colors"></i>
                         </div>
-                        <input type="text" placeholder="Institutional Registry Search..." class="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-xs font-bold text-white placeholder-slate-500 outline-none focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition-all">
+                        <input type="text" placeholder="Institutional Registry Search..." class="w-full bg-white/[0.02] border border-white/5 rounded-xl py-3 pl-12 pr-4 text-xs font-bold text-slate-200 placeholder-slate-600 outline-none focus:border-teal-500/30 focus:ring-4 focus:ring-teal-500/10 transition-all">
                     </div>
                 </div>
 
@@ -50,10 +50,10 @@
                     
                     <div class="flex items-center gap-3">
                         <div class="text-right hidden sm:block">
-                            <p class="text-[10px] font-black text-white uppercase leading-none">{{ Auth::user()->name ?? 'System Admin' }}</p>
-                            <p class="text-[8px] font-black text-blue-500 uppercase tracking-widest mt-1">{{ Auth::user()->role ?? 'Institutional Personnel' }}</p>
+                            <p class="text-[10px] font-black text-slate-200 uppercase leading-none">{{ Auth::user()->name ?? 'System Admin' }}</p>
+                            <p class="text-[8px] font-bold text-teal-500 uppercase tracking-widest mt-1">{{ Auth::user()->role ?? 'Institutional Personnel' }}</p>
                         </div>
-                        <div class="w-9 h-9 bg-gradient-to-br from-blue-500 to-indigo-700 rounded-xl flex items-center justify-center font-black text-white text-xs shadow-lg shadow-blue-600/20">
+                        <div class="w-9 h-9 bg-gradient-to-br from-teal-600 to-emerald-800 rounded-xl flex items-center justify-center font-black text-white text-xs shadow-lg shadow-teal-900/40 border border-teal-500/20">
                             {{ substr(Auth::user()->name ?? 'A', 0, 1) }}
                         </div>
                     </div>

@@ -2,13 +2,13 @@
 
 @php
     $colors = [
-        'blue' => 'from-blue-500/20 to-indigo-500/5 text-blue-400 border-blue-500/20',
-        'emerald' => 'from-emerald-500/20 to-teal-500/5 text-emerald-400 border-emerald-500/20',
-        'rose' => 'from-rose-500/20 to-pink-500/5 text-rose-400 border-rose-500/20',
-        'amber' => 'from-amber-500/20 to-orange-500/5 text-amber-400 border-amber-500/20',
-        'violet' => 'from-violet-500/20 to-purple-500/5 text-violet-400 border-violet-500/20',
+        'blue'    => 'from-slate-700/40 to-slate-800/10 text-slate-300 border-slate-600/30', // Replaced blue with sophisticated slate
+        'emerald' => 'from-emerald-600/20 to-teal-800/5 text-emerald-400 border-emerald-500/20',
+        'rose'    => 'from-rose-900/40 to-rose-950/10 text-rose-400 border-rose-800/40',
+        'amber'   => 'from-amber-700/20 to-orange-900/5 text-amber-500 border-amber-700/30',
+        'violet'  => 'from-zinc-700/40 to-zinc-800/10 text-zinc-300 border-zinc-600/30', // Replaced violet with minimalist zinc
     ];
-    $currentColor = $colors[$color] ?? $colors['blue'];
+    $currentColor = $colors[$color] ?? $colors['emerald'];
 @endphp
 
 <div {{ $attributes->merge(['class' => 'cc-stat group relative overflow-hidden rounded-2xl border border-white/5 bg-slate-900/40 p-6 backdrop-blur-xl transition-all duration-300 hover:scale-[1.02] hover:border-white/10']) }}>
