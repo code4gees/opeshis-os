@@ -16,7 +16,12 @@ class ARTController extends Controller
      */
     public function index(): View
     {
-        $records = ArtRecord::with('patient')
+        $records = ArtRecord::when(auth()->user()->branch_id, function ($query, $branchId) {
+                return $query->whereHas('patient', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                });
+            })
+            ->with('patient')
             ->orderBy('created_at', 'desc')
             ->get();
 
