@@ -1,6 +1,5 @@
-<x-cc-shell title='Opeshis OS'>
+<x-public-shell title="Opeshis OS">
 
-@section('title', 'Institutional Insights — Opeshis OS Blog')
 
 
 <div class="pt-32 pb-20 border-b border-white/5 relative overflow-hidden">
@@ -80,4 +79,4 @@
         </div>
     </div>
 </div>
-</x-cc-shell>
+</x-public-shell>

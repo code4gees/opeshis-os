@@ -1,5 +1,4 @@
-﻿<x-cc-shell title='Opeshis OS'>
-@section('title', 'DOCS - Opeshis OS')
+<x-public-shell title="Opeshis OS">
 
 <div class="py-24 glass-panel">
     <div class="max-w-4xl mx-auto px-8">
@@ -16,4 +15,4 @@
         </div>
     </div>
 </div>
-</x-cc-shell>
+</x-public-shell>
