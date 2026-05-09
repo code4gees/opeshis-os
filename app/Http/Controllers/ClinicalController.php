@@ -19,7 +19,15 @@ class ClinicalController extends Controller
      */
     public function emr(Request $request, $id = null)
     {
-        $encounterId = $id ?? $request->query('queue_id', 0);
+        $encounterId = $id ?? $request->query('queue_id');
+
+        // If no encounter ID provided, show the EMR queue landing page
+        if (!$encounterId) {
+            $queue = ActiveQueue::with('patient')
+                ->orderBy('created_at', 'desc')
+                ->get();
+            return view('emr-landing', compact('queue'));
+        }
 
         // Fetch Encounter and Patient details via Institutional Eloquent
         $encounter = OpdEncounter::with('patient')->find($encounterId);
@@ -33,18 +41,19 @@ class ClinicalController extends Controller
                 $encounter = (object) [
                     'id' => $queueItem->id,
                     'patient_id' => $queueItem->patient_id,
-                    'full_name' => $queueItem->patient->full_name,
-                    'medical_id' => $queueItem->patient->medical_id,
-                    'gender' => $queueItem->patient->gender,
-                    'date_of_birth' => $queueItem->patient->dob,
-                    'blood_group' => $queueItem->patient->blood_group,
-                    'genotype' => $queueItem->patient->genotype,
-                    'allergies' => $queueItem->patient->allergies,
+                    'full_name' => $queueItem->patient->full_name ?? 'Unknown Patient',
+                    'medical_id' => $queueItem->patient->medical_id ?? 'N/A',
+                    'gender' => $queueItem->patient->gender ?? 'N/A',
+                    'date_of_birth' => $queueItem->patient->dob ?? now()->subYears(30),
+                    'blood_group' => $queueItem->patient->blood_group ?? 'Unknown',
+                    'genotype' => $queueItem->patient->genotype ?? 'Unknown',
+                    'allergies' => $queueItem->patient->allergies ?? null,
                     'created_at' => $queueItem->created_at,
                 ];
                 $consult = null;
             } else {
-                return abort(404, 'Encounter Signal Lost: Entity Not Found');
+                // No encounter found, redirect to EMR landing
+                return redirect()->route('emr.main')->with('info', 'Encounter not found. Select a patient from the queue.');
             }
         } else {
             // Fetch Consultation Data via Relationship
@@ -86,9 +95,9 @@ class ClinicalController extends Controller
                 plan: $request->input('plan'),
                 doctorId: (string) (auth()->id() ?? 'system')
             ));
-            return redirect()->back()->with('success', 'Clinical documentation synchronized.');
+            return redirect()->route('emr.main', $request->input('encounter_id'))->with('success', 'Clinical documentation synchronized.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Operational disruption: ' . $e->getMessage());
+            return redirect()->route('emr.main', $request->input('encounter_id'))->with('error', 'Operational disruption: ' . $e->getMessage());
         }
     }
 
@@ -130,6 +139,6 @@ class ClinicalController extends Controller
     public function resolveSignal(Request $request, $id, \App\Actions\Clinical\ResolveSignalAction $action)
     {
         $action->execute($request->input('type'), $id);
-        return redirect()->back()->with('success', 'Diagnostic signal resolved and acknowledged.');
+        return redirect()->route('clinical.dossier.show', $id)->with('success', 'Diagnostic signal resolved and acknowledged.');
     }
 }

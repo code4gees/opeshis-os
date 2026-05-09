@@ -29,190 +29,190 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid rgba
 
 {{-- ─── NAV ─── --}}
 <nav>
-  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-    <a href="/" class="flex items-center gap-3">
-      <div class="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-600/40">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5Z" fill="white"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <span class="font-black text-white tracking-tight text-sm uppercase">Opeshis OS</span>
-    </a>
-    <div class="hidden md:flex items-center gap-8">
-      <a href="/features" class="text-slate-400 hover:text-white text-xs font-semibold uppercase tracking-widest transition-colors">Features</a>
-      <a href="/about" class="text-slate-400 hover:text-white text-xs font-semibold uppercase tracking-widest transition-colors">About</a>
-      <a href="/faq" class="text-slate-400 hover:text-white text-xs font-semibold uppercase tracking-widest transition-colors">FAQ</a>
-      <a href="/contact" class="text-slate-400 hover:text-white text-xs font-semibold uppercase tracking-widest transition-colors">Contact</a>
-      <a href="/login" class="btn-primary px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest text-white transition-all duration-200">Enter Portal</a>
-    </div>
-  </div>
+ <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+ <a href="/" class="flex items-center gap-3">
+ <div class="w-9 h-9 bg-sage rounded-xl flex items-center justify-center /40">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5Z" fill="white"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ </div>
+ <span class="font-semibold text-white tracking-tight text-sm uppercase">Opeshis OS</span>
+ </a>
+ <div class="hidden md:flex items-center gap-8">
+ <a href="{{ route('public.features') }}" class="text-slate-400 hover:text-white text-xs font-semibold font-medium transition-colors">Features</a>
+ <a href="{{ route('public.about') }}" class="text-slate-400 hover:text-white text-xs font-semibold font-medium transition-colors">About</a>
+ <a href="{{ route('public.faq') }}" class="text-slate-400 hover:text-white text-xs font-semibold font-medium transition-colors">FAQ</a>
+ <a href="{{ route('public.contact') }}" class="text-slate-400 hover:text-white text-xs font-semibold font-medium transition-colors">Contact</a>
+ <a href="{{ route('login') }}" class="btn-primary px-5 py-2.5 rounded-xl text-xs font-bold font-medium text-white transition-all duration-200">Enter Portal</a>
+ </div>
+ </div>
 </nav>
 
 {{-- ─── HERO ─── --}}
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden grid-bg">
-  <div class="orb1"></div><div class="orb2"></div>
-  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#020617]"></div>
-  <div class="relative z-10 max-w-5xl mx-auto px-6 text-center pt-24 pb-20">
-    <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-indigo-500/30 bg-indigo-500/8 mb-8">
-      <span class="w-2 h-2 bg-emerald-400 rounded-full pulse-dot"></span>
-      <span class="text-xs font-bold text-indigo-300 uppercase tracking-widest">Sentinel v2.2 · Now Live</span>
-    </div>
-    <h1 class="text-[clamp(3.5rem,9vw,7rem)] font-black leading-[.9] tracking-[-0.05em] uppercase text-white mb-8">
-      The Operating<br><span class="glow-text">System for</span><br>Modern Healthcare.
-    </h1>
-    <p class="text-lg md:text-xl text-slate-400 font-light leading-relaxed max-w-2xl mx-auto mb-12 italic">
-      40+ integrated clinical modules. Offline-first architecture. Zero-trust security perimeter. Built for institutions where every second is a clinical decision.
-    </p>
-    <div class="flex flex-wrap gap-4 justify-center">
-      <a href="/login" class="btn-primary px-8 py-4 rounded-2xl text-sm font-bold uppercase tracking-widest text-white transition-all duration-200 flex items-center gap-3">
-        <span>Enter Institutional Portal</span>
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-      <a href="/features" class="px-8 py-4 rounded-2xl text-sm font-bold uppercase tracking-widest text-slate-300 border border-white/10 hover:bg-white/5 hover:border-white/20 transition-all duration-200">
-        View Platform Features
-      </a>
-    </div>
-  </div>
+ <div class="orb1"></div><div class="orb2"></div>
+ <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#020617]"></div>
+ <div class="relative z-10 max-w-5xl mx-auto px-6 text-center pt-24 pb-20">
+ <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-indigo-500/30 bg-sage/8 mb-8">
+ <span class="w-2 h-2 bg-emerald-400 rounded-full pulse-dot"></span>
+ <span class="text-xs font-bold text-indigo-300 font-medium">Sentinel v2.2 · Now Live</span>
+ </div>
+ <h1 class="text-[clamp(3.5rem,9vw,7rem)] font-semibold leading-[.9] tracking-[-0.05em] uppercase text-white mb-8">
+ The Operating<br><span class="glow-text">System for</span><br>Modern Healthcare.
+ </h1>
+ <p class="text-lg md:text-xl text-slate-400 font-light leading-relaxed max-w-2xl mx-auto mb-12 ">
+ 40+ integrated clinical modules. Offline-first architecture. Zero-trust security perimeter. Built for institutions where every second is a clinical decision.
+ </p>
+ <div class="flex flex-wrap gap-4 justify-center">
+ <a href="{{ route('login') }}" class="btn-primary px-8 py-4 rounded-2xl text-sm font-bold font-medium text-white transition-all duration-200 flex items-center gap-3">
+ <span>Enter Institutional Portal</span>
+ <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+ </a>
+ <a href="{{ route('public.features') }}" class="px-8 py-4 rounded-2xl text-sm font-bold font-medium text-slate-300 border border-subtle hover:bg-[#2a2e38] hover:border-white/20 transition-all duration-200">
+ View Platform Features
+ </a>
+ </div>
+ </div>
 </section>
 
 {{-- ─── PROOF BAR ─── --}}
-<div class="border-y border-white/5 bg-slate-900/40">
-  <div class="max-w-5xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
-    @foreach([['40+','Clinical Modules'],['99.9%','Uptime SLA'],['HIPAA','Compliant'],['AES-256','Encrypted at Rest']] as [$num,$lbl])
-    <div class="text-center">
-      <div class="text-3xl font-black tracking-tight text-white mb-1">{{$num}}</div>
-      <div class="text-[10px] font-bold uppercase tracking-widest text-slate-500">{{$lbl}}</div>
-    </div>
-    @endforeach
-  </div>
+<div class="border-y border-subtle bg-card/40">
+ <div class="max-w-5xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
+ @foreach([['40+','Clinical Modules'],['99.9%','Uptime SLA'],['HIPAA','Compliant'],['AES-256','Encrypted at Rest']] as [$num,$lbl])
+ <div class="text-center">
+ <div class="text-3xl font-semibold tracking-tight text-white mb-1">{{$num}}</div>
+ <div class="text-[12px] font-bold font-medium text-slate-500">{{$lbl}}</div>
+ </div>
+ @endforeach
+ </div>
 </div>
 
 {{-- ─── MODULE GRID ─── --}}
 <section class="py-28 px-6">
-  <div class="max-w-7xl mx-auto">
-    <div class="mb-16 max-w-2xl">
-      <div class="inline-block px-3 py-1 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-5">Platform Modules</div>
-      <h2 class="text-5xl font-black tracking-tight uppercase text-white leading-[.95] mb-4">Every Department.<br>One Platform.</h2>
-      <p class="text-slate-500 font-light leading-relaxed">From the triage desk to the executive boardroom — Opeshis OS is the single source of clinical truth for your institution.</p>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-      @php
-      $modules = [
-        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>','color'=>'indigo','name'=>'EMR & Consultations','desc'=>'SOAP documentation, ICD-11 coding, clinical decision support'],
-        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>','color'=>'emerald','name'=>'Pharmacy & Dispensary','desc'=>'Real-time dispensing, drug interactions, POS integration'],
-        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>','color'=>'blue','name'=>'Laboratory','desc'=>'Order management, result entry, critical flag alerts'],
-        ['ic'=>'<circle cx="11" cy="11" r="8" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m21 21-4.35-4.35M11 8v6m-3-3h6"/>','color'=>'violet','name'=>'Radiology & Imaging','desc'=>'DICOM worklist, order tracking, reporting portal'],
-        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>','color'=>'rose','name'=>'ICU & Critical Care','desc'=>'SOFA scoring, ventilator logs, 24-hr vitals monitoring'],
-        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>','color'=>'pink','name'=>'Obstetrics & Maternal','desc'=>'ANC tracking, partograph, delivery suite management'],
-        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>','color'=>'teal','name'=>'Paediatrics & NICU','desc'=>'Growth charts, immunisation registry, neonatal care'],
-        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>','color'=>'amber','name'=>'Emergency & Trauma','desc'=>'Rapid triage, resuscitation logs, mass casualty mode'],
-        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>','color'=>'purple','name'=>'Psychiatry','desc'=>'MSE, risk assessment, medication trails'],
-        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>','color'=>'indigo','name'=>'Oncology','desc'=>'Chemo cycles, protocol management, oncology nursing'],
-        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/>','color'=>'emerald','name'=>'Billing & Finance','desc'=>'Insurance claims, NHIF integration, revenue analytics'],
-        ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>','color'=>'sky','name'=>'BI & Reporting','desc'=>'Morbidity pulse, DHIS2 export, institutional KPIs'],
-      ];
-      $colorMap=['indigo'=>['bg'=>'bg-indigo-500/10','text'=>'text-indigo-400','border'=>'border-indigo-500/20'],'emerald'=>['bg'=>'bg-emerald-500/10','text'=>'text-emerald-400','border'=>'border-emerald-500/20'],'blue'=>['bg'=>'bg-blue-500/10','text'=>'text-blue-400','border'=>'border-blue-500/20'],'violet'=>['bg'=>'bg-violet-500/10','text'=>'text-violet-400','border'=>'border-violet-500/20'],'rose'=>['bg'=>'bg-rose-500/10','text'=>'text-rose-400','border'=>'border-rose-500/20'],'pink'=>['bg'=>'bg-pink-500/10','text'=>'text-pink-400','border'=>'border-pink-500/20'],'teal'=>['bg'=>'bg-teal-500/10','text'=>'text-teal-400','border'=>'border-teal-500/20'],'amber'=>['bg'=>'bg-amber-500/10','text'=>'text-amber-400','border'=>'border-amber-500/20'],'purple'=>['bg'=>'bg-purple-500/10','text'=>'text-purple-400','border'=>'border-purple-500/20'],'sky'=>['bg'=>'bg-sky-500/10','text'=>'text-sky-400','border'=>'border-sky-500/20']];
-      @endphp
-      @foreach($modules as $m)
-      @php $c=$colorMap[$m['color']]??$colorMap['indigo']; @endphp
-      <div class="mod-card rounded-2xl p-6 group cursor-default">
-        <div class="w-10 h-10 rounded-xl {{$c['bg']}} border {{$c['border']}} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200">
-          <svg class="w-5 h-5 {{$c['text']}}" fill="none" stroke="currentColor" viewBox="0 0 24 24">{!! $m['ic'] !!}</svg>
-        </div>
-        <h3 class="text-sm font-bold text-white mb-1.5 tracking-tight">{{$m['name']}}</h3>
-        <p class="text-xs text-slate-500 leading-relaxed font-light">{{$m['desc']}}</p>
-      </div>
-      @endforeach
-    </div>
-  </div>
+ <div class="max-w-7xl mx-auto">
+ <div class="mb-16 max-w-2xl">
+ <div class="inline-block px-3 py-1 rounded-md bg-sage/10 border border-indigo-500/20 text-sage text-[12px] font-semibold font-medium mb-5">Platform Modules</div>
+ <h2 class="text-5xl font-semibold tracking-tight uppercase text-white leading-[.95] mb-4">Every Department.<br>One Platform.</h2>
+ <p class="text-slate-500 font-light leading-relaxed">From the triage desk to the executive boardroom — Opeshis OS is the single source of clinical truth for your institution.</p>
+ </div>
+ <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+ @php
+ $modules = [
+ ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>','color'=>'indigo','name'=>'EMR & Consultations','desc'=>'SOAP documentation, ICD-11 coding, clinical decision support'],
+ ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>','color'=>'emerald','name'=>'Pharmacy & Dispensary','desc'=>'Real-time dispensing, drug interactions, POS integration'],
+ ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>','color'=>'blue','name'=>'Laboratory','desc'=>'Order management, result entry, critical flag alerts'],
+ ['ic'=>'<circle cx="11" cy="11" r="8" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m21 21-4.35-4.35M11 8v6m-3-3h6"/>','color'=>'violet','name'=>'Radiology & Imaging','desc'=>'DICOM worklist, order tracking, reporting portal'],
+ ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>','color'=>'rose','name'=>'ICU & Critical Care','desc'=>'SOFA scoring, ventilator logs, 24-hr vitals monitoring'],
+ ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>','color'=>'pink','name'=>'Obstetrics & Maternal','desc'=>'ANC tracking, partograph, delivery suite management'],
+ ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>','color'=>'teal','name'=>'Paediatrics & NICU','desc'=>'Growth charts, immunisation registry, neonatal care'],
+ ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>','color'=>'amber','name'=>'Emergency & Trauma','desc'=>'Rapid triage, resuscitation logs, mass casualty mode'],
+ ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>','color'=>'purple','name'=>'Psychiatry','desc'=>'MSE, risk assessment, medication trails'],
+ ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>','color'=>'indigo','name'=>'Oncology','desc'=>'Chemo cycles, protocol management, oncology nursing'],
+ ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z"/>','color'=>'emerald','name'=>'Billing & Finance','desc'=>'Insurance claims, NHIF integration, revenue analytics'],
+ ['ic'=>'<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>','color'=>'sky','name'=>'BI & Reporting','desc'=>'Morbidity pulse, DHIS2 export, institutional KPIs'],
+ ];
+ $colorMap=['indigo'=>['bg'=>'bg-sage/10','text'=>'text-sage','border'=>'border-indigo-500/20'],'emerald'=>['bg'=>'bg-emerald-500/10','text'=>'text-emerald-400','border'=>'border-emerald-500/20'],'blue'=>['bg'=>'bg-sage/10','text'=>'text-sage','border'=>'border-blue-500/20'],'violet'=>['bg'=>'bg-violet-500/10','text'=>'text-violet-400','border'=>'border-violet-500/20'],'rose'=>['bg'=>'bg-rose-500/10','text'=>'text-rose-400','border'=>'border-rose-500/20'],'pink'=>['bg'=>'bg-pink-500/10','text'=>'text-pink-400','border'=>'border-pink-500/20'],'teal'=>['bg'=>'bg-teal-500/10','text'=>'text-teal-400','border'=>'border-teal-500/20'],'amber'=>['bg'=>'bg-amber-500/10','text'=>'text-amber-400','border'=>'border-amber-500/20'],'purple'=>['bg'=>'bg-purple-500/10','text'=>'text-purple-400','border'=>'border-purple-500/20'],'sky'=>['bg'=>'bg-sky-500/10','text'=>'text-sky-400','border'=>'border-sky-500/20']];
+ @endphp
+ @foreach($modules as $m)
+ @php $c=$colorMap[$m['color']]??$colorMap['indigo']; @endphp
+ <div class="mod-card rounded-2xl p-6 group cursor-default">
+ <div class="w-10 h-10 rounded-xl {{$c['bg']}} border {{$c['border']}} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-200">
+ <svg class="w-5 h-5 {{$c['text']}}" fill="none" stroke="currentColor" viewBox="0 0 24 24">{!! $m['ic'] !!}</svg>
+ </div>
+ <h3 class="text-sm font-bold text-white mb-1.5 tracking-tight">{{$m['name']}}</h3>
+ <p class="text-xs text-slate-500 leading-relaxed font-light">{{$m['desc']}}</p>
+ </div>
+ @endforeach
+ </div>
+ </div>
 </section>
 
 {{-- ─── ARCHITECTURE ─── --}}
-<section class="py-28 px-6 border-t border-white/5 bg-slate-900/30">
-  <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
-    <div>
-      <div class="inline-block px-3 py-1 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-5">Architecture</div>
-      <h2 class="text-5xl font-black tracking-tight uppercase text-white leading-[.95] mb-6">Engineered for<br>Institutional Scale.</h2>
-      <p class="text-slate-500 font-light leading-relaxed mb-10">Built on battle-tested Laravel, PostgreSQL, and a zero-trust security perimeter. Designed to serve multi-branch hospital networks under heavy concurrent load.</p>
-      <div class="space-y-6">
-        @foreach([
-          ['Multi-Branch Tenant Isolation','Every query is scoped to branch_id at framework level. Data leakage between facilities is architecturally impossible.','indigo'],
-          ['Offline-First Clinical Protocol','Full clinical workflows function without internet connectivity. Local-first sync ensures care continuity in low-bandwidth environments.','emerald'],
-          ['Immutable Forensic Audit Trail','Every state-changing action creates a tamper-proof log — who acted, on which record, from which IP, at what time.','amber'],
-        ] as [$t,$d,$c])
-        <div class="flex gap-4">
-          <div class="w-2 h-2 rounded-full bg-{{$c}}-500 shadow-[0_0_8px_theme(colors.{{$c}}.500)] mt-1.5 flex-shrink-0"></div>
-          <div>
-            <div class="text-sm font-bold text-white mb-1 uppercase tracking-tight">{{$t}}</div>
-            <div class="text-sm text-slate-500 font-light leading-relaxed">{{$d}}</div>
-          </div>
-        </div>
-        @endforeach
-      </div>
-    </div>
-    <div class="glass rounded-3xl p-10 relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-br from-indigo-600/5 to-transparent"></div>
-      <div class="relative z-10">
-        <div class="text-[10px] font-black uppercase tracking-widest text-slate-600 mb-6">Security Architecture</div>
-        <div class="grid grid-cols-2 gap-3 mb-8">
-          @foreach(['AES-256 Encryption','Zero-Trust Perimeter','Role-Based Access','PII Vault','MFA Enforcement','Audit Logging','HTTPS Enforced','Session Isolation'] as $b)
-          <div class="flex items-center gap-2.5 p-3 rounded-xl bg-white/[.03] border border-white/[.06]">
-            <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full flex-shrink-0"></div>
-            <span class="text-xs font-semibold text-slate-400">{{$b}}</span>
-          </div>
-          @endforeach
-        </div>
-        <div class="flex items-center justify-between pt-6 border-t border-white/5">
-          <div class="text-center">
-            <div class="text-2xl font-black text-white tracking-tight">HIPAA</div>
-            <div class="text-[9px] font-bold uppercase tracking-widest text-slate-600 mt-1">Compliant</div>
-          </div>
-          <div class="w-px h-10 bg-white/5"></div>
-          <div class="text-center">
-            <div class="text-2xl font-black text-white tracking-tight">DHIS2</div>
-            <div class="text-[9px] font-bold uppercase tracking-widest text-slate-600 mt-1">Integration</div>
-          </div>
-          <div class="w-px h-10 bg-white/5"></div>
-          <div class="text-center">
-            <div class="text-2xl font-black text-white tracking-tight">ISO</div>
-            <div class="text-[9px] font-bold uppercase tracking-widest text-slate-600 mt-1">Standards</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<section class="py-28 px-6 border-t border-subtle bg-card/30">
+ <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+ <div>
+ <div class="inline-block px-3 py-1 rounded-md bg-sage/10 border border-indigo-500/20 text-sage text-[12px] font-semibold font-medium mb-5">Architecture</div>
+ <h2 class="text-5xl font-semibold tracking-tight uppercase text-white leading-[.95] mb-6">Engineered for<br>Institutional Scale.</h2>
+ <p class="text-slate-500 font-light leading-relaxed mb-10">Built on battle-tested Laravel, PostgreSQL, and a zero-trust security perimeter. Designed to serve multi-branch hospital networks under heavy concurrent load.</p>
+ <div class="space-y-6">
+ @foreach([
+ ['Multi-Branch Tenant Isolation','Every query is scoped to branch_id at framework level. Data leakage between facilities is architecturally impossible.','indigo'],
+ ['Offline-First Clinical Protocol','Full clinical workflows function without internet connectivity. Local-first sync ensures care continuity in low-bandwidth environments.','emerald'],
+ ['Immutable Forensic Audit Trail','Every state-changing action creates a tamper-proof log — who acted, on which record, from which IP, at what time.','amber'],
+ ] as [$t,$d,$c])
+ <div class="flex gap-4">
+ <div class="w-2 h-2 rounded-full bg-{{$c}}-500 shadow-[0_0_8px_theme(colors.{{$c}}.500)] mt-1.5 flex-shrink-0"></div>
+ <div>
+ <div class="text-sm font-bold text-white mb-1 uppercase tracking-tight">{{$t}}</div>
+ <div class="text-sm text-slate-500 font-light leading-relaxed">{{$d}}</div>
+ </div>
+ </div>
+ @endforeach
+ </div>
+ </div>
+ <div class="glass rounded-3xl p-10 relative overflow-hidden">
+ <div class="absolute inset-0 bg-gradient-to-br from-indigo-600/5 to-transparent"></div>
+ <div class="relative z-10">
+ <div class="text-[12px] font-semibold font-medium text-slate-600 mb-6">Security Architecture</div>
+ <div class="grid grid-cols-2 gap-3 mb-8">
+ @foreach(['AES-256 Encryption','Zero-Trust Perimeter','Role-Based Access','PII Vault','MFA Enforcement','Audit Logging','HTTPS Enforced','Session Isolation'] as $b)
+ <div class="flex items-center gap-2.5 p-3 rounded-xl bg-white/[.03] border border-white/[.06]">
+ <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full flex-shrink-0"></div>
+ <span class="text-xs font-semibold text-slate-400">{{$b}}</span>
+ </div>
+ @endforeach
+ </div>
+ <div class="flex items-center justify-between pt-6 border-t border-subtle">
+ <div class="text-center">
+ <div class="text-2xl font-semibold text-white tracking-tight">HIPAA</div>
+ <div class="text-[12px] font-bold font-medium text-slate-600 mt-1">Compliant</div>
+ </div>
+ <div class="w-px h-10 bg-[#2a2e38]"></div>
+ <div class="text-center">
+ <div class="text-2xl font-semibold text-white tracking-tight">DHIS2</div>
+ <div class="text-[12px] font-bold font-medium text-slate-600 mt-1">Integration</div>
+ </div>
+ <div class="w-px h-10 bg-[#2a2e38]"></div>
+ <div class="text-center">
+ <div class="text-2xl font-semibold text-white tracking-tight">ISO</div>
+ <div class="text-[12px] font-bold font-medium text-slate-600 mt-1">Standards</div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
 </section>
 
 {{-- ─── CTA ─── --}}
 <section class="py-32 px-6 relative overflow-hidden">
-  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-indigo-950/20 to-transparent pointer-events-none"></div>
-  <div class="max-w-3xl mx-auto text-center relative z-10">
-    <h2 class="text-6xl font-black tracking-tight uppercase text-white leading-[.9] mb-6">Ready to<br><span class="glow-text">Modernize</span><br>Your Institution?</h2>
-    <p class="text-slate-500 text-lg font-light leading-relaxed mb-10 italic">Join the institutions already running on Africa's most sophisticated hospital operating system.</p>
-    <div class="flex flex-wrap gap-4 justify-center">
-      <a href="/login" class="btn-primary px-10 py-4 rounded-2xl text-sm font-bold uppercase tracking-widest text-white transition-all duration-200 flex items-center gap-3">
-        <span>Launch Institutional Portal</span>
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-      <a href="/contact" class="px-10 py-4 rounded-2xl text-sm font-bold uppercase tracking-widest text-slate-300 border border-white/10 hover:bg-white/5 hover:border-white/20 transition-all duration-200">Contact Sales Team</a>
-    </div>
-  </div>
+ <div class="absolute inset-0 bg-gradient-to-b from-transparent via-indigo-950/20 to-transparent pointer-events-none"></div>
+ <div class="max-w-3xl mx-auto text-center relative z-10">
+ <h2 class="text-6xl font-semibold tracking-tight uppercase text-white leading-[.9] mb-6">Ready to<br><span class="glow-text">Modernize</span><br>Your Institution?</h2>
+ <p class="text-slate-500 text-lg font-light leading-relaxed mb-10 ">Join the institutions already running on Africa's most sophisticated hospital operating system.</p>
+ <div class="flex flex-wrap gap-4 justify-center">
+ <a href="{{ route('login') }}" class="btn-primary px-10 py-4 rounded-2xl text-sm font-bold font-medium text-white transition-all duration-200 flex items-center gap-3">
+ <span>Launch Institutional Portal</span>
+ <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+ </a>
+ <a href="{{ route('public.contact') }}" class="px-10 py-4 rounded-2xl text-sm font-bold font-medium text-slate-300 border border-subtle hover:bg-[#2a2e38] hover:border-white/20 transition-all duration-200">Contact Sales Team</a>
+ </div>
+ </div>
 </section>
 
 {{-- ─── FOOTER ─── --}}
-<footer class="border-t border-white/5 bg-slate-900/30 px-6 py-8">
-  <div class="max-w-7xl mx-auto flex flex-wrap gap-6 items-center justify-between">
-    <div class="flex items-center gap-3">
-      <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5Z" fill="white"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
-      </div>
-      <span class="text-sm font-black uppercase tracking-tight text-white">Opeshis OS</span>
-    </div>
-    <div class="flex gap-6 flex-wrap">
-      @foreach(['About'=>'/about','Features'=>'/features','FAQ'=>'/faq','Blog'=>'/blog','Contact'=>'/contact','Portal Login'=>'/login'] as $lbl=>$href)
-      <a href="{{$href}}" class="text-[10px] font-bold uppercase tracking-widest text-slate-600 hover:text-slate-300 transition-colors">{{$lbl}}</a>
-      @endforeach
-    </div>
-    <div class="text-[10px] font-mono uppercase tracking-widest text-slate-700">© 2026 Opesware Innovation · Cameroon</div>
-  </div>
+<footer class="border-t border-subtle bg-card/30 px-6 py-8">
+ <div class="max-w-7xl mx-auto flex flex-wrap gap-6 items-center justify-between">
+ <div class="flex items-center gap-3">
+ <div class="w-8 h-8 bg-sage rounded-lg flex items-center justify-center">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5Z" fill="white"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
+ </div>
+ <span class="text-sm font-semibold uppercase tracking-tight text-white">Opeshis OS</span>
+ </div>
+ <div class="flex gap-6 flex-wrap">
+ @foreach(['About'=>'public.about','Features'=>'public.features','FAQ'=>'public.faq','Blog'=>'public.blog','Contact'=>'public.contact','Portal Login'=>'login'] as $lbl=>$route)
+ <a href="{{ route($route) }}" class="text-[12px] font-bold font-medium text-slate-600 hover:text-slate-300 transition-colors">{{$lbl}}</a>
+ @endforeach
+ </div>
+ <div class="text-[12px] font-mono font-medium text-slate-700">© 2026 Opesware Innovation · Cameroon</div>
+ </div>
 </footer>
 
 </body>

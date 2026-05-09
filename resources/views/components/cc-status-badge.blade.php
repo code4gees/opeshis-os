@@ -7,11 +7,11 @@
         'waiting' => ['bg' => 'bg-amber-500/10', 'text' => 'text-amber-500', 'ring' => 'ring-amber-500/20', 'icon' => 'fa-user-clock'],
         'admitted' => ['bg' => 'bg-emerald-500/10', 'text' => 'text-emerald-500', 'ring' => 'ring-emerald-500/20', 'icon' => 'fa-bed-pulse'],
         'discharged' => ['bg' => 'bg-slate-500/10', 'text' => 'text-slate-500', 'ring' => 'ring-slate-500/20', 'icon' => 'fa-door-open'],
-        'active' => ['bg' => 'bg-blue-500/10', 'text' => 'text-blue-500', 'ring' => 'ring-blue-500/20', 'icon' => 'fa-activity'],
-        'clinical care' => ['bg' => 'bg-blue-500/10', 'text' => 'text-blue-500', 'ring' => 'ring-blue-500/20', 'icon' => 'fa-stethoscope'],
+        'active' => ['bg' => 'bg-sage/10', 'text' => 'text-sage', 'ring' => 'ring-blue-500/20', 'icon' => 'fa-activity'],
+        'clinical care' => ['bg' => 'bg-sage/10', 'text' => 'text-sage', 'ring' => 'ring-blue-500/20', 'icon' => 'fa-stethoscope'],
         'completed' => ['bg' => 'bg-emerald-500/10', 'text' => 'text-emerald-500', 'ring' => 'ring-emerald-500/20', 'icon' => 'fa-check-circle'],
         'critical' => ['bg' => 'bg-rose-500/10', 'text' => 'text-rose-500', 'ring' => 'ring-rose-500/20', 'icon' => 'fa-biohazard'],
-        'male' => ['bg' => 'bg-blue-500/10', 'text' => 'text-blue-400', 'ring' => 'ring-blue-500/20', 'icon' => 'fa-mars'],
+        'male' => ['bg' => 'bg-sage/10', 'text' => 'text-sage', 'ring' => 'ring-blue-500/20', 'icon' => 'fa-mars'],
         'female' => ['bg' => 'bg-pink-500/10', 'text' => 'text-pink-400', 'ring' => 'ring-pink-500/20', 'icon' => 'fa-venus'],
     ];
 

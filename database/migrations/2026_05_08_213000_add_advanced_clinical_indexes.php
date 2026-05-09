@@ -24,20 +24,20 @@ return new class extends Migration
         });
 
         Schema::table('vitals_records', function (Blueprint $table) {
-            if (!Schema::hasIndex('vitals_records', 'vitals_records_patient_date_index')) {
-                $table->index(['patient_id', 'created_at']);
+            if (!Schema::hasIndex('vitals_records', 'vitals_records_admission_date_index')) {
+                $table->index(['admission_id', 'recorded_at']);
             }
         });
 
         Schema::table('paeds_vitals', function (Blueprint $table) {
             if (!Schema::hasIndex('paeds_vitals', 'paeds_vitals_admission_date_index')) {
-                $table->index(['admission_id', 'created_at']);
+                $table->index(['admission_id', 'recorded_at']);
             }
         });
 
         Schema::table('nicu_vitals', function (Blueprint $table) {
             if (!Schema::hasIndex('nicu_vitals', 'nicu_vitals_admission_date_index')) {
-                $table->index(['admission_id', 'created_at']);
+                $table->index(['admission_id', 'recorded_at']);
             }
         });
     }
@@ -54,13 +54,13 @@ return new class extends Migration
             $table->dropIndex(['patient_id', 'created_at']);
         });
         Schema::table('vitals_records', function (Blueprint $table) {
-            $table->dropIndex(['patient_id', 'created_at']);
+            $table->dropIndex(['admission_id', 'recorded_at']);
         });
         Schema::table('paeds_vitals', function (Blueprint $table) {
-            $table->dropIndex(['admission_id', 'created_at']);
+            $table->dropIndex(['admission_id', 'recorded_at']);
         });
         Schema::table('nicu_vitals', function (Blueprint $table) {
-            $table->dropIndex(['admission_id', 'created_at']);
+            $table->dropIndex(['admission_id', 'recorded_at']);
         });
     }
 };

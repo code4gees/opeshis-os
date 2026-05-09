@@ -45,9 +45,18 @@ class NICUController extends Controller
             'diagnosis' => ['required', 'string'],
         ]);
 
-        $action->execute($validated);
-        
-        return redirect()->back()->with('success', 'Neonatal admission protocol authorized.');
+        try {
+            // Resolve Identity
+            $patient = \App\Models\Patient::where('id', $validated['patient_id'])
+                ->orWhere('medical_id', $validated['patient_id'])
+                ->firstOrFail();
+            $validated['patient_id'] = $patient->id;
+
+            $action->execute($validated);
+            return redirect()->route('specialty.critical.nicu.index')->with('success', 'Neonatal admission protocol authorized.');
+        } catch (\Exception $e) {
+            return redirect()->route('specialty.critical.nicu.index')->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -67,9 +76,9 @@ class NICUController extends Controller
         try {
             $result = $action->execute($vitalsData);
             $alerts = $result['alerts'];
-            return redirect()->back()->with('success', 'Neonatal vitals committed.' . (empty($alerts) ? '' : ' ⚠ Alerts triggered.'));
+            return redirect()->route('specialty.critical.nicu.index')->with('success', 'Neonatal vitals committed.' . (empty($alerts) ? '' : ' ⚠ Alerts triggered.'));
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('specialty.critical.nicu.index')->with('error', $e->getMessage());
         }
     }
 
@@ -86,9 +95,9 @@ class NICUController extends Controller
 
         try {
             $action->execute($validated);
-            return redirect()->back()->with('success', 'Feeding protocol entry recorded.');
+            return redirect()->route('specialty.critical.nicu.index')->with('success', 'Feeding protocol entry recorded.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('specialty.critical.nicu.index')->with('error', $e->getMessage());
         }
     }
 
@@ -99,9 +108,9 @@ class NICUController extends Controller
     {
         try {
             $action->execute($id);
-            return redirect()->back()->with('success', 'Phototherapy initiation protocol authorized.');
+            return redirect()->route('specialty.critical.nicu.index')->with('success', 'Phototherapy initiation protocol authorized.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('specialty.critical.nicu.index')->with('error', $e->getMessage());
         }
     }
 
@@ -112,9 +121,9 @@ class NICUController extends Controller
     {
         try {
             $action->execute($id);
-            return redirect()->back()->with('success', 'Discharge protocol finalized.');
+            return redirect()->route('specialty.critical.nicu.index')->with('success', 'Discharge protocol finalized.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('specialty.critical.nicu.index')->with('error', $e->getMessage());
         }
     }
 }

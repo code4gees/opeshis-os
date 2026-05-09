@@ -120,7 +120,7 @@
 
 <!-- PUBLIC NAVBAR -->
 <nav class="pub-nav">
-    <a href="/" class="pub-nav-brand">
+    <a href="{{ route('public.landing') }}" class="pub-nav-brand">
         <div class="pub-nav-icon">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                 <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="white"/>
@@ -140,12 +140,12 @@
     </button>
 
     <div class="pub-nav-links">
-        <a href="/features" class="pub-nav-link {{ request()->is('features') ? 'active' : '' }}">Features</a>
-        <a href="/about" class="pub-nav-link {{ request()->is('about') ? 'active' : '' }}">About</a>
-        <a href="/faq" class="pub-nav-link {{ request()->is('faq') ? 'active' : '' }}">FAQ</a>
-        <a href="/blog" class="pub-nav-link {{ request()->is('blog') ? 'active' : '' }}">Blog</a>
-        <a href="/contact" class="pub-nav-link {{ request()->is('contact') ? 'active' : '' }}">Contact</a>
-        <a href="/login" class="pub-nav-cta">Enter Portal →</a>
+        <a href="{{ route('public.features') }}" class="pub-nav-link {{ request()->routeIs('public.features') ? 'active' : '' }}">Features</a>
+        <a href="{{ route('public.about') }}" class="pub-nav-link {{ request()->routeIs('public.about') ? 'active' : '' }}">About</a>
+        <a href="{{ route('public.faq') }}" class="pub-nav-link {{ request()->routeIs('public.faq') ? 'active' : '' }}">FAQ</a>
+        <a href="{{ route('public.blog') }}" class="pub-nav-link {{ request()->routeIs('public.blog') ? 'active' : '' }}">Blog</a>
+        <a href="{{ route('public.contact') }}" class="pub-nav-link {{ request()->routeIs('public.contact') ? 'active' : '' }}">Contact</a>
+        <a href="{{ route('login') }}" class="pub-nav-cta">Enter Portal →</a>
     </div>
 </nav>
 
@@ -167,12 +167,12 @@
         <span class="pub-footer-name">Opeshis OS</span>
     </a>
     <div class="pub-footer-links">
-        <a href="/about" class="pub-footer-link">About</a>
-        <a href="/features" class="pub-footer-link">Features</a>
-        <a href="/faq" class="pub-footer-link">FAQ</a>
-        <a href="/blog" class="pub-footer-link">Blog</a>
-        <a href="/contact" class="pub-footer-link">Contact</a>
-        <a href="/login" class="pub-footer-link">Portal Login</a>
+        <a href="{{ route('public.about') }}" class="pub-footer-link">About</a>
+        <a href="{{ route('public.features') }}" class="pub-footer-link">Features</a>
+        <a href="{{ route('public.faq') }}" class="pub-footer-link">FAQ</a>
+        <a href="{{ route('public.blog') }}" class="pub-footer-link">Blog</a>
+        <a href="{{ route('public.contact') }}" class="pub-footer-link">Contact</a>
+        <a href="{{ route('login') }}" class="pub-footer-link">Portal Login</a>
     </div>
     <div class="pub-footer-copy">© 2026 Opesware Innovation · Cameroon</div>
 </footer>

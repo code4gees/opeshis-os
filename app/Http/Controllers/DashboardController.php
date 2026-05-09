@@ -23,9 +23,24 @@ class DashboardController extends Controller
     /**
      * Show the Central Command Hub
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user_id = auth()->id();
+        $user = auth()->user();
+        
+        // Institutional Smart Redirection Gateway
+        if ($user->hasPermission('module_admin') && !$request->has('force_dashboard')) {
+            return redirect()->route('admin.index');
+        }
+
+        if ($user->hasPermission('module_pharmacy') && !$user->hasPermission('module_clinical') && !$request->has('force_dashboard')) {
+            return redirect()->route('operations.diagnostics.pharmacy.index');
+        }
+
+        if ($user->hasPermission('module_lab') && !$user->hasPermission('module_clinical') && !$request->has('force_dashboard')) {
+            return redirect()->route('operations.diagnostics.lab.index');
+        }
+        
+        $user_id = $user->id;
 
         // Cache only the DATA — never cache a View object (Closures are not serializable)
         $data = Cache::remember("dashboard_telemetry_{$user_id}", now()->addMinutes(5), function () use ($user_id) {
@@ -34,12 +49,11 @@ class DashboardController extends Controller
                 'total_patients'     => Patient::count(),
                 'active_visits'      => ActiveQueue::where('status', '!=', 'completed')->count(),
                 'appointments_today' => Appointment::whereDate('appointment_date', now()->toDateString())->count(),
-                'active_admissions'  => Admission::where('status', 'admitted')->count(),
-                'pending_labs'       => LabOrder::where('status', 'pending')->count(),
                 'pending_radiology'  => RadiologyOrder::where('status', 'pending')->count(),
                 'pharmacy_orders'    => Prescription::where('status', 'pending')->count(),
                 'revenue_today'      => BillingInvoice::whereDate('updated_at', now()->toDateString())->where('status', 'paid')->sum('total_amount') ?: 0,
                 'low_stock_items'    => Inventory::where('stock_level', '<', 10)->count(),
+                'kiosk_vitals_today' => ActiveQueue::whereDate('created_at', now()->toDateString())->where('vitals_data->source', 'kiosk')->count(),
             ];
 
             $myAppointments = Appointment::with('patient')

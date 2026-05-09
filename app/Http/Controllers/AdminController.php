@@ -90,7 +90,7 @@ class AdminController extends Controller
                     role: $request->input('role'),
                     sysDeptId: $request->input('sys_dept_id')
                 ));
-                return redirect()->route('admin', ['subtab' => 'users'])->with('success', 'Personnel record established.');
+                return redirect()->route('admin.index', ['subtab' => 'users'])->with('success', 'Personnel record established.');
             }
 
             if ($action === 'toggle_permission') {
@@ -108,10 +108,10 @@ class AdminController extends Controller
             }
         } catch (\Exception $e) {
             if ($request->ajax()) return response()->json(['success' => false, 'error' => $e->getMessage()]);
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('admin.index', ['subtab' => $action === 'add_user' ? 'users' : 'forensics'])->with('error', $e->getMessage());
         }
 
-        return redirect()->back();
+        return redirect()->route('admin.index');
     }
 
     /**

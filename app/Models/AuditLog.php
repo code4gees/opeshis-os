@@ -10,10 +10,12 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class AuditLog extends Model
 {
-    use HasUuids, \App\Traits\ProtectsPII;
+    use \App\Traits\ProtectsPII;
 
     protected $table = 'sys_audit_log';
     protected $guarded = [];
+
+    const UPDATED_AT = null;
 
     /**
      * The attributes that should be cast.

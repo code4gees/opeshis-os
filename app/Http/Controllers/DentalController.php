@@ -42,15 +42,24 @@ class DentalController extends Controller
             'complaint' => ['required', 'string'],
         ]);
 
-        $dentalPatient = DentalPatient::create([
-            'patient_id' => $validated['patient_id'],
-            'chief_complaint' => $validated['complaint'],
-            'registered_by' => auth()->id(),
-        ]);
+        try {
+            // Resolve Identity
+            $patient = \App\Models\Patient::where('id', $validated['patient_id'])
+                ->orWhere('medical_id', $validated['patient_id'])
+                ->firstOrFail();
 
-        Opeshis::logAction('DENTAL_REGISTER', 'dental_patients', $dentalPatient->id, 'Institutional Dental Enrollment authorized.');
+            $dentalPatient = DentalPatient::create([
+                'patient_id' => $patient->id,
+                'chief_complaint' => $validated['complaint'],
+                'registered_by' => auth()->id(),
+            ]);
 
-        return redirect()->back()->with('success', 'Institutional dental registry enrollment authorized.');
+            Opeshis::logAction('DENTAL_REGISTER', 'dental_patients', $dentalPatient->id, 'Institutional Dental Enrollment authorized.');
+
+            return redirect()->route('specialty.clinics.dental.index')->with('success', 'Institutional dental registry enrollment authorized.');
+        } catch (\Exception $e) {
+            return redirect()->route('specialty.clinics.dental.index')->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -79,7 +88,7 @@ class DentalController extends Controller
 
         Opeshis::logAction('DENTAL_PROCEDURE', 'dental_procedures', $procedure->id, "Institutional Dental Treatment finalized: {$validated['treatment']}");
 
-        return redirect()->back()->with('success', 'Institutional dental procedure intelligence committed.');
+        return redirect()->route('specialty.clinics.dental.index')->with('success', 'Institutional dental procedure intelligence committed.');
     }
 
     /**
@@ -99,7 +108,7 @@ class DentalController extends Controller
             ['status' => $validated['status'], 'notes' => $validated['notes']]
         );
 
-        return redirect()->back()->with('success', 'Institutional tooth chart intelligence committed.');
+        return redirect()->route('specialty.clinics.dental.index')->with('success', 'Institutional tooth chart intelligence committed.');
     }
 
     /**
@@ -122,7 +131,7 @@ class DentalController extends Controller
             'status' => 'scheduled',
         ]);
 
-        return redirect()->back()->with('success', 'Institutional dental appointment protocol authorized.');
+        return redirect()->route('specialty.clinics.dental.index')->with('success', 'Institutional dental appointment protocol authorized.');
     }
 }
 

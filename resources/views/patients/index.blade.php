@@ -1,140 +1,201 @@
-<x-cc-shell title='Opeshis OS'>
+<x-cc-shell title='Patient Registry | Opeshis OS'>
 
-@section('title', 'Patient Registry - Opeshis OS')
+<div class="max-w-[1600px] mx-auto pb-10">
 
+ {{-- ── PAGE HEADER ─────────────────────────────── --}}
+ <div class="flex items-center justify-between mb-6">
+ <div>
+ <h1 class="text-xl font-semibold text-white">Patient Registry</h1>
+ <p class="text-[12px] text-slate-400 mt-0.5">Master Patient Index · Institutional Archive</p>
+ </div>
+ <button onclick="document.getElementById('enrollModal').classList.remove('hidden')"
+ class="flex items-center gap-2 px-4 py-2.5 bg-sage text-[#16191f] rounded-lg text-[12px] font-semibold hover:opacity-90 transition-opacity">
+ <i class="fas fa-user-plus text-[12px]"></i>
+ Register New Patient
+ </button>
+ </div>
 
-<div class="max-w-7xl mx-auto space-y-6 pb-20">
-    
-    <!-- Institutional Header -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-white/5 pb-8">
-        <div>
-            <div class="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-2">
-                <i class="fas fa-users-medical text-blue-500/50"></i>
-                <span>Institutional Archive</span>
-                <span class="text-white/10">/</span>
-                <span class="text-slate-300">Master Patient Index</span>
-            </div>
-            <h1 class="text-4xl font-black text-white tracking-tighter uppercase">
-                Patient <span class="text-blue-500">Registry</span>
-            </h1>
-            <p class="text-xs font-medium text-slate-400 mt-2">Manage and search for institutional medical records.</p>
-        </div>
-        <div class="mt-6 md:mt-0">
-            <x-cc-button icon="fa-user-plus" onclick="document.getElementById('enrollModal').classList.remove('hidden')">
-                Register New Patient
-            </x-cc-button>
-        </div>
-    </div>
+ @if(session('success'))
+ <div class="mb-5 px-4 py-3 bg-sage/10 border border-sage/20 text-sage rounded-lg text-[12px] flex items-center gap-2">
+ <i class="fas fa-check-circle text-[12px]"></i> {{ session('success') }}
+ </div>
+ @endif
 
-    @if(session('success'))
-        <div class="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-[10px] font-black uppercase tracking-widest animate-pulse">
-            <i class="fas fa-check-circle mr-2"></i> {{ session('success') }}
-        </div>
-    @endif
+ {{-- ── SEARCH BAR ──────────────────────────────── --}}
+ <div class="bg-card rounded-xl border border-subtle p-5 mb-6">
+ <form method="GET" class="flex items-end gap-4">
+ <div class="flex-1">
+ <label class="block text-[12px] font-medium text-slate-400 mb-1.5">Search Archive</label>
+ <div class="relative">
+ <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-[12px]"></i>
+ <input type="text" name="q" value="{{ $search }}"
+ class="w-full bg-[#16191f] border border-subtle rounded-lg pl-10 pr-4 py-2.5 text-[13px] text-white outline-none focus:border-sage/50 transition-colors placeholder-slate-600"
+ placeholder="Enter Patient Name, Medical ID, or Phone Number...">
+ </div>
+ </div>
+ <button type="submit"
+ class="px-5 py-2.5 bg-[#2a2e38] border border-subtle text-slate-300 rounded-lg text-[12px] font-medium hover:text-white transition-colors flex items-center gap-2">
+ <i class="fas fa-filter text-[12px]"></i> Search
+ </button>
+ </form>
+ </div>
 
-    <!-- Search Engine -->
-    <x-cc-card>
-        <form method="GET" class="flex flex-col md:flex-row gap-4 items-end">
-            <div class="flex-1">
-                <x-cc-input 
-                    label="Patient Search" 
-                    name="q" 
-                    :value="$search" 
-                    placeholder="Enter Name, Medical ID, or Phone..." 
-                    icon="fa-search" 
-                />
-            </div>
-            <x-cc-button type="submit" variant="secondary" icon="fa-filter">
-                Search Registry
-            </x-cc-button>
-        </form>
-    </x-cc-card>
+ {{-- ── MASTER INDEX TABLE ──────────────────────── --}}
+ <div class="bg-card rounded-xl border border-subtle overflow-hidden">
+ <div class="px-6 py-4 border-b border-subtle flex items-center justify-between">
+ <h2 class="text-[14px] font-medium text-white flex items-center gap-2">
+ <i class="fas fa-database text-sage text-[12px]"></i>
+ Master Patient Index
+ </h2>
+ <span class="px-2.5 py-1 rounded-md bg-sage/10 text-sage text-[12px] font-medium border border-sage/20">
+ {{ $patients->total() }} records
+ </span>
+ </div>
 
-    <!-- Master Index Table -->
-    <x-cc-card title="Institutional Master Index" icon="fa-database">
-        <x-cc-table :headers="['Patient Identity', 'Contact Channel', 'Gender', 'Operations']">
-            @forelse($patients as $p)
-                <tr class="group hover:bg-white/[0.02] transition-colors">
-                    <td class="whitespace-nowrap px-5 py-5">
-                        <div class="flex items-center">
-                            <div class="h-10 w-10 flex-shrink-0 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20 text-blue-400 font-black text-xs">
-                                {{ substr($p->full_name, 0, 1) }}
-                            </div>
-                            <div class="ml-4">
-                                <div class="text-sm font-bold text-slate-200 uppercase tracking-tight group-hover:text-blue-400 transition-colors">{{ $p->full_name }}</div>
-                                <div class="text-[10px] font-black text-slate-500 uppercase tracking-widest">{{ $p->medical_id }}</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="whitespace-nowrap px-5 py-5">
-                        <div class="text-xs font-bold text-slate-300">{{ $p->phone_number ?: 'UNSPECIFIED' }}</div>
-                        <div class="text-[9px] font-black text-slate-600 uppercase tracking-widest mt-1">{{ $p->email ?? 'no-email-recorded' }}</div>
-                    </td>
-                    <td class="whitespace-nowrap px-5 py-5">
-                        <x-cc-status-badge :status="$p->gender" />
-                    </td>
-                    <td class="whitespace-nowrap px-5 py-5 text-right">
-                        <x-cc-button variant="ghost" size="sm" icon="fa-id-card" 
-                            href="{{ route('patients.show', $p->id) }}"
-                            class="text-blue-400 hover:bg-blue-500/10">
-                            Profile
-                        </x-cc-button>
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="4" class="px-6 py-20 text-center">
-                        <i class="fas fa-search-minus text-4xl text-slate-800 mb-4"></i>
-                        <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest">Registry Vacuum</h3>
-                        <p class="text-xs text-slate-600 mt-1">No institutional records match the current search criteria.</p>
-                    </td>
-                </tr>
-            @endforelse
-        </x-cc-table>
+ <div class="overflow-x-auto">
+ <table class="w-full text-left">
+ <thead class="border-b border-subtle bg-[#1a1d24]/50">
+ <tr>
+ <th class="px-6 py-3 text-[12px] font-medium text-slate-400">Patient Identity</th>
+ <th class="px-6 py-3 text-[12px] font-medium text-slate-400">Contact Channel</th>
+ <th class="px-6 py-3 text-[12px] font-medium text-slate-400">Gender</th>
+ <th class="px-6 py-3 text-[12px] font-medium text-slate-400">Registered</th>
+ <th class="px-6 py-3 text-[12px] font-medium text-slate-400 text-right">Actions</th>
+ </tr>
+ </thead>
+ <tbody class="divide-y divide-subtle">
+ @forelse($patients as $index => $p)
+ <tr class="{{ $loop->even ? 'bg-[#1a1d24]/30' : 'bg-transparent' }} hover:bg-[#2a2e38] transition-colors group">
+ {{-- Patient Identity --}}
+ <td class="px-6 py-3.5">
+ <div class="flex items-center gap-3">
+ <div class="w-8 h-8 rounded-full bg-sage/10 border border-sage/20 flex items-center justify-center text-sage text-[12px] font-bold shrink-0">
+ {{ strtoupper(substr($p->full_name ?? 'P', 0, 1)) }}
+ </div>
+ <div>
+ <div class="text-[12px] font-medium text-slate-200 group-hover:text-white transition-colors">
+ {{ $p->full_name }}
+ </div>
+ <div class="text-[12px] text-slate-500 font-mono">
+ {{ $p->medical_id }}
+ </div>
+ </div>
+ </div>
+ </td>
+ {{-- Contact Channel --}}
+ <td class="px-6 py-3.5">
+ <div class="text-[12px] text-slate-300">
+ {{ $p->phone ?: 'Unspecified' }}
+ </div>
+ <div class="text-[12px] text-slate-500">
+ {{ $p->email ?: 'No Email' }}
+ </div>
+ </td>
+ {{-- Gender --}}
+ <td class="px-6 py-3.5">
+ <span class="px-2.5 py-1 rounded-md text-[12px] font-medium
+ {{ strtolower($p->gender) === 'male' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' 
+ : (strtolower($p->gender) === 'female' ? 'bg-pink-500/10 text-pink-400 border border-pink-500/20' 
+ : 'bg-[#313642] text-slate-300 border border-subtle') }}">
+ {{ ucfirst($p->gender) }}
+ </span>
+ </td>
+ {{-- Registered --}}
+ <td class="px-6 py-3.5">
+ <div class="text-[12px] text-slate-400">
+ {{ $p->created_at->format('M d, Y') }}
+ </div>
+ </td>
+ {{-- Actions --}}
+ <td class="px-6 py-3.5 text-right">
+ <a href="{{ route('patients.show', $p->id) }}"
+ class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2a2e38] border border-subtle text-sage rounded-md text-[12px] font-medium hover:bg-sage hover:text-[#16191f] hover:border-sage transition-all opacity-0 group-hover:opacity-100">
+ <i class="fas fa-id-card text-[12px]"></i> Profile
+ </a>
+ </td>
+ </tr>
+ @empty
+ <tr>
+ <td colspan="5" class="px-6 py-16 text-center">
+ <div class="w-14 h-14 rounded-full bg-[#2a2e38] flex items-center justify-center mx-auto mb-3">
+ <i class="fas fa-search text-slate-600 text-lg"></i>
+ </div>
+ <p class="text-[13px] font-medium text-slate-400">No patients found</p>
+ <p class="text-[12px] text-slate-600 mt-1">Adjust search criteria or register a new patient</p>
+ </td>
+ </tr>
+ @endforelse
+ </tbody>
+ </table>
+ </div>
 
-        @if($patients->hasPages())
-        <div class="mt-6 px-4">
-            {{ $patients->links() }}
-        </div>
-        @endif
-    </x-cc-card>
+ @if($patients->hasPages())
+ <div class="px-6 py-4 border-t border-subtle bg-[#1a1d24]/50">
+ {{ $patients->links() }}
+ </div>
+ @endif
+ </div>
 </div>
 
-<!-- Modal: New Patient Registration -->
-<x-cc-modal id="enrollModal" title="Register Institutional Patient" icon="fa-user-plus">
-    <form method="POST" action="{{ route('patients.register') }}" class="space-y-6">
-        @csrf
-        <x-cc-input 
-            label="Full Legal Identity" 
-            name="full_name" 
-            required 
-            placeholder="Surname, First Name" 
-            icon="fa-id-badge" 
-        />
+{{-- ── ENROLL MODAL ──────────────────────────────── --}}
+<div id="enrollModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-6">
+ <div class="bg-card w-full max-w-lg rounded-2xl border border-subtle shadow-2xl">
+ <div class="px-6 py-5 border-b border-subtle flex items-center justify-between">
+ <h3 class="text-[15px] font-semibold text-white">Register Patient</h3>
+ <button onclick="document.getElementById('enrollModal').classList.add('hidden')"
+ class="w-8 h-8 rounded-lg bg-[#2a2e38] flex items-center justify-center text-slate-400 hover:text-white transition-colors">
+ <i class="fas fa-times text-[12px]"></i>
+ </button>
+ </div>
+ <form method="POST" action="{{ route('patients.register') }}" class="p-6 space-y-4">
+ @csrf
+ <div>
+ <label class="block text-[12px] font-medium text-slate-400 mb-1.5">Full Legal Name</label>
+ <div class="relative">
+ <i class="fas fa-id-badge absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-[12px]"></i>
+ <input name="full_name" required
+ class="w-full bg-[#16191f] border border-subtle rounded-lg pl-10 pr-4 py-2.5 text-[13px] text-white outline-none focus:border-sage/50 transition-colors placeholder-slate-600"
+ placeholder="Surname, First Name">
+ </div>
+ </div>
+ 
+ <div class="grid grid-cols-2 gap-4">
+ <div>
+ <label class="block text-[12px] font-medium text-slate-400 mb-1.5">Biological Gender</label>
+ <div class="relative">
+ <i class="fas fa-venus-mars absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-[12px]"></i>
+ <select name="gender" required
+ class="w-full bg-[#16191f] border border-subtle rounded-lg pl-10 pr-4 py-2.5 text-[13px] text-white outline-none focus:border-sage/50 transition-colors">
+ <option value="Male">Male</option>
+ <option value="Female">Female</option>
+ <option value="Other">Other</option>
+ </select>
+ </div>
+ </div>
 
-        <div class="grid grid-cols-2 gap-6">
-            <x-cc-select label="Biological Gender" name="gender" icon="fa-venus-mars">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-            </x-cc-select>
+ <div>
+ <label class="block text-[12px] font-medium text-slate-400 mb-1.5">Primary Contact</label>
+ <div class="relative">
+ <i class="fas fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-[12px]"></i>
+ <input name="phone"
+ class="w-full bg-[#16191f] border border-subtle rounded-lg pl-10 pr-4 py-2.5 text-[13px] text-white outline-none focus:border-sage/50 transition-colors placeholder-slate-600"
+ placeholder="+237 ...">
+ </div>
+ </div>
+ </div>
 
-            <x-cc-input 
-                label="Primary Contact" 
-                name="phone_number" 
-                placeholder="+237 ..." 
-                icon="fa-phone" 
-            />
-        </div>
+ <div class="flex gap-3 pt-2">
+ <button type="button" onclick="document.getElementById('enrollModal').classList.add('hidden')"
+ class="flex-1 py-2.5 bg-[#2a2e38] border border-subtle text-slate-300 rounded-lg text-[12px] font-medium hover:text-white transition-colors">
+ Discard
+ </button>
+ <button type="submit"
+ class="flex-1 py-2.5 bg-sage text-[#16191f] rounded-lg text-[12px] font-semibold hover:opacity-90 transition-opacity">
+ Authorize Registration
+ </button>
+ </div>
+ </form>
+ </div>
+</div>
 
-        <div class="flex gap-4 mt-8 pt-6 border-t border-white/5">
-            <x-cc-button type="button" variant="secondary" class="flex-1" onclick="document.getElementById('enrollModal').classList.add('hidden')">
-                Discard
-            </x-cc-button>
-            <x-cc-button type="submit" class="flex-1">
-                Authorize Registration
-            </x-cc-button>
-        </div>
-    </form>
-</x-cc-modal>
 </x-cc-shell>

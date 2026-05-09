@@ -83,7 +83,7 @@ class PharmacyController extends Controller
             if ($action === 'dispense') {
                 $request->validate(['prescription_id' => 'required|uuid']);
                 $dispenseAction->execute($request->input('prescription_id'));
-                return redirect()->route('pharmacy', ['subtab' => 'dispensing'])->with('success', 'Institutional medication dispensing protocol finalized.');
+                return redirect()->route('operations.diagnostics.pharmacy.index', ['subtab' => 'dispensing'])->with('success', 'Institutional medication dispensing protocol finalized.');
 
             } elseif ($action === 'request_stock') {
                 $validated = $request->validate([
@@ -91,17 +91,17 @@ class PharmacyController extends Controller
                     'qty' => 'required|numeric|min:1'
                 ]);
                 $requestStockAction->execute($validated);
-                return redirect()->route('pharmacy', ['subtab' => 'orders'])->with('success', 'Institutional stock requisition sent to warehouse.');
+                return redirect()->route('operations.diagnostics.pharmacy.index', ['subtab' => 'orders'])->with('success', 'Institutional stock requisition sent to warehouse.');
 
             } elseif ($action === 'acknowledge_receipt') {
                 $request->validate(['req_id' => 'required|uuid']);
                 $receiptAction->execute($request->input('req_id'));
-                return redirect()->route('pharmacy', ['subtab' => 'orders'])->with('success', 'Institutional stock receipt acknowledged and updated.');
+                return redirect()->route('operations.diagnostics.pharmacy.index', ['subtab' => 'orders'])->with('success', 'Institutional stock receipt acknowledged and updated.');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('operations.diagnostics.pharmacy.index', ['subtab' => $request->input('action') === 'dispense' ? 'dispensing' : 'orders'])->with('error', $e->getMessage());
         }
 
-        return redirect()->back();
+        return redirect()->route('operations.diagnostics.pharmacy.index');
     }
 }

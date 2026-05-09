@@ -2,9 +2,9 @@
 
 @php
     $variants = [
-        'primary' => 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20 ring-1 ring-blue-400/20',
-        'secondary' => 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700/60 shadow-sm',
-        'danger' => 'bg-rose-600 hover:bg-rose-500 text-white shadow-lg shadow-rose-500/20 ring-1 ring-rose-400/20',
+        'primary' => 'bg-sage hover:bg-sage text-white  /20 ring-1 ring-blue-400/20',
+        'secondary' => 'bg-[#2a2e38] hover:bg-slate-700 text-slate-200 border border-slate-700/60 ',
+        'danger' => 'bg-rose-600 hover:bg-rose-500 text-white  /20 ring-1 ring-rose-400/20',
         'ghost' => 'bg-transparent hover:bg-white/5 text-slate-400 hover:text-slate-200',
     ];
     $sizes = [

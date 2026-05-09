@@ -11,56 +11,94 @@ use App\Http\Controllers\PaedsController;
 use App\Http\Controllers\AdmissionController;
 use App\Http\Controllers\TheatreController;
 use App\Http\Controllers\OPDController;
+use App\Http\Controllers\WardController;
 
-Route::middleware(['auth'])->group(function () {
+// Note: Auth middleware and 'clinical' prefix are applied in web.php gateway
+
+// Core Clinical Engine (EMR & OPD)
+Route::middleware(['permission:module_clinical'])->group(function () {
+    // Universal EMR Gateway
+    Route::prefix('emr')->name('emr.')->group(function() {
+        Route::get('/{id?}', [ClinicalController::class, 'emr'])->name('main');
+        Route::post('/save', [ClinicalController::class, 'saveConsultation'])->name('save');
+        Route::post('/close', [ClinicalController::class, 'closeConsultation'])->name('close');
+    });
+
+    // Patient Dossier & Signal Processing
+    Route::prefix('dossier')->name('clinical.dossier.')->group(function() {
+        Route::get('/{id}', [ClinicalController::class, 'dossier'])->name('show');
+        Route::post('/{id}/resolve', [ClinicalController::class, 'resolveSignal'])->name('resolve');
+    });
     
-    // Core Clinical Engine (EMR & OPD)
-    Route::middleware(['permission:module_clinical'])->group(function () {
-        // Universal EMR
-        Route::get('/emr/{id?}', [ClinicalController::class, 'emr'])->name('emr');
-        Route::get('/clinical/dossier/{id}', [ClinicalController::class, 'dossier'])->name('clinical.dossier');
-        Route::post('/clinical/signal/{id}/resolve', [ClinicalController::class, 'resolveSignal'])->name('clinical.signal.resolve');
-        Route::post('/emr/save', [ClinicalController::class, 'saveConsultation'])->name('emr.save');
-        Route::post('/emr/close', [ClinicalController::class, 'closeConsultation'])->name('emr.close');
-        
-        // Institutional OPD (Outpatient)
-        Route::get('/opd', [OPDController::class, 'index'])->name('clinical.opd');
-        Route::post('/opd/register', [OPDController::class, 'register'])->name('clinical.opd.register');
-        Route::post('/opd/consult', [OPDController::class, 'consult'])->name('clinical.opd.consult');
-        Route::post('/opd/discharge', [OPDController::class, 'discharge'])->name('clinical.opd.discharge');
-
-        // Inpatient (Wards & Admissions)
-        Route::get('/admissions', [AdmissionController::class, 'index'])->name('admissions');
-        Route::post('/admissions/admit', [AdmissionController::class, 'admit'])->name('admissions.admit');
-        Route::post('/admissions/discharge/{id}', [AdmissionController::class, 'discharge'])->name('admissions.discharge');
-        Route::get('/admissions/beds/available', [AdmissionController::class, 'getAvailableBeds'])->name('admissions.beds.available');
-
-        // Nursing & Rounds
-        Route::get('/nursing', [NursingController::class, 'index'])->name('nursing');
-        Route::post('/nursing/save', [NursingController::class, 'saveRound'])->name('nursing.save');
+    // Institutional OPD (Outpatient)
+    Route::prefix('opd')->name('clinical.opd.')->group(function() {
+        Route::get('/', [OPDController::class, 'index'])->name('index');
+        Route::post('/register', [OPDController::class, 'register'])->name('register');
+        Route::post('/consult', [OPDController::class, 'consult'])->name('consult');
+        Route::post('/discharge/{id}', [OPDController::class, 'discharge'])->name('discharge');
     });
 
-    // Specialty Units
-    Route::middleware(['permission:module_vitals'])->group(function () {
-        Route::get('/triage', [TriageController::class, 'index'])->name('triage');
-        Route::post('/triage/save', [TriageController::class, 'saveVitals'])->name('triage.save');
+    // Inpatient (Wards & Admissions)
+    Route::get('/wards', [WardController::class, 'index'])->name('wards');
+    Route::prefix('admissions')->name('admissions.')->group(function() {
+        Route::get('/', [WardController::class, 'index'])->name('index');
+        Route::post('/admit', [WardController::class, 'admit'])->name('admit');
+        Route::post('/discharge/{id}', [WardController::class, 'discharge'])->name('discharge');
+        Route::get('/beds/available', [WardController::class, 'getAvailableBeds'])->name('beds.available');
     });
 
-    Route::middleware(['permission:module_appointments'])->group(function () {
-        Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments');
-        Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
-        Route::post('/appointments/checkin/{id}', [AppointmentController::class, 'checkIn'])->name('appointments.checkin');
+    // Nursing & Rounds
+    Route::prefix('nursing')->name('nursing.')->group(function() {
+        Route::get('/', [NursingController::class, 'index'])->name('index');
+        Route::post('/save', [NursingController::class, 'saveRound'])->name('save');
     });
 
-    Route::middleware(['permission:module_emergency'])->get('/emergency', [EmergencyController::class, 'index'])->name('emergency');
-    Route::middleware(['permission:module_maternal'])->get('/maternal', [MaternalController::class, 'index'])->name('maternal');
-    Route::middleware(['permission:module_paeds'])->get('/paeds', [PaedsController::class, 'index'])->name('paeds');
-
-    // Surgery & Community
-    Route::middleware(['permission:module_clinical'])->group(function () {
-        Route::get('/clinical/theatre', [TheatreController::class, 'index'])->name('clinical.theatre');
-        Route::post('/clinical/theatre/preop', [TheatreController::class, 'savePreopAssessment']);
-        Route::post('/clinical/theatre/intraop/start', [TheatreController::class, 'startIntraop']);
-        Route::post('/clinical/theatre/intraop/complete', [TheatreController::class, 'completeIntraop']);
+    // Surgery & Theatre
+    Route::prefix('theatre')->name('clinical.theatre.')->group(function() {
+        Route::get('/', [TheatreController::class, 'index'])->name('index');
+        Route::post('/preop', [TheatreController::class, 'savePreopAssessment'])->name('preop');
+        Route::post('/intraop/start', [TheatreController::class, 'startIntraop'])->name('start');
+        Route::post('/intraop/complete', [TheatreController::class, 'completeIntraop'])->name('complete');
     });
 });
+
+// Specialty Units
+Route::middleware(['permission:module_vitals'])->prefix('triage')->name('triage.')->group(function () {
+    Route::get('/', [TriageController::class, 'index'])->name('index');
+    Route::post('/save', [TriageController::class, 'saveVitals'])->name('save');
+});
+
+Route::middleware(['permission:module_appointments'])->prefix('appointments')->name('appointments.')->group(function () {
+    Route::get('/', [AppointmentController::class, 'index'])->name('index');
+    Route::post('/', [AppointmentController::class, 'store'])->name('store');
+    Route::post('/checkin/{id}', [AppointmentController::class, 'checkIn'])->name('checkin');
+});
+
+    // Institutional Emergency Command
+    Route::middleware(['permission:module_emergency'])->prefix('emergency')->name('clinical.emergency.')->group(function () {
+        Route::get('/', [EmergencyController::class, 'index'])->name('index');
+        Route::post('/intake', [EmergencyController::class, 'intake'])->name('intake');
+    });
+
+    // Institutional Paediatrics Command
+    Route::middleware(['permission:module_paeds'])->prefix('paeds')->name('clinical.paeds.')->group(function () {
+        Route::get('/', [PaedsController::class, 'index'])->name('index');
+        Route::post('/admit', [PaedsController::class, 'admit'])->name('admit');
+        Route::post('/discharge/{id}', [PaedsController::class, 'discharge'])->name('discharge');
+        Route::post('/vitals', [PaedsController::class, 'logVitals'])->name('vitals');
+        Route::post('/growth', [PaedsController::class, 'logGrowth'])->name('growth');
+        Route::post('/drug', [PaedsController::class, 'logDrug'])->name('drug');
+        Route::post('/immunisation', [PaedsController::class, 'logImmunisation'])->name('immunisation');
+        Route::post('/order/create', [PaedsController::class, 'createOrder'])->name('order.create');
+        Route::post('/order/acknowledge/{id}', [PaedsController::class, 'acknowledgeOrder'])->name('order.acknowledge');
+        Route::post('/order/complete/{id}', [PaedsController::class, 'completeOrder'])->name('order.complete');
+        Route::post('/nursing/note', [PaedsController::class, 'addNursingNote'])->name('nursing.note');
+    });
+
+    // Institutional Obstetrics & Maternal Command
+    Route::middleware(['permission:module_maternal'])->prefix('obstetrics')->name('clinical.obstetrics.')->group(function () {
+        Route::get('/', [MaternalController::class, 'index'])->name('index');
+        Route::post('/admit', [MaternalController::class, 'admit'])->name('admit');
+        Route::post('/log-observation', [MaternalController::class, 'logObservation'])->name('log-observation');
+        Route::post('/record-delivery', [MaternalController::class, 'recordDelivery'])->name('record-delivery');
+    });

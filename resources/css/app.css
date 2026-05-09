@@ -14,15 +14,24 @@
   }
   
   body {
-    @apply bg-slate-950 text-slate-300 font-sans antialiased selection:bg-indigo-500 selection:text-white;
     font-family: 'Inter', sans-serif;
+    background-color: #1a1d24;
+    color: #ffffff;
   }
 }
 
 @layer components {
   .glass-panel {
-    @apply bg-slate-900/60 backdrop-blur-xl border border-white/5 shadow-2xl;
+    background-color: #22262f;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 0.75rem;
   }
+  
+  .bg-card { background-color: #22262f; }
+  .border-subtle { border-color: rgba(255,255,255,0.06); }
+  .text-sage { color: #82c09a; }
+  .bg-sage { background-color: #82c09a; }
+  .text-alert { color: #d9776c; }
   
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

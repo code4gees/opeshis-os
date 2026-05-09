@@ -52,6 +52,33 @@ class PublicController extends Controller
     }
 
     /**
+     * Show institutional blog post
+     */
+    public function blogPost($slug)
+    {
+        $articles = [
+            'crisis-of-his-africa' => [
+                'title' => 'The Crisis of HIS in Africa: A Systemic Analysis',
+                'category' => 'Infrastructure',
+                'date' => 'May 12, 2026',
+                'summary' => 'Why 80% of legacy HMS deployments fail in Sub-Saharan Africa, and how localized engineering solves the infrastructure gap.'
+            ],
+            'reducing-diagnostic-error' => [
+                'title' => 'Reducing Diagnostic Error: The Role of CDSS',
+                'category' => 'Clinical Support',
+                'date' => 'May 08, 2026',
+                'summary' => 'How Clinical Decision Support Systems bridge the specialist gap in regional medical centers across Cameroon.'
+            ]
+        ];
+
+        if (!isset($articles[$slug])) {
+            abort(404);
+        }
+
+        return view('public.article', $articles[$slug]);
+    }
+
+    /**
      * Show contact page
      */
     public function contact()
@@ -75,6 +102,6 @@ class PublicController extends Controller
         // Log the inquiry institutionally (replace with Mail::send when SMTP is configured)
         Log::info('Opeshis Contact Inquiry', $validated);
 
-        return redirect()->route('contact')->with('success', 'Your message has been received. Our team will respond within one business day.');
+        return redirect()->route('public.contact')->with('success', 'Your message has been received. Our team will respond within one business day.');
     }
 }

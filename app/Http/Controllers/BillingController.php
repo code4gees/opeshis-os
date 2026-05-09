@@ -88,12 +88,12 @@ class BillingController extends Controller
                     'payment_method' => 'required|string',
                 ]);
                 $paymentAction->execute($request->input('invoice_id'), $request->input('payment_method'));
-                return redirect()->route('billing', ['subtab' => 'pending'])->with('success', 'Institutional patient settlement recorded.');
+                return redirect()->route('finance.billing.index', ['subtab' => 'pending'])->with('success', 'Institutional patient settlement recorded.');
 
             } elseif ($action === 'submit_claim') {
                 $request->validate(['invoice_id' => 'required|uuid']);
                 $claimAction->execute($request->input('invoice_id'));
-                return redirect()->route('billing', ['subtab' => 'insurance'])->with('success', 'Institutional claim submitted to provider.');
+                return redirect()->route('finance.billing.index', ['subtab' => 'insurance'])->with('success', 'Institutional claim submitted to provider.');
 
             } elseif ($action === 'add_provider') {
                 $validated = $request->validate([
@@ -104,27 +104,24 @@ class BillingController extends Controller
                     'co_pay' => 'nullable|numeric'
                 ]);
                 $providerAction->execute($validated);
-                return redirect()->route('billing', ['subtab' => 'providers'])->with('success', 'Institutional insurance provider enrolled.');
+                return redirect()->route('finance.billing.index', ['subtab' => 'providers'])->with('success', 'Institutional insurance provider enrolled.');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('finance.billing.index', ['subtab' => 'pending'])->with('error', $e->getMessage());
         }
 
-        return redirect()->back();
+        return redirect()->route('finance.billing.index');
     }
 
     /**
      * Handle Institutional Invoice Refund Protocol via Action
      */
-    public function refund(Request $request, string $id, \App\Actions\Finance\ProcessBillingRefundAction $action): RedirectResponse
-    {
         try {
             $action->execute($id);
-            return redirect()->back()->with('success', 'Institutional refund successfully processed.');
+            return redirect()->route('finance.billing.index', ['subtab' => 'history'])->with('success', 'Institutional refund successfully processed.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('finance.billing.index', ['subtab' => 'history'])->with('error', $e->getMessage());
         }
-    }
 
     /**
      * Institutional Payment Reconciliation Hub

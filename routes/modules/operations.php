@@ -16,56 +16,65 @@ use App\Http\Controllers\DietaryController;
 use App\Http\Controllers\CSSDController;
 use App\Http\Controllers\IncidentController;
 
-Route::middleware(['auth'])->group(function () {
-    
-    // Diagnostics
+// Note: Auth middleware and 'operations' prefix are applied in web.php gateway
+
+// Diagnostics Domain
+Route::prefix('diagnostics')->name('operations.diagnostics.')->group(function() {
     Route::middleware(['permission:module_pharmacy'])->group(function () {
-        Route::get('/pharmacy', [PharmacyController::class, 'index'])->name('pharmacy');
+        Route::get('/pharmacy', [PharmacyController::class, 'index'])->name('pharmacy.index');
         Route::post('/pharmacy/action', [PharmacyController::class, 'action'])->name('pharmacy.action');
     });
 
     Route::middleware(['permission:module_lab'])->group(function () {
-        Route::get('/lab', [LabController::class, 'index'])->name('lab');
+        Route::get('/lab', [LabController::class, 'index'])->name('lab.index');
     });
 
     Route::middleware(['permission:module_radiology'])->group(function () {
-        Route::get('/radiology', [RadiologyController::class, 'index'])->name('radiology');
+        Route::get('/radiology', [RadiologyController::class, 'index'])->name('radiology.index');
         Route::post('/radiology/action', [RadiologyController::class, 'action'])->name('radiology.action');
         Route::post('/radiology/order', [RadiologyController::class, 'quickOrder'])->name('radiology.order');
     });
+});
 
-    // Supply Chain
+// Supply Chain Domain
+Route::prefix('supply-chain')->name('operations.supply.')->group(function() {
     Route::middleware(['permission:module_warehouse'])->group(function () {
-        Route::get('/warehouse', [WarehouseController::class, 'index'])->name('warehouse');
+        Route::get('/warehouse', [WarehouseController::class, 'index'])->name('warehouse.index');
         Route::post('/warehouse/action', [WarehouseController::class, 'action'])->name('warehouse.action');
     });
 
     Route::middleware(['permission:module_inventory'])->group(function () {
-        Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory');
+        Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
         Route::post('/inventory/action', [InventoryController::class, 'action'])->name('inventory.action');
     });
+});
 
-    // Facilities & Logistics
+// Facilities & Logistics Domain
+Route::prefix('logistics')->name('operations.logistics.')->group(function() {
     Route::middleware(['permission:module_assets'])->group(function () {
-        Route::get('/assets', [AssetController::class, 'index'])->name('assets');
+        Route::get('/assets', [AssetController::class, 'index'])->name('assets.index');
         Route::post('/assets/maintenance', [AssetController::class, 'updateMaintenance'])->name('assets.maintenance');
     });
 
     Route::middleware(['permission:core_admin'])->group(function () {
-        Route::get('/ops/laundry', [LaundryController::class, 'index'])->name('ops.laundry');
-        Route::get('/ops/fleet', [FleetController::class, 'index'])->name('ops.fleet');
+        Route::get('/laundry', [LaundryController::class, 'index'])->name('laundry.index');
+        Route::get('/fleet', [FleetController::class, 'index'])->name('fleet.index');
     });
+});
 
-    // Clinical Support
+// Clinical Support Domain
+Route::prefix('clinical-support')->name('operations.clinical.')->group(function() {
     Route::middleware(['permission:module_clinical'])->group(function () {
         Route::get('/bloodbank', [BloodBankController::class, 'index'])->name('bloodbank.index');
         Route::get('/mortuary', [MortuaryController::class, 'index'])->name('mortuary.index');
         Route::get('/dietary', [DietaryController::class, 'index'])->name('dietary.index');
-        Route::get('/cssd', [CSSDController::class, 'index'])->name('cssd');
+        Route::get('/cssd', [CSSDController::class, 'index'])->name('cssd.index');
         
         // Quality & Risk Management
-        Route::get('/ops/incidents', [IncidentController::class, 'index'])->name('ops.incidents');
-        Route::post('/ops/incidents', [IncidentController::class, 'submit']);
-        Route::post('/ops/incidents/{id}/investigate', [IncidentController::class, 'investigate']);
+        Route::prefix('incidents')->name('incidents.')->group(function() {
+            Route::get('/', [IncidentController::class, 'index'])->name('index');
+            Route::post('/', [IncidentController::class, 'submit'])->name('submit');
+            Route::post('/{id}/investigate', [IncidentController::class, 'investigate'])->name('investigate');
+        });
     });
 });

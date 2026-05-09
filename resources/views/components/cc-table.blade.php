@@ -1,6 +1,6 @@
 @props(['headers' => []])
 
-<div class="overflow-hidden rounded-xl border border-white/5 bg-slate-900/20 backdrop-blur-sm">
+<div class="overflow-hidden rounded-xl border border-subtle bg-card/20 ">
     <table {{ $attributes->merge(['class' => 'min-w-full divide-y divide-white/5']) }}>
         <thead class="bg-white/[0.02]">
             <tr>

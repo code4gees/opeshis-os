@@ -5,7 +5,7 @@
     <div class="flex items-center justify-between px-2">
         <div class="flex items-center gap-2">
             @if($icon)
-            <i class="fas {{ $icon }} text-indigo-500/50"></i>
+            <i class="fas {{ $icon }} text-sage/50"></i>
             @endif
             <h2 class="text-xs font-black uppercase tracking-[0.25em] text-slate-400">{{ $title }}</h2>
         </div>
@@ -13,7 +13,7 @@
     </div>
     @endif
 
-    <div class="overflow-hidden rounded-2xl border border-white/5 bg-slate-900/20 backdrop-blur-md">
+    <div class="overflow-hidden rounded-2xl border border-subtle bg-card/20 ">
         <div class="overflow-x-auto">
             <table {{ $attributes->merge(['class' => 'min-w-full divide-y divide-white/5']) }}>
                 <thead class="bg-white/[0.02]">

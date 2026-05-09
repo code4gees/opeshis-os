@@ -95,16 +95,16 @@ class LabController extends Controller
         try {
             if ($action === 'collect_sample') {
                 $collectAction->execute($request->input('order_id'));
-                return redirect()->route('lab', ['subtab' => 'orders'])->with('success', 'Institutional specimen collection authorized.');
+                return redirect()->route('operations.diagnostics.lab.index', ['subtab' => 'orders'])->with('success', 'Institutional specimen collection authorized.');
 
             } elseif ($action === 'submit_results') {
                 $verifyAction->execute($request->input('order_id'), $request->input('results'));
-                return redirect()->route('lab', ['subtab' => 'history'])->with('success', 'Institutional diagnostic results verified.');
+                return redirect()->route('operations.diagnostics.lab.index', ['subtab' => 'history'])->with('success', 'Institutional diagnostic results verified.');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('operations.diagnostics.lab.index', ['subtab' => $request->input('action') === 'collect_sample' ? 'orders' : 'analytics'])->with('error', $e->getMessage());
         }
 
-        return redirect()->back();
+        return redirect()->route('operations.diagnostics.lab.index');
     }
 }

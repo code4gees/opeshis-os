@@ -59,9 +59,9 @@ class PatientController extends Controller
     {
         try {
             $patient = $action->execute($request->validated());
-            return redirect()->back()->with('success', "Institutional Patient {$patient->medical_id} registered successfully.");
+            return redirect()->route('patients.index')->with('success', "Institutional Patient {$patient->medical_id} registered successfully.");
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('patients.index')->with('error', $e->getMessage());
         }
     }
 }

@@ -44,10 +44,16 @@ class ICUController extends Controller
         ]);
 
         try {
+            // Resolve Identity
+            $patient = \App\Models\Patient::where('id', $validated['patient_id'])
+                ->orWhere('medical_id', $validated['patient_id'])
+                ->firstOrFail();
+            $validated['patient_id'] = $patient->id;
+
             $action->execute($validated);
-            return redirect()->back()->with('success', 'Institutional critical care admission protocol authorized.');
+            return redirect()->route('specialty.critical.icu.index')->with('success', 'Institutional critical care admission protocol authorized.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('specialty.critical.icu.index')->with('error', $e->getMessage());
         }
     }
 
@@ -68,9 +74,9 @@ class ICUController extends Controller
 
         try {
             $action->execute($validated);
-            return redirect()->back()->with('success', 'Hemodynamic vitals committed to institutional archive.');
+            return redirect()->route('specialty.critical.icu.index')->with('success', 'Hemodynamic vitals committed to institutional archive.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('specialty.critical.icu.index')->with('error', $e->getMessage());
         }
     }
 
@@ -91,9 +97,9 @@ class ICUController extends Controller
 
         try {
             $action->execute($validated);
-            return redirect()->back()->with('success', 'Institutional SOFA strategic index updated.');
+            return redirect()->route('specialty.critical.icu.index')->with('success', 'Institutional SOFA strategic index updated.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('specialty.critical.icu.index')->with('error', $e->getMessage());
         }
     }
 
@@ -104,9 +110,9 @@ class ICUController extends Controller
     {
         try {
             $action->execute($id, $request->only('destination'));
-            return redirect()->back()->with('success', 'Institutional critical care discharge protocol finalized.');
+            return redirect()->route('specialty.critical.icu.index')->with('success', 'Institutional critical care discharge protocol finalized.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('specialty.critical.icu.index')->with('error', $e->getMessage());
         }
     }
 }

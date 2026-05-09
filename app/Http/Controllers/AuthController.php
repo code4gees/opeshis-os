@@ -62,7 +62,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('public.landing');
     }
 
     /**
@@ -94,11 +94,7 @@ class AuthController extends Controller
             Auth::login($user);
             session()->forget('mfa_user_id');
             
-            if (in_array($user->role, ['Admin'])) {
-                return redirect('/admin');
-            }
-            
-            return redirect('/dashboard');
+            return redirect()->route('dashboard');
         }
 
         return redirect()->back()->with('error', 'Invalid or expired institutional OTP.');

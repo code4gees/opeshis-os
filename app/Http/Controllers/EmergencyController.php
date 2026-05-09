@@ -71,10 +71,10 @@ class EmergencyController extends Controller
                 return $patient;
             });
 
-            return redirect()->back()->with('success', "Institutional Emergency Case {$patient->medical_id} established.");
+            return redirect()->route('clinical.emergency.index')->with('success', "Institutional Emergency Case {$patient->medical_id} established.");
 
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('clinical.emergency.index')->with('error', $e->getMessage());
         }
     }
 }

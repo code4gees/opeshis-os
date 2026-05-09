@@ -47,10 +47,16 @@ class HDUController extends Controller
         ]);
 
         try {
+            // Resolve Identity
+            $patient = \App\Models\Patient::where('id', $validated['patient_id'])
+                ->orWhere('medical_id', $validated['patient_id'])
+                ->firstOrFail();
+            $validated['patient_id'] = $patient->id;
+
             $action->execute($validated);
-            return redirect()->back()->with('success', 'High dependency admission authorized.');
+            return redirect()->route('specialty.critical.hdu.index')->with('success', 'High dependency admission authorized.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('specialty.critical.hdu.index')->with('error', $e->getMessage());
         }
     }
 
@@ -70,9 +76,9 @@ class HDUController extends Controller
 
         try {
             $action->execute($validated);
-            return redirect()->back()->with('success', 'HDU hemodynamic vitals committed.');
+            return redirect()->route('specialty.critical.hdu.index')->with('success', 'HDU hemodynamic vitals committed.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('specialty.critical.hdu.index')->with('error', $e->getMessage());
         }
     }
 
@@ -83,9 +89,9 @@ class HDUController extends Controller
     {
         try {
             $action->execute($id);
-            return redirect()->back()->with('success', 'Patient escalation to ICU authorized.');
+            return redirect()->route('specialty.critical.hdu.index')->with('success', 'Patient escalation to ICU authorized.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('specialty.critical.hdu.index')->with('error', $e->getMessage());
         }
     }
 
@@ -96,9 +102,9 @@ class HDUController extends Controller
     {
         try {
             $action->execute($id, $request->only('notes'));
-            return redirect()->back()->with('success', 'Discharge protocol finalized.');
+            return redirect()->route('specialty.critical.hdu.index')->with('success', 'Discharge protocol finalized.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('specialty.critical.hdu.index')->with('error', $e->getMessage());
         }
     }
 }

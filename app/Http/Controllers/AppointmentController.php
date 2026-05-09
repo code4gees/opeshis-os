@@ -44,13 +44,18 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'patient_id' => 'required|uuid|exists:patients,id',
+            'patient_id' => 'required', // Can be UUID or Medical ID
             'doctor_id' => 'required|uuid|exists:users,id',
             'date' => 'required|date',
             'time' => 'required',
         ]);
 
         try {
+            // Resolve Patient Identity
+            $patient = Patient::where('id', $request->input('patient_id'))
+                ->orWhere('medical_id', $request->input('patient_id'))
+                ->firstOrFail();
+
             $year = date('Y');
             
             // Institutional Sequence Simulation (Ensuring unique numbering)
@@ -60,7 +65,7 @@ class AppointmentController extends Controller
 
             $appointment = Appointment::create([
                 'appointment_number' => $aptNumber,
-                'patient_id' => $request->input('patient_id'),
+                'patient_id' => $patient->id,
                 'doctor_id' => $request->input('doctor_id'),
                 'department_id' => $request->input('department_id'),
                 'appointment_date' => $request->input('date'),
@@ -72,10 +77,10 @@ class AppointmentController extends Controller
 
             Opeshis::logAction('APPOINTMENT_BOOK', 'appointments', $appointment->id, "Appointment: {$aptNumber}");
 
-            return redirect()->back()->with('success', "Institutional Appointment $aptNumber booked successfully.");
+            return redirect()->route('appointments.index', ['date' => $request->input('date')])->with('success', "Institutional Appointment $aptNumber booked successfully.");
 
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('appointments.index')->with('error', 'Appointment synchronization failure: ' . $e->getMessage());
         }
     }
 
@@ -85,9 +90,9 @@ class AppointmentController extends Controller
     public function checkIn($id)
     {
         try {
-            DB::transaction(function() use ($id) {
-                $apt = Appointment::findOrFail($id);
-
+            $apt = Appointment::findOrFail($id);
+            
+            DB::transaction(function() use ($apt) {
                 $apt->update([
                     'status' => 'checked_in',
                 ]);
@@ -103,10 +108,10 @@ class AppointmentController extends Controller
                 Opeshis::logAction('APPOINTMENT_CHECKIN', 'appointments', $apt->id, "Patient checked in.");
             });
 
-            return redirect()->back()->with('success', 'Patient checked in and moved to active clinical queue.');
+            return redirect()->route('appointments.index', ['date' => $apt->appointment_date])->with('success', 'Patient checked in and moved to active clinical queue.');
 
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('appointments.index')->with('error', $e->getMessage());
         }
     }
 }

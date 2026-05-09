@@ -83,13 +83,14 @@ class RadiologyController extends Controller
                     'technician_id' => $validated['technician_id'] ?? $user_id
                 ]);
 
-                return redirect()->route('radiology', ['subtab' => 'archive'])->with('success', 'Institutional radiology report finalized.');
+                return redirect()->route('operations.diagnostics.radiology.index', ['subtab' => 'archive'])->with('success', 'Institutional radiology report finalized.');
             }
             
-            return redirect()->back();
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            } catch (\Exception $e) {
+            return redirect()->route('operations.diagnostics.radiology.index', ['subtab' => 'pending'])->with('error', $e->getMessage());
         }
+
+        return redirect()->route('operations.diagnostics.radiology.index');
     }
 
     /**
@@ -98,27 +99,36 @@ class RadiologyController extends Controller
     public function quickOrder(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'patient_id' => ['required', 'uuid', 'exists:patients,id'],
+            'patient_id' => ['required'], // Support UUID or Medical ID
             'test_name' => ['required', 'string', 'max:100'],
             'indications' => ['nullable', 'string']
         ]);
 
-        DB::transaction(function () use ($validated) {
-            $order = RadiologyOrder::create([
-                'patient_id' => $validated['patient_id'],
-                'doctor_id' => auth()->id(),
-                'test_name' => $validated['test_name'],
-                'status' => 'pending',
-                'ordered_at' => now(),
-                'indications' => $validated['indications'] ?? null
-            ]);
+        try {
+            // Resolve Institutional Identity
+            $patient = \App\Models\Patient::where('id', $request->patient_id)
+                ->orWhere('medical_id', $request->patient_id)
+                ->firstOrFail();
 
-            Opeshis::logAction('RAD_ORDER', 'radiology_orders', $order->id, "Protocol: Ordered {$validated['test_name']} for patient.");
+            DB::transaction(function () use ($validated, $patient) {
+                $order = RadiologyOrder::create([
+                    'patient_id' => $patient->id,
+                    'doctor_id' => auth()->id(),
+                    'test_name' => $validated['test_name'],
+                    'status' => 'pending',
+                    'ordered_at' => now(),
+                    'indications' => $validated['indications'] ?? null
+                ]);
 
-            // Dispatch institutional event for background billing integration
-            \App\Events\RadiologyOrderCompleted::dispatch($validated['patient_id'], $validated['test_name']);
-        });
+                Opeshis::logAction('RAD_ORDER', 'radiology_orders', $order->id, "Protocol: Ordered {$validated['test_name']} for patient.");
 
-        return redirect()->back()->with('success', "Institutional imaging order for {$validated['test_name']} finalized.");
+                // Dispatch institutional event for background billing integration
+                \App\Events\RadiologyOrderCompleted::dispatch($patient->id, $validated['test_name']);
+            });
+
+            return redirect()->route('operations.diagnostics.radiology.index')->with('success', "Institutional imaging order for {$validated['test_name']} finalized.");
+        } catch (\Exception $e) {
+            return redirect()->route('operations.diagnostics.radiology.index')->with('error', $e->getMessage());
+        }
     }
 }

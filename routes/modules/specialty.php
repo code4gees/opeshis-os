@@ -26,66 +26,88 @@ use App\Http\Controllers\PhysioController;
 use App\Http\Controllers\DialysisController;
 use App\Http\Controllers\SpecialtyController;
 
-Route::middleware(['auth', 'permission:module_clinical'])->group(function () {
+// Note: Auth middleware and 'specialty' prefix are applied in web.php gateway
+
+Route::middleware(['permission:module_clinical'])->group(function () {
     
-    // Critical Care
-    Route::prefix('clinical')->group(function () {
-        Route::get('/icu', [ICUController::class, 'index'])->name('clinical.icu');
-        Route::post('/icu/admit', [ICUController::class, 'admit']);
-        Route::post('/icu/vitals', [ICUController::class, 'logVitals']);
-        Route::post('/icu/sofa', [ICUController::class, 'saveSOFA']);
-        Route::post('/icu/{id}/discharge', [ICUController::class, 'discharge']);
+    // Critical Care Domain
+    Route::prefix('critical-care')->name('specialty.critical.')->group(function () {
+        Route::prefix('icu')->name('icu.')->group(function() {
+            Route::get('/', [ICUController::class, 'index'])->name('index');
+            Route::post('/admit', [ICUController::class, 'admit'])->name('admit');
+            Route::post('/vitals', [ICUController::class, 'logVitals'])->name('vitals');
+            Route::post('/sofa', [ICUController::class, 'saveSOFA'])->name('sofa');
+            Route::post('/{id}/discharge', [ICUController::class, 'discharge'])->name('discharge');
+        });
 
-        Route::get('/hdu', [HDUController::class, 'index'])->name('clinical.hdu');
-        Route::post('/hdu/admit', [HDUController::class, 'admit']);
-        Route::post('/hdu/vitals', [HDUController::class, 'logVitals']);
-        Route::post('/hdu/{id}/escalate', [HDUController::class, 'escalateToICU']);
-        Route::post('/hdu/{id}/discharge', [HDUController::class, 'discharge']);
+        Route::prefix('hdu')->name('hdu.')->group(function() {
+            Route::get('/', [HDUController::class, 'index'])->name('index');
+            Route::post('/admit', [HDUController::class, 'admit'])->name('admit');
+            Route::post('/vitals', [HDUController::class, 'logVitals'])->name('vitals');
+            Route::post('/{id}/escalate', [HDUController::class, 'escalateToICU'])->name('escalate');
+            Route::post('/{id}/discharge', [HDUController::class, 'discharge'])->name('discharge');
+        });
 
-        Route::get('/nicu', [NICUController::class, 'index'])->name('clinical.nicu');
-        Route::post('/nicu/admit', [NICUController::class, 'admitBaby']);
-        Route::post('/nicu/vitals', [NICUController::class, 'logVitals']);
-        Route::post('/nicu/feeding', [NICUController::class, 'logFeeding']);
-        Route::post('/nicu/{id}/phototherapy', [NICUController::class, 'startPhototherapy']);
-        Route::post('/nicu/{id}/discharge', [NICUController::class, 'discharge']);
+        Route::prefix('nicu')->name('nicu.')->group(function() {
+            Route::get('/', [NICUController::class, 'index'])->name('index');
+            Route::post('/admit', [NICUController::class, 'admitBaby'])->name('admit');
+            Route::post('/vitals', [NICUController::class, 'logVitals'])->name('vitals');
+            Route::post('/feeding', [NICUController::class, 'logFeeding'])->name('feeding');
+            Route::post('/{id}/phototherapy', [NICUController::class, 'startPhototherapy'])->name('phototherapy');
+            Route::post('/{id}/discharge', [NICUController::class, 'discharge'])->name('discharge');
+        });
     });
 
-    // Specialty Clinics
-    Route::prefix('clinical')->group(function () {
-        Route::get('/dental', [DentalController::class, 'index'])->name('clinical.dental');
-        Route::post('/dental/procedure', [DentalController::class, 'recordProcedure']);
+    // Specialized Clinics Domain
+    Route::prefix('clinics')->name('specialty.clinics.')->group(function () {
+        Route::prefix('dental')->name('dental.')->group(function() {
+            Route::get('/', [DentalController::class, 'index'])->name('index');
+            Route::post('/register', [DentalController::class, 'registerPatient'])->name('register');
+            Route::post('/procedure', [DentalController::class, 'recordProcedure'])->name('procedure');
+            Route::post('/chart', [DentalController::class, 'updateToothChart'])->name('chart');
+            Route::post('/appointment', [DentalController::class, 'scheduleAppointment'])->name('appointment');
+        });
         
-        Route::get('/eye', [EyeController::class, 'index'])->name('clinical.eye');
-        Route::post('/eye/examination', [EyeController::class, 'recordExamination']);
+        Route::prefix('eye')->name('eye.')->group(function() {
+            Route::get('/', [EyeController::class, 'index'])->name('index');
+            Route::post('/register', [EyeController::class, 'registerPatient'])->name('register');
+            Route::post('/examination', [EyeController::class, 'recordExamination'])->name('examination');
+            Route::post('/refraction', [EyeController::class, 'recordRefraction'])->name('refraction');
+            Route::post('/iop', [EyeController::class, 'logIOP'])->name('iop');
+            Route::post('/surgery/plan', [EyeController::class, 'planSurgery'])->name('surgery.plan');
+            Route::post('/surgery/complete/{id}', [EyeController::class, 'completeSurgery'])->name('surgery.complete');
+        });
         
-        Route::get('/ent', [ENTController::class, 'index'])->name('clinical.ent');
-        Route::get('/endoscopy', [EndoscopyController::class, 'index'])->name('clinical.endoscopy');
-        Route::get('/nutrition', [NutritionController::class, 'index'])->name('clinical.nutrition');
+        Route::get('/ent', [ENTController::class, 'index'])->name('ent.index');
+        Route::get('/endoscopy', [EndoscopyController::class, 'index'])->name('endoscopy.index');
+        Route::get('/nutrition', [NutritionController::class, 'index'])->name('nutrition.index');
         
-        Route::get('/psych', [PsychController::class, 'index'])->name('clinical.psych');
-        Route::post('/psych/mse', [PsychController::class, 'recordMSE']);
+        Route::get('/psych', [PsychController::class, 'index'])->name('psych.index');
+        Route::post('/psych/mse', [PsychController::class, 'recordMSE'])->name('psych.mse');
         
-        Route::get('/oncology', [OncologyController::class, 'index'])->name('clinical.oncology');
-        Route::post('/oncology/plan', [OncologyController::class, 'createPlan']);
+        Route::get('/oncology', [OncologyController::class, 'index'])->name('oncology.index');
+        Route::post('/oncology/plan', [OncologyController::class, 'createPlan'])->name('oncology.plan');
     });
 
-    // Chronic & Infectious
-    Route::prefix('clinical')->group(function () {
-        Route::get('/tb', [TBController::class, 'index'])->name('clinical.tb');
+    // Chronic & Infectious Disease Domain
+    Route::prefix('chronic')->name('specialty.chronic.')->group(function () {
+        Route::get('/tb', [TBController::class, 'index'])->name('tb.index');
         
-        Route::get('/malaria', [MalariaController::class, 'index'])->name('clinical.malaria');
-        Route::post('/malaria/register', [MalariaController::class, 'registerCase']);
+        Route::get('/malaria', [MalariaController::class, 'index'])->name('malaria.index');
+        Route::post('/malaria/register', [MalariaController::class, 'registerCase'])->name('malaria.register');
         
-        Route::get('/wound', [WoundCareController::class, 'index'])->name('clinical.wound');
-        Route::post('/wound/register', [WoundCareController::class, 'register']);
-        Route::post('/wound/dressing', [WoundCareController::class, 'recordDressing']);
-        Route::post('/wound/{id}/close', [WoundCareController::class, 'close']);
+        Route::prefix('wound-care')->name('wound.')->group(function() {
+            Route::get('/', [WoundCareController::class, 'index'])->name('index');
+            Route::post('/register', [WoundCareController::class, 'register'])->name('register');
+            Route::post('/dressing', [WoundCareController::class, 'recordDressing'])->name('dressing');
+            Route::post('/{id}/close', [WoundCareController::class, 'close'])->name('close');
+        });
         
-        Route::get('/pft', [PFTController::class, 'index'])->name('clinical.pft');
-        Route::get('/dermatology', [DermatologyController::class, 'index'])->name('clinical.dermatology');
-        Route::get('/isolation', [IsolationController::class, 'index'])->name('clinical.isolation');
-        Route::get('/surveillance', [SurveillanceController::class, 'index'])->name('clinical.surveillance');
-        Route::get('/referrals', [ReferralController::class, 'index'])->name('clinical.referrals');
-        Route::get('/narcotics', [NarcoticsController::class, 'index'])->name('clinical.narcotics');
+        Route::get('/pft', [PFTController::class, 'index'])->name('pft.index');
+        Route::get('/dermatology', [DermatologyController::class, 'index'])->name('dermatology.index');
+        Route::get('/isolation', [IsolationController::class, 'index'])->name('isolation.index');
+        Route::get('/surveillance', [SurveillanceController::class, 'index'])->name('surveillance.index');
+        Route::get('/referrals', [ReferralController::class, 'index'])->name('referrals.index');
+        Route::get('/narcotics', [NarcoticsController::class, 'index'])->name('narcotics.index');
     });
 });

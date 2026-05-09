@@ -9,24 +9,33 @@ use App\Http\Controllers\CredentialingController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\ReportingController;
 
-Route::middleware(['auth', 'permission:module_admin'])->group(function () {
+// Note: Auth middleware and 'admin' prefix are applied in web.php gateway
+
+Route::middleware(['permission:module_admin'])->group(function () {
     
     // Core Admin Hub
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin');
-    Route::get('/admin/forensics/export', [AdminController::class, 'exportForensics'])->name('admin.forensics.export');
-    Route::post('/admin/action', [AdminController::class, 'action'])->name('admin.action');
+    Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/forensics/export', [AdminController::class, 'exportForensics'])->name('admin.forensics.export');
+    Route::post('/action', [AdminController::class, 'action'])->name('admin.action');
     
-    // Intelligence & Reporting
-    Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
-    Route::get('/reporting', [ReportingController::class, 'index'])->name('reporting');
-    Route::post('/reporting/generate', [ReportingController::class, 'generate'])->name('reporting.generate');
-    Route::post('/reporting/dhis2/export', [ReportingController::class, 'exportDHIS2'])->name('reporting.dhis2.export');
+    // Intelligence & Reporting Domain
+    Route::prefix('intelligence')->name('admin.intelligence.')->group(function() {
+        Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
+        Route::get('/reporting', [ReportingController::class, 'index'])->name('reporting');
+        Route::post('/reporting/generate', [ReportingController::class, 'generate'])->name('reporting.generate');
+        Route::post('/reporting/dhis2/export', [ReportingController::class, 'exportDHIS2'])->name('reporting.dhis2.export');
+    });
     
-    // Settings & HR
-    Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
-    Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
+    // Institutional Settings
+    Route::prefix('settings')->name('admin.settings.')->group(function() {
+        Route::get('/', [SettingsController::class, 'index'])->name('index');
+        Route::post('/update', [SettingsController::class, 'update'])->name('update');
+    });
     
-    Route::get('/admin/performance', [PerformanceController::class, 'index'])->name('admin.performance');
-    Route::get('/admin/training', [TrainingController::class, 'index'])->name('admin.training');
-    Route::get('/admin/credentialing', [CredentialingController::class, 'index'])->name('admin.credentialing');
+    // HR & Compliance
+    Route::prefix('hr')->name('admin.hr.')->group(function() {
+        Route::get('/performance', [PerformanceController::class, 'index'])->name('performance');
+        Route::get('/training', [TrainingController::class, 'index'])->name('training');
+        Route::get('/credentialing', [CredentialingController::class, 'index'])->name('credentialing');
+    });
 });

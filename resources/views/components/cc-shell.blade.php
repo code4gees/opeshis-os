@@ -1,4 +1,4 @@
-@props(['title' => 'Opeshis OS'])
+@props(['title' => 'Opeshis OS', 'noSidebar' => false])
 
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -43,7 +43,9 @@
 <body class="antialiased selection:bg-[#82c09a]/20 selection:text-[#82c09a] overflow-hidden flex h-screen">
     
     <!-- Sidebar -->
-    @include('partials.sidebar')
+    @if(!$noSidebar)
+        @include('partials.sidebar')
+    @endif
 
     <div class="flex-1 flex flex-col min-w-0">
         <main class="flex-1 overflow-y-auto p-8 custom-scrollbar">

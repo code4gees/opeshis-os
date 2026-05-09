@@ -99,6 +99,8 @@ return [
 
     'key' => env('APP_KEY'),
 
+    'secret' => env('APP_SECRET', 'opeshis_secret_key_v2.1'),
+
     'previous_keys' => [
         ...array_filter(
             explode(',', (string) env('APP_PREVIOUS_KEYS', ''))

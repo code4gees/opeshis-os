@@ -40,15 +40,24 @@ class EyeController extends Controller
             'complaint' => ['required', 'string'],
         ]);
 
-        $eyePatient = EyePatient::create([
-            'patient_id' => $validated['patient_id'],
-            'chief_complaint' => $validated['complaint'],
-            'registered_by' => auth()->id(),
-        ]);
+        try {
+            // Resolve Identity
+            $patient = \App\Models\Patient::where('id', $validated['patient_id'])
+                ->orWhere('medical_id', $validated['patient_id'])
+                ->firstOrFail();
 
-        Opeshis::logAction('EYE_REGISTER', 'eye_patients', $eyePatient->id, 'Institutional Eye Enrollment authorized.');
+            $eyePatient = EyePatient::create([
+                'patient_id' => $patient->id,
+                'chief_complaint' => $validated['complaint'],
+                'registered_by' => auth()->id(),
+            ]);
 
-        return redirect()->back()->with('success', 'Institutional eye registry enrollment authorized.');
+            Opeshis::logAction('EYE_REGISTER', 'eye_patients', $eyePatient->id, 'Institutional Eye Enrollment authorized.');
+
+            return redirect()->route('specialty.clinics.eye.index')->with('success', 'Institutional eye registry enrollment authorized.');
+        } catch (\Exception $e) {
+            return redirect()->route('specialty.clinics.eye.index')->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -79,7 +88,7 @@ class EyeController extends Controller
 
         Opeshis::logAction('EYE_EXAM', 'eye_examinations', $validated['eye_patient_id'], "Institutional Eye Examination intelligence committed.");
 
-        return redirect()->back()->with('success', 'Institutional eye examination intelligence committed.');
+        return redirect()->route('specialty.clinics.eye.index')->with('success', 'Institutional eye examination intelligence committed.');
     }
 
     /**
@@ -108,7 +117,7 @@ class EyeController extends Controller
             'recorded_by' => auth()->id(),
         ]);
 
-        return redirect()->back()->with('success', 'Institutional eye refraction intelligence committed.');
+        return redirect()->route('specialty.clinics.eye.index')->with('success', 'Institutional eye refraction intelligence committed.');
     }
 
     /**
@@ -131,7 +140,7 @@ class EyeController extends Controller
             'recorded_by' => auth()->id(),
         ]);
 
-        return redirect()->back()->with('success', 'Institutional IOP monitoring intelligence committed.');
+        return redirect()->route('specialty.clinics.eye.index')->with('success', 'Institutional IOP monitoring intelligence committed.');
     }
 
     /**
@@ -157,7 +166,7 @@ class EyeController extends Controller
 
         Opeshis::logAction('EYE_SURGERY_PLAN', 'eye_surgeries', $surgery->id, "Institutional Eye Surgery Protocol authorized: {$validated['procedure']}");
 
-        return redirect()->back()->with('success', 'Institutional eye surgery protocol authorized.');
+        return redirect()->route('specialty.clinics.eye.index')->with('success', 'Institutional eye surgery protocol authorized.');
     }
 
     /**
@@ -177,7 +186,7 @@ class EyeController extends Controller
 
         Opeshis::logAction('EYE_SURGERY_COMPLETE', 'eye_surgeries', $id, "Institutional Eye Surgery Outcome finalized.");
 
-        return redirect()->back()->with('success', 'Institutional eye surgery completion intelligence committed.');
+        return redirect()->route('specialty.clinics.eye.index')->with('success', 'Institutional eye surgery completion intelligence committed.');
     }
 }
 

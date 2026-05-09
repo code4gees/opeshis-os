@@ -124,7 +124,7 @@ class WarehouseController extends Controller
 
                     Opeshis::logAction('WAREHOUSE_STOCK_ADD', 'warehouse_stock', $item->id, "Protocol: Registered new stock item: {$item->item_name}.");
                 });
-                return redirect()->route('warehouse', ['subtab' => 'stock'])->with('success', 'Institutional item registered successfully.');
+                return redirect()->route('operations.supply.warehouse.index', ['subtab' => 'stock'])->with('success', 'Institutional item registered successfully.');
 
             } elseif ($action === 'deliver_req') {
                 $reqId = $request->input('req_id');
@@ -159,7 +159,7 @@ class WarehouseController extends Controller
                         }
                     }
                 });
-                return redirect()->route('warehouse', ['subtab' => 'requisitions'])->with('success', 'Institutional stock dispatched.');
+                return redirect()->route('operations.supply.warehouse.index', ['subtab' => 'requisitions'])->with('success', 'Institutional stock dispatched.');
 
             } elseif ($action === 'register_vendor') {
                 $validated = $request->validate([
@@ -177,12 +177,12 @@ class WarehouseController extends Controller
                 
                 Opeshis::logAction('VENDOR_REGISTER', 'vendors', $vendor->id, "Protocol: Registered new vendor: {$vendor->name}.");
                 
-                return redirect()->route('warehouse', ['subtab' => 'vendors'])->with('success', 'Institutional vendor registered successfully.');
+                return redirect()->route('operations.supply.warehouse.index', ['subtab' => 'vendors'])->with('success', 'Institutional vendor registered successfully.');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('operations.supply.warehouse.index', ['subtab' => $action === 'deliver_req' ? 'requisitions' : ($action === 'register_vendor' ? 'vendors' : 'stock')])->with('error', $e->getMessage());
         }
 
-        return redirect()->back();
+        return redirect()->route('operations.supply.warehouse.index');
     }
 }

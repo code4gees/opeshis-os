@@ -60,7 +60,7 @@ class PaedsController extends Controller
 
         try {
             $action->execute($validated);
-            return redirect()->back()->with('success', 'Paediatric patient admitted to institutional ward.');
+            return redirect()->route('clinical.paeds.index')->with('success', 'Paediatric patient admitted to institutional ward.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -77,7 +77,7 @@ class PaedsController extends Controller
 
         try {
             $action->execute($id, $validated);
-            return redirect()->back()->with('success', 'Paediatric patient discharged from institutional registry.');
+            return redirect()->route('clinical.paeds.index')->with('success', 'Paediatric patient discharged from institutional registry.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -100,7 +100,7 @@ class PaedsController extends Controller
 
         try {
             $action->execute($validated);
-            return redirect()->back()->with('success', 'Clinical vitals recorded in institutional telemetry.');
+            return redirect()->route('clinical.paeds.index')->with('success', 'Clinical vitals recorded in institutional telemetry.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -121,7 +121,7 @@ class PaedsController extends Controller
 
         try {
             $action->execute($validated);
-            return redirect()->back()->with('success', 'Institutional growth measurements saved.');
+            return redirect()->route('clinical.paeds.index')->with('success', 'Institutional growth measurements saved.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -141,7 +141,7 @@ class PaedsController extends Controller
 
         try {
             $action->execute($validated);
-            return redirect()->back()->with('success', 'Drug administration logged in institutional registry.');
+            return redirect()->route('clinical.paeds.index')->with('success', 'Drug administration logged in institutional registry.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -162,7 +162,7 @@ class PaedsController extends Controller
 
         try {
             $action->execute($validated);
-            return redirect()->back()->with('success', 'Institutional immunisation record established.');
+            return redirect()->route('clinical.paeds.index')->with('success', 'Institutional immunisation record established.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -182,7 +182,7 @@ class PaedsController extends Controller
 
         try {
             $action->execute($validated);
-            return redirect()->back()->with('success', 'Clinical order established in institutional queue.');
+            return redirect()->route('clinical.paeds.index')->with('success', 'Clinical order established in institutional queue.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -195,7 +195,7 @@ class PaedsController extends Controller
     {
         try {
             $action->execute($id);
-            return redirect()->back()->with('success', 'Institutional order acknowledged.');
+            return redirect()->route('clinical.paeds.index')->with('success', 'Institutional order acknowledged.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -208,7 +208,7 @@ class PaedsController extends Controller
     {
         try {
             $action->execute($id, $request->only('notes'));
-            return redirect()->back()->with('success', 'Institutional order finalized.');
+            return redirect()->route('clinical.paeds.index')->with('success', 'Institutional order finalized.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -227,7 +227,7 @@ class PaedsController extends Controller
 
         try {
             $action->execute($validated);
-            return redirect()->back()->with('success', 'Nursing documentation saved to institutional record.');
+            return redirect()->route('clinical.paeds.index')->with('success', 'Nursing documentation saved to institutional record.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

@@ -38,15 +38,25 @@ class ObstetricsController extends Controller
     {
         $validated = $request->validate([
             'patient_id' => ['required', 'uuid'],
+            'patient_id' => ['required', 'string'],
             'gravida' => ['required', 'integer'],
             'parity' => ['required', 'integer'],
             'gest_weeks' => ['required', 'integer'],
             'reason' => ['required', 'string'],
         ]);
 
-        $action->execute($validated);
+        try {
+            // Resolve Identity
+            $patient = \App\Models\Patient::where('id', $validated['patient_id'])
+                ->orWhere('medical_id', $validated['patient_id'])
+                ->firstOrFail();
+            $validated['patient_id'] = $patient->id;
 
-        return redirect()->back()->with('success', 'Institutional obstetric admission protocol authorized.');
+            $action->execute($validated);
+            return redirect()->route('clinical.obstetrics.index')->with('success', 'Institutional obstetric admission protocol authorized.');
+        } catch (\Exception $e) {
+            return redirect()->route('clinical.obstetrics.index')->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -65,9 +75,9 @@ class ObstetricsController extends Controller
 
         try {
             $action->execute($validated);
-            return redirect()->back()->with('success', 'Institutional obstetric observation intelligence committed.');
+            return redirect()->route('clinical.obstetrics.index')->with('success', 'Institutional obstetric observation intelligence committed.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('clinical.obstetrics.index')->with('error', $e->getMessage());
         }
     }
 
@@ -87,9 +97,9 @@ class ObstetricsController extends Controller
 
         try {
             $action->execute($validated);
-            return redirect()->back()->with('success', 'Institutional delivery protocol intelligence finalized.');
+            return redirect()->route('clinical.obstetrics.index')->with('success', 'Institutional delivery protocol intelligence finalized.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('clinical.obstetrics.index')->with('error', $e->getMessage());
         }
     }
 }

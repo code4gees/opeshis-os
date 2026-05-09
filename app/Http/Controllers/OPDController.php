@@ -55,7 +55,7 @@ class OPDController extends Controller
         // Forensic: Log registration
         Opeshis::logAction('OPD_REGISTER', 'opd_encounters', $encounter->id, "Institutional OPD Encounter authorized: {$encounterNumber}");
 
-        return redirect()->back()->with('success', "Institutional OPD encounter registered: {$encounterNumber}");
+        return redirect()->route('clinical.opd.index')->with('success', "Institutional OPD encounter registered: {$encounterNumber}");
     }
 
     /**
@@ -88,7 +88,7 @@ class OPDController extends Controller
 
         Opeshis::logAction('OPD_CONSULT', 'opd_consultations', $consultation->id, "Institutional Clinical Consultation intelligence committed.");
 
-        return redirect()->back()->with('success', 'Institutional clinical consultation intelligence recorded.');
+        return redirect()->route('clinical.opd.index')->with('success', 'Institutional clinical consultation intelligence recorded.');
     }
 
     /**
@@ -103,6 +103,6 @@ class OPDController extends Controller
 
         Opeshis::logAction('OPD_DISCHARGE', 'opd_encounters', $id, "Institutional OPD Discharge Protocol finalized.");
 
-        return redirect()->back()->with('success', 'Patient institutional discharge finalized.');
+        return redirect()->route('clinical.opd.index')->with('success', 'Patient institutional discharge finalized.');
     }
 }

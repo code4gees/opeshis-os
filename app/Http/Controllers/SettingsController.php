@@ -49,6 +49,6 @@ class SettingsController extends Controller
             }
         });
 
-        return redirect()->route('settings')->with('success', 'Institutional global configuration updated.');
+        return redirect()->route('admin.settings.index')->with('success', 'Institutional global configuration updated.');
     }
 }
