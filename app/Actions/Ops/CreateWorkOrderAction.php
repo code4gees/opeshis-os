@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Ops;
 
-use App\Models\MaintenanceRequests;
+use App\Models\MaintenanceRequest;
 use App\Helpers\Opeshis;
 
 class CreateWorkOrderAction
@@ -12,9 +12,9 @@ class CreateWorkOrderAction
     /**
      * Authorize Institutional Maintenance Work Order
      */
-    public function execute(array $data): MaintenanceRequests
+    public function execute(array $data): MaintenanceRequest
     {
-        $wo = MaintenanceRequests::create([
+        $wo = MaintenanceRequest::create([
             'asset_description' => $data['asset'],
             'priority' => $data['priority'],
             'fault_description' => $data['fault'],

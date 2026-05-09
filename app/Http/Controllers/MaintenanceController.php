@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\MaintenanceRequests;
-use App\Models\MaintenanceSchedules;
+use App\Models\MaintenanceRequest;
+use App\Models\MaintenanceSchedule;
 use App\Actions\Ops\CreateWorkOrderAction;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -18,11 +18,11 @@ class MaintenanceController extends Controller
      */
     public function index(): View
     {
-        $workOrders = MaintenanceRequests::with('technician')
+        $workOrders = MaintenanceRequest::with('technician')
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $schedules = MaintenanceSchedules::orderBy('next_due', 'asc')->get();
+        $schedules = MaintenanceSchedule::orderBy('next_due', 'asc')->get();
 
         return view('ops.maintenance', compact('workOrders', 'schedules'));
     }
@@ -52,7 +52,7 @@ class MaintenanceController extends Controller
      */
     public function startWorkOrder(Request $request, string $id): RedirectResponse
     {
-        MaintenanceRequests::findOrFail($id)->update([
+        MaintenanceRequest::findOrFail($id)->update([
             'status' => 'in_progress',
             'started_at' => now(),
         ]);
@@ -66,7 +66,7 @@ class MaintenanceController extends Controller
     {
         $validated = $request->validate(['notes' => 'nullable|string']);
 
-        MaintenanceRequests::findOrFail($id)->update([
+        MaintenanceRequest::findOrFail($id)->update([
             'status' => 'completed',
             'completion_notes' => $validated['notes'],
             'completed_at' => now(),

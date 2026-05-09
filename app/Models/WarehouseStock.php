@@ -13,7 +13,7 @@ class WarehouseStock extends Model
 
     public function vendor()
     {
-        return $this->belongsTo(Vendors::class, 'vendor_id');
+        return $this->belongsTo(Vendor::class, 'vendor_id');
     }
 
     public function modifier()

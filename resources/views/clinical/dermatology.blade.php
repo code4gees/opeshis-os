@@ -1,138 +1,115 @@
-<x-cc-shell title='Opeshis OS'>
+<x-cc-shell title='Dermatology Command | Opeshis OS'>
 
-@section('title', 'Dermatology Hub - Opeshis OS')
+<div class="max-w-[1600px] mx-auto pb-20">
+    <!-- Institutional Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+        <div>
+            <h1 class="text-3xl font-extrabold text-white tracking-tighter uppercase">Dermatology <span class="text-sage">Command</span></h1>
+            <p class="text-[11px] font-bold text-white/20 uppercase tracking-[0.25em] mt-2">Institutional Skin Intelligence · Case Registry · Histopathology Matrix</p>
+        </div>
+        <div class="flex gap-4">
+            <x-cc-button icon="fa-user-plus" color="indigo" variant="ghost" onclick="document.getElementById('regModal').classList.remove('hidden')">
+                Enroll Skin Case
+            </x-cc-button>
+        </div>
+    </div>
 
-<div class="space-y-8 pb-20">
- 
- <!-- Institutional Header -->
- <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
- <div>
- <h1 class="text-2xl font-semibold text-slate-200 uppercase tracking-tighter">Dermatology <span class="text-sage">Command</span></h1>
- <p class="text-xs font-bold text-slate-500 font-medium mt-1">Institutional Skin Intelligence · Case Registry · Histopathology Matrix</p>
- </div>
- <div class="flex gap-3">
- <x-cc-button icon="fa-user-plus" color="indigo" onclick="document.getElementById('regModal').classList.remove('hidden')">
- Enroll Skin Case Protocol
- </x-cc-button>
- </div>
- </div>
+    <!-- Integumentary Intelligence Matrix -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <x-cc-stat title="Active Census" value="{{ $patients->count() }}" icon="fa-hospital-user" trend="Institutional Log" color="indigo" />
+        <x-cc-stat title="Daily Consults" value="24" icon="fa-stethoscope" trend="Active Matrix" color="emerald" />
+        <x-cc-stat title="Biopsy Queue" value="08" icon="fa-microscope" trend="Pending Signal" color="rose" />
+        <x-cc-stat title="Registry Pulse" value="Synced" icon="fa-network-wired" trend="Institutional Log" color="slate" />
+    </div>
 
- <!-- Integumentary Intelligence KPIs -->
- <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
- <x-cc-stat 
- title="Active Census" 
- value="{{ $patients->count() }}" 
- icon="fa-hospital-user" 
- trend="Institutional Log" 
- color="indigo" 
- />
- <x-cc-stat 
- title="Daily Consults" 
- value="24" 
- icon="fa-stethoscope" 
- trend="Active Matrix" 
- color="emerald" 
- />
- <x-cc-stat 
- title="Biopsy Queue" 
- value="08" 
- icon="fa-microscope" 
- trend="Pending Signal" 
- color="rose" 
- />
- <x-cc-stat 
- title="Registry Pulse" 
- value="Synced" 
- icon="fa-network-wired" 
- trend="Institutional Log" 
- color="slate" 
- />
- </div>
+    <!-- Integumentary Case Registry -->
+    <x-cc-card class="overflow-hidden">
+        <div class="px-8 py-6 border-b border-white/[0.04] bg-white/[0.02] flex justify-between items-center">
+            <h3 class="text-[11px] font-bold text-white/20 uppercase tracking-[0.25em]">Integumentary Case Registry Matrix</h3>
+            <div class="flex items-center gap-2">
+                <div class="w-1.5 h-1.5 rounded-full bg-sage animate-pulse"></div>
+                <span class="text-[9px] font-black text-sage uppercase tracking-widest">Intelligence: Active</span>
+            </div>
+        </div>
 
- <!-- Integumentary Case Registry -->
- <x-clinical-card title="Integumentary Case Registry Matrix" icon="fa-database" badge="Intelligence: Active">
- <x-data-table :headers="['Patient Protocol', 'Primary Skin Diagnosis', 'Evaluation Status', 'Treatment Vector', 'Strategic Action']">
- @forelse($patients as $p)
- <tr class="group hover:bg-sage/[0.02] transition-colors border-b border-subtle last:border-0">
- <td class="px-6 py-4">
- <div class="text-sm font-bold text-slate-200 uppercase tracking-tight group-hover:text-sage transition-colors ">{{ $p->patient->full_name }}</div>
- <div class="text-[12px] font-semibold text-slate-500 font-medium mt-1">{{ $p->patient->medical_id }}</div>
- </td>
- <td class="px-6 py-4">
- <div class="text-xs font-semibold text-slate-300 uppercase ">"{{ $p->primary_diagnosis }}"</div>
- <div class="text-[8px] font-bold text-slate-600 font-medium mt-1">Provisional Deduction</div>
- </td>
- <td class="px-6 py-4">
- <x-status-badge status="completed" />
- <div class="text-[8px] font-semibold text-slate-400 uppercase mt-1 tracking-wider">ASSESSMENT_SYNCED</div>
- </td>
- <td class="px-6 py-4">
- <div class="text-[12px] font-semibold text-emerald-500 font-medium ">ACTIVE_PRESCRIPTION</div>
- <div class="text-[8px] font-bold text-slate-600 font-medium mt-1">Clinical Protocol</div>
- </td>
- <td class="px-6 py-4 text-right">
- <div class="flex justify-end gap-2">
- <x-cc-button variant="ghost" size="sm" icon="fa-notes-medical" color="indigo" onclick="openConsultModal('{{ $p->id }}')">Log Consult</x-cc-button>
- <x-cc-button variant="ghost" size="sm" icon="fa-camera" color="emerald" onclick="openImageModal('{{ $p->id }}')">Capture Image</x-cc-button>
- </div>
- </td>
- </tr>
- @empty
- <tr>
- <td colspan="5" class="px-6 py-12 text-center text-slate-600 text-sm">No active dermatology cases in the clinical registry.</td>
- </tr>
- @endforelse
- </x-data-table>
- </x-clinical-card>
+        <x-cc-table :headers="['Patient Protocol', 'Primary Skin Diagnosis', 'Evaluation Status', 'Treatment Vector', 'Strategic Action']">
+            @forelse($patients as $p)
+                <tr class="group hover:bg-white/[0.01] transition-all duration-300 border-b border-white/[0.02] last:border-0">
+                    <td class="px-8 py-6">
+                        <div class="flex items-center gap-5">
+                            <div class="h-10 w-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/5 text-white/20 font-black text-[12px] group-hover:bg-indigo-500/10 group-hover:text-indigo-500 group-hover:border-indigo-500/20 transition-all">
+                                {{ substr($p->patient->full_name, 0, 1) }}
+                            </div>
+                            <div>
+                                <div class="text-[13px] font-bold text-white uppercase tracking-tight group-hover:text-indigo-400 transition-colors">{{ $p->patient->full_name }}</div>
+                                <div class="text-[10px] font-bold text-white/20 uppercase tracking-widest mt-1">{{ $p->patient->medical_id }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-8 py-6">
+                        <div class="text-[11px] font-bold text-white uppercase tracking-tight">"{{ $p->primary_diagnosis }}"</div>
+                        <div class="text-[9px] font-black text-white/10 uppercase tracking-widest mt-1">Provisional Deduction</div>
+                    </td>
+                    <td class="px-8 py-6">
+                        <span class="px-3 py-1.5 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded-xl text-[9px] font-black uppercase tracking-widest">
+                            ASSESSMENT_SYNCED
+                        </span>
+                    </td>
+                    <td class="px-8 py-6">
+                        <div class="text-[11px] font-bold text-emerald-500 uppercase tracking-tight">ACTIVE_PRESCRIPTION</div>
+                        <div class="text-[9px] font-black text-white/10 uppercase tracking-widest mt-1">Clinical Protocol</div>
+                    </td>
+                    <td class="px-8 py-6 text-right">
+                        <div class="flex justify-end gap-3">
+                            <x-cc-button variant="ghost" size="sm" icon="fa-notes-medical" color="indigo" onclick="openConsultModal('{{ $p->id }}')">Log Consult</x-cc-button>
+                            <x-cc-button variant="ghost" size="sm" icon="fa-camera" color="emerald" onclick="openImageModal('{{ $p->id }}')">Capture Image</x-cc-button>
+                        </div>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="5" class="px-8 py-20 text-center">
+                        <i class="fas fa-hand-dots text-white/5 text-2xl mb-4"></i>
+                        <p class="text-[11px] font-bold text-white/10 uppercase tracking-widest">No active dermatology cases in the clinical registry.</p>
+                    </td>
+                </tr>
+            @endforelse
+        </x-cc-table>
+    </x-cc-card>
 </div>
 
 <!-- Modal: Enroll Case -->
 <x-cc-modal id="regModal" title="Skin Case Enrollment Protocol" icon="fa-user-plus">
- <form method="POST" action="{{ url('/clinical/dermatology/register') }}" class="space-y-6">
- @csrf
- <div>
- <label class="block text-[12px] font-semibold text-slate-500 font-medium mb-2 ">Institutional Patient Identity</label>
- <input name="patient_id" required placeholder="OP-XXXX-XXXX" class="w-full bg-card/50 border border-subtle rounded-2xl px-6 py-4 text-sm font-semibold text-white outline-none focus:border-indigo-500/50 transition-all uppercase">
- </div>
- <div>
- <label class="block text-[12px] font-semibold text-slate-500 font-medium mb-2 ">Primary Skin Diagnosis Disclosure</label>
- <textarea name="diagnosis" required rows="3" placeholder="CLINICAL_DIAGNOSIS_DISCLOSURE..." class="w-full bg-card/50 border border-subtle rounded-2xl px-6 py-4 text-sm font-bold text-white outline-none no-scrollbar focus:border-indigo-500/50 transition-all uppercase"></textarea>
- </div>
- <div class="pt-4">
- <x-cc-button type="submit" color="indigo" class="w-full py-4">Authorize Case Enrollment</x-cc-button>
- </div>
- </form>
+    <form method="POST" action="{{ url('/clinical/dermatology/register') }}" class="space-y-6">
+        @csrf
+        <x-cc-input label="Institutional Patient Identity" name="patient_id" required placeholder="OP-XXXX-XXXX" icon="fa-id-card-clip" />
+        <x-cc-input label="Primary Skin Diagnosis" name="diagnosis" required placeholder="CLINICAL_DIAGNOSIS_DISCLOSURE..." icon="fa-stethoscope" />
+        <div class="pt-4">
+            <x-cc-button type="submit" color="indigo" class="w-full">Authorize Case Enrollment</x-cc-button>
+        </div>
+    </form>
 </x-cc-modal>
 
 <!-- Modal: Log Consult -->
-<x-cc-modal id="consultModal" title="Commit Integumentary Consultation Intelligence" icon="fa-notes-medical">
- <form method="POST" action="{{ url('/clinical/dermatology/record-consultation') }}" class="space-y-6">
- @csrf
- <input type="hidden" name="derm_patient_id" id="consultPatientId">
- <div class="grid grid-cols-2 gap-4">
- <div>
- <label class="block text-[12px] font-semibold text-slate-500 font-medium mb-2 ">Anatomical Body Area Vector</label>
- <input name="body_area" required placeholder="BODY_AREA_NODE" class="w-full bg-card/50 border border-subtle rounded-2xl px-6 py-4 text-sm font-semibold text-white outline-none focus:border-indigo-500/50 transition-all uppercase">
- </div>
- <div>
- <label class="block text-[12px] font-semibold text-slate-500 font-medium mb-2 ">Clinical Treatment Protocol</label>
- <input name="treatment" required placeholder="TREATMENT_PROTOCOL" class="w-full bg-card/50 border border-subtle rounded-2xl px-6 py-4 text-sm font-semibold text-white outline-none focus:border-emerald-500/50 transition-all uppercase">
- </div>
- </div>
- <div>
- <label class="block text-[12px] font-semibold text-slate-500 font-medium mb-2 ">Skin Findings Intelligence</label>
- <textarea name="findings" required rows="3" placeholder="CLINICAL_FINDINGS_INTELLIGENCE..." class="w-full bg-card/50 border border-subtle rounded-2xl px-6 py-4 text-sm font-bold text-white outline-none no-scrollbar focus:border-indigo-500/50 transition-all uppercase"></textarea>
- </div>
- <div class="pt-4">
- <x-cc-button type="submit" color="indigo" class="w-full py-4">Commit Consultation Intelligence</x-cc-button>
- </div>
- </form>
+<x-cc-modal id="consultModal" title="Integumentary Consultation Intelligence" icon="fa-notes-medical">
+    <form method="POST" action="{{ url('/clinical/dermatology/record-consultation') }}" class="space-y-6">
+        @csrf
+        <input type="hidden" name="derm_patient_id" id="consultPatientId">
+        <div class="grid grid-cols-2 gap-6">
+            <x-cc-input label="Anatomical Body Area" name="body_area" required placeholder="BODY_AREA_NODE" icon="fa-child-reaching" />
+            <x-cc-input label="Treatment Protocol" name="treatment" required placeholder="TREATMENT_PROTOCOL" icon="fa-pills" />
+        </div>
+        <x-cc-input label="Skin Findings Intelligence" name="findings" required placeholder="CLINICAL_FINDINGS_INTELLIGENCE..." icon="fa-magnifying-glass-pulse" />
+        <div class="pt-4">
+            <x-cc-button type="submit" color="indigo" class="w-full">Commit Consultation Intelligence</x-cc-button>
+        </div>
+    </form>
 </x-cc-modal>
 
 <script>
 function openConsultModal(id) {
- document.getElementById('consultPatientId').value = id;
- document.getElementById('consultModal').classList.remove('hidden');
+    document.getElementById('consultPatientId').value = id;
+    document.getElementById('consultModal').classList.remove('hidden');
 }
 </script>
 </x-cc-shell>

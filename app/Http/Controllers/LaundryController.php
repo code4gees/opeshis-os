@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\LaundryCycles;
+use App\Models\LaundryCycle;
 use App\Models\LaundryInventory;
-use App\Models\LaundryIssues;
+use App\Models\LaundryIssue;
 use App\Helpers\Opeshis;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -17,10 +17,10 @@ class LaundryController extends Controller
      */
     public function index(): View
     {
-        $cycles = LaundryCycles::orderBy('created_at', 'desc')->take(50)->get();
+        $cycles = LaundryCycle::orderBy('created_at', 'desc')->take(50)->get();
         $inventory = LaundryInventory::orderBy('item_name')->get();
         $stats = [
-            'cycles_today' => LaundryCycles::whereDate('created_at', today())->count(),
+            'cycles_today' => LaundryCycle::whereDate('created_at', today())->count(),
             'low_stock' => LaundryInventory::where('quantity', '<', 10)->count(),
         ];
         return view('ops.laundry', compact('cycles', 'inventory', 'stats'));
@@ -38,7 +38,7 @@ class LaundryController extends Controller
             'temperature' => 'required|numeric',
         ]);
 
-        LaundryCycles::create([
+        LaundryCycle::create([
             'machine_id' => $validated['machine_id'],
             'load_type' => $validated['load_type'],
             'items_count' => $validated['items'],
@@ -60,7 +60,7 @@ class LaundryController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        LaundryCycles::findOrFail($id)->update([
+        LaundryCycle::findOrFail($id)->update([
             'status' => $validated['status'],
             'completed_at' => $validated['status'] === 'completed' ? now() : null,
             'notes' => $validated['notes'],
@@ -81,7 +81,7 @@ class LaundryController extends Controller
 
         $item = LaundryInventory::findOrFail($validated['item_id']);
         
-        $issue = LaundryIssues::create([
+        $issue = LaundryIssue::create([
             'item_id' => $validated['item_id'],
             'quantity' => $validated['quantity'],
             'issued_to' => $validated['ward'],

@@ -5,11 +5,11 @@
  {{-- Page Header --}}
  <div class="flex items-center justify-between mb-6">
  <div>
- <h1 class="text-xl font-semibold text-white">Clinical Engine</h1>
- <p class="text-[12px] text-slate-400 mt-0.5">Select a patient from the active queue to begin a consultation</p>
+ <h1 class="text-3xl font-extrabold text-white tracking-tighter uppercase">Clinical Engine</h1>
+ <p class="text-[11px] font-bold text-white/20 uppercase tracking-[0.2em] mt-1">Institutional Patient Matrix</p>
  </div>
- <a href="{{ route('clinical.opd.index') }}" class="flex items-center gap-2 px-4 py-2 bg-sage text-[#16191f] rounded-lg text-[12px] font-semibold hover:opacity-90 transition-opacity">
- <i class="fas fa-plus text-[12px]"></i>
+ <a href="{{ route('clinical.opd.index') }}" class="cc-button-primary flex items-center gap-2">
+ <i class="fas fa-plus text-[10px]"></i>
  Register Walk-In
  </a>
  </div>
@@ -22,14 +22,14 @@
  @endif
 
  {{-- Active Queue --}}
- <div class="bg-card rounded-xl border border-subtle">
- <div class="px-6 py-4 border-b border-subtle flex items-center justify-between">
- <h2 class="text-[14px] font-medium text-white flex items-center gap-2">
- <i class="fas fa-users text-sage text-[12px]"></i>
+ <div class="cc-card overflow-hidden">
+ <div class="px-8 py-6 border-b border-white/[0.04] flex items-center justify-between bg-white/[0.02]">
+ <h2 class="text-[12px] font-bold text-white/40 uppercase tracking-[0.2em] flex items-center gap-3">
+ <i class="fas fa-users text-sage text-[14px]"></i>
  Active Patient Queue
  </h2>
- <span class="px-2.5 py-1 rounded-md bg-sage/10 text-sage text-[12px] font-medium">
- {{ $queue->count() }} patients
+ <span class="px-3 py-1 rounded-full bg-sage/10 text-sage text-[11px] font-bold uppercase tracking-wider">
+ {{ $queue->count() }} Live Sessions
  </span>
  </div>
 
@@ -46,45 +46,45 @@
  </div>
  @else
  <table class="w-full text-left">
- <thead class="border-b border-subtle">
+ <thead class="border-b border-white/[0.04] bg-white/[0.01]">
  <tr>
- <th class="px-6 py-3 text-[12px] font-medium text-slate-400">Patient</th>
- <th class="px-6 py-3 text-[12px] font-medium text-slate-400">Medical ID</th>
- <th class="px-6 py-3 text-[12px] font-medium text-slate-400">Status</th>
- <th class="px-6 py-3 text-[12px] font-medium text-slate-400">Wait Time</th>
- <th class="px-6 py-3 text-[12px] font-medium text-slate-400">Complaint</th>
- <th class="px-6 py-3 text-[12px] font-medium text-slate-400"></th>
+ <th class="px-8 py-4 text-[10px] font-bold text-white/20 uppercase tracking-widest">Patient</th>
+ <th class="px-8 py-4 text-[10px] font-bold text-white/20 uppercase tracking-widest">Medical ID</th>
+ <th class="px-8 py-4 text-[10px] font-bold text-white/20 uppercase tracking-widest">Status</th>
+ <th class="px-8 py-4 text-[10px] font-bold text-white/20 uppercase tracking-widest">Wait Time</th>
+ <th class="px-8 py-4 text-[10px] font-bold text-white/20 uppercase tracking-widest">Complaint</th>
+ <th class="px-8 py-4 text-[10px] font-bold text-white/20 uppercase tracking-widest"></th>
  </tr>
  </thead>
- <tbody class="divide-y divide-subtle">
+ <tbody class="divide-y divide-white/[0.04]">
  @foreach($queue as $index => $item)
- <tr class="{{ $loop->even ? 'bg-[#1a1d24]/30' : 'bg-transparent' }} hover:bg-[#2a2e38] transition-colors">
- <td class="px-6 py-3.5">
- <div class="flex items-center gap-3">
- <div class="w-8 h-8 rounded-full bg-sage/10 border border-sage/20 flex items-center justify-center text-sage text-[12px] font-bold">
+ <tr class="hover:bg-white/[0.02] transition-colors group">
+ <td class="px-8 py-4">
+ <div class="flex items-center gap-4">
+ <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-sage text-[13px] font-bold group-hover:scale-110 transition-transform">
  {{ strtoupper(substr($item->patient->full_name ?? 'P', 0, 1)) }}
  </div>
- <span class="text-[12px] font-medium text-slate-200">{{ $item->patient->full_name ?? 'Unknown Patient' }}</span>
+ <span class="text-[12px] font-bold text-white tracking-tight">{{ $item->patient->full_name ?? 'Unknown Patient' }}</span>
  </div>
  </td>
- <td class="px-6 py-3.5 text-[12px] text-sage font-mono">{{ $item->patient->medical_id ?? 'N/A' }}</td>
- <td class="px-6 py-3.5">
- <span class="px-2.5 py-1 rounded-md text-[12px] font-medium
- {{ ($item->status ?? '') === 'urgent' ? 'bg-alert/10 text-alert border border-alert/20' : 'bg-[#313642] text-slate-300' }}">
- {{ ucfirst($item->status ?? 'Waiting') }}
+ <td class="px-8 py-4 text-[11px] text-sage/60 font-mono tracking-wider">{{ $item->patient->medical_id ?? 'N/A' }}</td>
+ <td class="px-8 py-4">
+ <span class="px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider
+ {{ ($item->status ?? '') === 'urgent' ? 'bg-alert/10 text-alert' : 'bg-white/5 text-white/40' }}">
+ {{ $item->status ?? 'Waiting' }}
  </span>
  </td>
- <td class="px-6 py-3.5 text-[12px] text-slate-300">
- {{ \Carbon\Carbon::parse($item->created_at)->diffForHumans() }}
+ <td class="px-8 py-4 text-[11px] text-white/20 font-medium tracking-tight">
+ {{ \Carbon\Carbon::parse($item->created_at)->diffForHumans(null, true) }}
  </td>
- <td class="px-6 py-3.5 text-[12px] text-slate-400 max-w-[200px] truncate">
+ <td class="px-8 py-4 text-[11px] text-white/30 max-w-[200px] truncate">
  {{ $item->chief_complaint ?? '—' }}
  </td>
- <td class="px-6 py-3.5 text-right">
+ <td class="px-8 py-4 text-right">
  <a href="{{ route('emr.main', $item->id) }}"
- class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-sage text-[#16191f] rounded-md text-[12px] font-semibold hover:opacity-90 transition-opacity">
- <i class="fas fa-stethoscope text-[12px]"></i>
- Begin Consultation
+ class="cc-button-primary !py-2 !px-5 inline-flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
+ <i class="fas fa-stethoscope text-[10px]"></i>
+ Consult
  </a>
  </td>
  </tr>
@@ -95,25 +95,10 @@
  </div>
 
  {{-- Quick Stats Row --}}
- <div class="grid grid-cols-3 gap-4 mt-6">
- <div class="bg-card rounded-xl border border-subtle p-4">
- <p class="text-[12px] text-slate-400 mb-1">Patients in Queue</p>
- <p class="text-2xl font-bold text-white">{{ $queue->count() }}</p>
- </div>
- <div class="bg-card rounded-xl border border-subtle p-4">
- <p class="text-[12px] text-slate-400 mb-1">Urgent Cases</p>
- <p class="text-2xl font-bold text-alert">{{ $queue->where('status', 'urgent')->count() }}</p>
- </div>
- <div class="bg-card rounded-xl border border-subtle p-4">
- <p class="text-[12px] text-slate-400 mb-1">Avg. Wait Time</p>
- <p class="text-2xl font-bold text-white">
- @if($queue->count() > 0)
- {{ round($queue->avg(fn($q) => \Carbon\Carbon::parse($q->created_at)->diffInMinutes())) }} min
- @else
- —
- @endif
- </p>
- </div>
+ <div class="grid grid-cols-3 gap-6 mt-10">
+ <x-cc-stat label="Queue Traffic" :value="$queue->count()" icon="fa-users-line" />
+ <x-cc-stat label="Urgent Triage" :value="$queue->where('status', 'urgent')->count()" icon="fa-triangle-exclamation" trend="Priority 1" :trendUp="false" />
+ <x-cc-stat label="Avg Latency" :value="($queue->count() > 0 ? round($queue->avg(fn($q) => \Carbon\Carbon::parse($q->created_at)->diffInMinutes())) . ' min' : '—')" icon="fa-clock" />
  </div>
 
 </div>

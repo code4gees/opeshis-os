@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\LogisticsLogs;
+use App\Models\LogisticsLog;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -17,7 +17,7 @@ class LogisticsController extends Controller
         $allowed = ['laundry', 'fleet', 'housekeeping'];
         if (!in_array($module, $allowed)) abort(404);
 
-        $logs = LogisticsLogs::where('module_type', $module)
+        $logs = LogisticsLog::where('module_type', $module)
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -35,7 +35,7 @@ class LogisticsController extends Controller
             'status' => 'nullable|string',
         ]);
 
-        LogisticsLogs::create([
+        LogisticsLog::create([
             'module_type' => $validated['module_type'],
             'event_description' => $validated['description'],
             'status' => $validated['status'] ?? 'completed',

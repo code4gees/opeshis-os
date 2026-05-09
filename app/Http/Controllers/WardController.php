@@ -47,9 +47,9 @@ class WardController extends Controller
     /**
      * Authorize Institutional Ward Admission Protocol
      */
-    public function admit(Request $request): RedirectResponse
+    public function admit(Request $request, \App\Actions\Clinical\AdmitPatientToWardAction $action): RedirectResponse
     {
-        $request->validate([
+        $validated = $request->validate([
             'patient_id' => 'required', // Support UUID or Medical ID
             'ward_id' => 'required|uuid|exists:wards,id',
             'bed_id' => 'required|uuid|exists:ward_beds,id',
@@ -57,32 +57,7 @@ class WardController extends Controller
         ]);
 
         try {
-            // Resolve Institutional Identity
-            $patient = \App\Models\Patient::where('id', $request->patient_id)
-                ->orWhere('medical_id', $request->patient_id)
-                ->firstOrFail();
-
-            DB::transaction(function() use ($request, $patient) {
-                $admission = Admission::create([
-                    'admission_type' => 'general',
-                    'patient_id' => $patient->id,
-                    'ward_id' => $request->ward_id,
-                    'bed_id' => $request->bed_id,
-                    'diagnosis_at_admission' => $request->diagnosis,
-                    'status' => 'admitted',
-                    'admission_date' => now(),
-                    'admitted_by' => auth()->id(),
-                    'branch_id' => auth()->user()->branch_id ?? null,
-                ]);
-
-                WardBed::where('id', $request->bed_id)->update([
-                    'status' => 'occupied',
-                    'patient_id' => $patient->id
-                ]);
-
-                Opeshis::logAction('WARD_ADMIT', 'admissions', $admission->id, "Institutional Ward Admission: Bed ID {$request->bed_id}");
-            });
-
+            $action->execute($validated);
             return redirect()->route('wards')->with('success', 'Institutional ward admission protocol authorized.');
         } catch (\Exception $e) {
             return redirect()->route('wards')->with('error', 'Admission failure: ' . $e->getMessage());
@@ -92,28 +67,10 @@ class WardController extends Controller
     /**
      * Finalize Institutional Ward Discharge Protocol
      */
-    public function discharge(Request $request, string $id): RedirectResponse
+    public function discharge(Request $request, string $id, \App\Actions\Clinical\DischargePatientFromWardAction $action): RedirectResponse
     {
         try {
-            $admission = Admission::findOrFail($id);
-            
-            DB::transaction(function() use ($admission, $request) {
-                $admission->update([
-                    'status' => 'discharged',
-                    'discharge_date' => now(),
-                    'discharge_summary' => $request->summary,
-                ]);
-
-                if ($admission->bed_id) {
-                    WardBed::where('id', $admission->bed_id)->update([
-                        'status' => 'available',
-                        'patient_id' => null
-                    ]);
-                }
-
-                Opeshis::logAction('WARD_DISCHARGE', 'admissions', $admission->id, "Institutional Ward Discharge finalized.");
-            });
-
+            $action->execute($id, $request->input('summary'));
             return redirect()->route('wards')->with('success', 'Institutional patient discharge finalized.');
         } catch (\Exception $e) {
             return redirect()->route('wards')->with('error', $e->getMessage());

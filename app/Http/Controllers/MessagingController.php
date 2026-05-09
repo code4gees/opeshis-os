@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\MessagingProviders;
+use App\Models\MessagingProvider;
 use App\Models\MessageQueue;
 use App\Services\MessagingService;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +17,7 @@ class MessagingController extends Controller
      */
     public function index(): View
     {
-        $providers = MessagingProviders::where('status', 'active')->get();
+        $providers = MessagingProvider::where('status', 'active')->get();
 
         $stats = MessageQueue::selectRaw(
                 "COUNT(*) FILTER (WHERE status = 'pending') as pending,

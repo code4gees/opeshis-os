@@ -3,15 +3,15 @@
 <div class="max-w-[1600px] mx-auto pb-10">
 
  {{-- ── PAGE HEADER ─────────────────────────────── --}}
- <div class="flex items-center justify-between mb-6">
+ <div class="flex items-center justify-between mb-10">
  <div>
- <h1 class="text-xl font-semibold text-white">Patient Registry</h1>
- <p class="text-[12px] text-slate-400 mt-0.5">Master Patient Index · Institutional Archive</p>
+ <h1 class="text-3xl font-extrabold text-white tracking-tighter uppercase">Patient Registry</h1>
+ <p class="text-[11px] font-bold text-white/20 uppercase tracking-[0.2em] mt-1">Institutional Master Patient Index</p>
  </div>
  <button onclick="document.getElementById('enrollModal').classList.remove('hidden')"
- class="flex items-center gap-2 px-4 py-2.5 bg-sage text-[#16191f] rounded-lg text-[12px] font-semibold hover:opacity-90 transition-opacity">
- <i class="fas fa-user-plus text-[12px]"></i>
- Register New Patient
+ class="cc-button-primary flex items-center gap-2">
+ <i class="fas fa-user-plus text-[10px]"></i>
+ Authorize New Entry
  </button>
  </div>
 
@@ -22,95 +22,94 @@
  @endif
 
  {{-- ── SEARCH BAR ──────────────────────────────── --}}
- <div class="bg-card rounded-xl border border-subtle p-5 mb-6">
- <form method="GET" class="flex items-end gap-4">
+ <div class="cc-card p-6 mb-10">
+ <form method="GET" class="flex items-end gap-6">
  <div class="flex-1">
- <label class="block text-[12px] font-medium text-slate-400 mb-1.5">Search Archive</label>
+ <label class="block text-[10px] font-bold text-white/20 uppercase tracking-widest mb-3">Archive Forensic Search</label>
  <div class="relative">
- <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-[12px]"></i>
+ <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-white/20 text-[12px]"></i>
  <input type="text" name="q" value="{{ $search }}"
- class="w-full bg-[#16191f] border border-subtle rounded-lg pl-10 pr-4 py-2.5 text-[13px] text-white outline-none focus:border-sage/50 transition-colors placeholder-slate-600"
- placeholder="Enter Patient Name, Medical ID, or Phone Number...">
+ class="cc-input w-full pl-12"
+ placeholder="Search Identity, Medical ID, or Forensic Signature...">
  </div>
  </div>
- <button type="submit"
- class="px-5 py-2.5 bg-[#2a2e38] border border-subtle text-slate-300 rounded-lg text-[12px] font-medium hover:text-white transition-colors flex items-center gap-2">
- <i class="fas fa-filter text-[12px]"></i> Search
+ <button type="submit" class="cc-button-primary !bg-white/5 !text-white/60 hover:!text-white border border-white/5">
+ Execute Query
  </button>
  </form>
  </div>
 
  {{-- ── MASTER INDEX TABLE ──────────────────────── --}}
- <div class="bg-card rounded-xl border border-subtle overflow-hidden">
- <div class="px-6 py-4 border-b border-subtle flex items-center justify-between">
- <h2 class="text-[14px] font-medium text-white flex items-center gap-2">
- <i class="fas fa-database text-sage text-[12px]"></i>
+ <div class="cc-card overflow-hidden">
+ <div class="px-8 py-6 border-b border-white/[0.04] flex items-center justify-between bg-white/[0.02]">
+ <h2 class="text-[12px] font-bold text-white/40 uppercase tracking-[0.2em] flex items-center gap-3">
+ <i class="fas fa-database text-sage text-[14px]"></i>
  Master Patient Index
  </h2>
- <span class="px-2.5 py-1 rounded-md bg-sage/10 text-sage text-[12px] font-medium border border-sage/20">
- {{ $patients->total() }} records
+ <span class="px-3 py-1 rounded-full bg-sage/10 text-sage text-[11px] font-bold uppercase tracking-wider">
+ {{ $patients->total() }} Records Synchronized
  </span>
  </div>
 
  <div class="overflow-x-auto">
  <table class="w-full text-left">
- <thead class="border-b border-subtle bg-[#1a1d24]/50">
+ <thead class="border-b border-white/[0.04] bg-white/[0.01]">
  <tr>
- <th class="px-6 py-3 text-[12px] font-medium text-slate-400">Patient Identity</th>
- <th class="px-6 py-3 text-[12px] font-medium text-slate-400">Contact Channel</th>
- <th class="px-6 py-3 text-[12px] font-medium text-slate-400">Gender</th>
- <th class="px-6 py-3 text-[12px] font-medium text-slate-400">Registered</th>
- <th class="px-6 py-3 text-[12px] font-medium text-slate-400 text-right">Actions</th>
+ <th class="px-8 py-4 text-[10px] font-bold text-white/20 uppercase tracking-widest">Patient Identity</th>
+ <th class="px-8 py-4 text-[10px] font-bold text-white/20 uppercase tracking-widest">Contact Channel</th>
+ <th class="px-8 py-4 text-[10px] font-bold text-white/20 uppercase tracking-widest">Biological Status</th>
+ <th class="px-8 py-4 text-[10px] font-bold text-white/20 uppercase tracking-widest">Registration</th>
+ <th class="px-8 py-4 text-[10px] font-bold text-white/20 uppercase tracking-widest text-right">Actions</th>
  </tr>
  </thead>
- <tbody class="divide-y divide-subtle">
+ <tbody class="divide-y divide-white/[0.04]">
  @forelse($patients as $index => $p)
- <tr class="{{ $loop->even ? 'bg-[#1a1d24]/30' : 'bg-transparent' }} hover:bg-[#2a2e38] transition-colors group">
+ <tr class="hover:bg-white/[0.02] transition-colors group">
  {{-- Patient Identity --}}
- <td class="px-6 py-3.5">
- <div class="flex items-center gap-3">
- <div class="w-8 h-8 rounded-full bg-sage/10 border border-sage/20 flex items-center justify-center text-sage text-[12px] font-bold shrink-0">
+ <td class="px-8 py-5">
+ <div class="flex items-center gap-4">
+ <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-sage text-[13px] font-bold group-hover:scale-110 transition-transform">
  {{ strtoupper(substr($p->full_name ?? 'P', 0, 1)) }}
  </div>
  <div>
- <div class="text-[12px] font-medium text-slate-200 group-hover:text-white transition-colors">
+ <div class="text-[12px] font-bold text-white tracking-tight group-hover:text-sage transition-colors">
  {{ $p->full_name }}
  </div>
- <div class="text-[12px] text-slate-500 font-mono">
+ <div class="text-[11px] text-white/20 font-mono tracking-wider">
  {{ $p->medical_id }}
  </div>
  </div>
  </div>
  </td>
  {{-- Contact Channel --}}
- <td class="px-6 py-3.5">
- <div class="text-[12px] text-slate-300">
+ <td class="px-8 py-5">
+ <div class="text-[11px] font-bold text-white/40 tracking-tight">
  {{ $p->phone ?: 'Unspecified' }}
  </div>
- <div class="text-[12px] text-slate-500">
- {{ $p->email ?: 'No Email' }}
+ <div class="text-[10px] text-white/20 font-medium">
+ {{ $p->email ?: 'No Communication' }}
  </div>
  </td>
  {{-- Gender --}}
- <td class="px-6 py-3.5">
- <span class="px-2.5 py-1 rounded-md text-[12px] font-medium
- {{ strtolower($p->gender) === 'male' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' 
- : (strtolower($p->gender) === 'female' ? 'bg-pink-500/10 text-pink-400 border border-pink-500/20' 
- : 'bg-[#313642] text-slate-300 border border-subtle') }}">
- {{ ucfirst($p->gender) }}
+ <td class="px-8 py-5">
+ <span class="px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider
+ {{ strtolower($p->gender) === 'male' ? 'bg-blue-500/10 text-blue-400' 
+ : (strtolower($p->gender) === 'female' ? 'bg-pink-500/10 text-pink-400' 
+ : 'bg-white/5 text-white/40') }}">
+ {{ $p->gender }}
  </span>
  </td>
  {{-- Registered --}}
- <td class="px-6 py-3.5">
- <div class="text-[12px] text-slate-400">
+ <td class="px-8 py-5">
+ <div class="text-[11px] font-bold text-white/20 tracking-tighter">
  {{ $p->created_at->format('M d, Y') }}
  </div>
  </td>
  {{-- Actions --}}
- <td class="px-6 py-3.5 text-right">
+ <td class="px-8 py-5 text-right">
  <a href="{{ route('patients.show', $p->id) }}"
- class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#2a2e38] border border-subtle text-sage rounded-md text-[12px] font-medium hover:bg-sage hover:text-[#16191f] hover:border-sage transition-all opacity-0 group-hover:opacity-100">
- <i class="fas fa-id-card text-[12px]"></i> Profile
+ class="cc-button-primary !py-2 !px-5 inline-flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
+ <i class="fas fa-id-card text-[10px]"></i> Forensic Profile
  </a>
  </td>
  </tr>
@@ -138,64 +137,63 @@
 </div>
 
 {{-- ── ENROLL MODAL ──────────────────────────────── --}}
-<div id="enrollModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-6">
- <div class="bg-card w-full max-w-lg rounded-2xl border border-subtle shadow-2xl">
- <div class="px-6 py-5 border-b border-subtle flex items-center justify-between">
- <h3 class="text-[15px] font-semibold text-white">Register Patient</h3>
- <button onclick="document.getElementById('enrollModal').classList.add('hidden')"
- class="w-8 h-8 rounded-lg bg-[#2a2e38] flex items-center justify-center text-slate-400 hover:text-white transition-colors">
- <i class="fas fa-times text-[12px]"></i>
- </button>
- </div>
- <form method="POST" action="{{ route('patients.register') }}" class="p-6 space-y-4">
- @csrf
- <div>
- <label class="block text-[12px] font-medium text-slate-400 mb-1.5">Full Legal Name</label>
- <div class="relative">
- <i class="fas fa-id-badge absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-[12px]"></i>
- <input name="full_name" required
- class="w-full bg-[#16191f] border border-subtle rounded-lg pl-10 pr-4 py-2.5 text-[13px] text-white outline-none focus:border-sage/50 transition-colors placeholder-slate-600"
- placeholder="Surname, First Name">
- </div>
- </div>
- 
- <div class="grid grid-cols-2 gap-4">
- <div>
- <label class="block text-[12px] font-medium text-slate-400 mb-1.5">Biological Gender</label>
- <div class="relative">
- <i class="fas fa-venus-mars absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-[12px]"></i>
- <select name="gender" required
- class="w-full bg-[#16191f] border border-subtle rounded-lg pl-10 pr-4 py-2.5 text-[13px] text-white outline-none focus:border-sage/50 transition-colors">
- <option value="Male">Male</option>
- <option value="Female">Female</option>
- <option value="Other">Other</option>
- </select>
- </div>
- </div>
+<div id="enrollModal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-[100] hidden flex items-center justify-center p-6">
+    <div class="cc-card w-full max-w-lg shadow-2xl overflow-hidden">
+        <div class="px-8 py-6 border-b border-white/[0.04] flex items-center justify-between bg-white/[0.02]">
+            <h3 class="text-[12px] font-bold text-white/40 uppercase tracking-[0.2em]">Institutional Enrollment</h3>
+            <button onclick="document.getElementById('enrollModal').classList.add('hidden')"
+                class="w-8 h-8 rounded-xl bg-white/5 flex items-center justify-center text-white/20 hover:text-white transition-colors">
+                <i class="fas fa-times text-[10px]"></i>
+            </button>
+        </div>
+        <form method="POST" action="{{ route('patients.register') }}" class="p-8 space-y-6">
+            @csrf
+            <div>
+                <label class="block text-[10px] font-bold text-white/20 uppercase tracking-widest mb-3">Legal Identity</label>
+                <div class="relative">
+                    <i class="fas fa-id-badge absolute left-4 top-1/2 -translate-y-1/2 text-white/10 text-[12px]"></i>
+                    <input name="full_name" required
+                        class="cc-input w-full pl-12"
+                        placeholder="Surname, First Name">
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-[10px] font-bold text-white/20 uppercase tracking-widest mb-3">Biological Gender</label>
+                    <div class="relative">
+                        <i class="fas fa-venus-mars absolute left-4 top-1/2 -translate-y-1/2 text-white/10 text-[12px]"></i>
+                        <select name="gender" required
+                            class="cc-input w-full pl-12 appearance-none">
+                            <option value="Male" class="bg-[#1a1d24]">Male</option>
+                            <option value="Female" class="bg-[#1a1d24]">Female</option>
+                            <option value="Other" class="bg-[#1a1d24]">Other</option>
+                        </select>
+                    </div>
+                </div>
 
- <div>
- <label class="block text-[12px] font-medium text-slate-400 mb-1.5">Primary Contact</label>
- <div class="relative">
- <i class="fas fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-[12px]"></i>
- <input name="phone"
- class="w-full bg-[#16191f] border border-subtle rounded-lg pl-10 pr-4 py-2.5 text-[13px] text-white outline-none focus:border-sage/50 transition-colors placeholder-slate-600"
- placeholder="+237 ...">
- </div>
- </div>
- </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-white/20 uppercase tracking-widest mb-3">Primary Contact</label>
+                    <div class="relative">
+                        <i class="fas fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-white/10 text-[12px]"></i>
+                        <input name="phone"
+                            class="cc-input w-full pl-12"
+                            placeholder="+237 ...">
+                    </div>
+                </div>
+            </div>
 
- <div class="flex gap-3 pt-2">
- <button type="button" onclick="document.getElementById('enrollModal').classList.add('hidden')"
- class="flex-1 py-2.5 bg-[#2a2e38] border border-subtle text-slate-300 rounded-lg text-[12px] font-medium hover:text-white transition-colors">
- Discard
- </button>
- <button type="submit"
- class="flex-1 py-2.5 bg-sage text-[#16191f] rounded-lg text-[12px] font-semibold hover:opacity-90 transition-opacity">
- Authorize Registration
- </button>
- </div>
- </form>
- </div>
+            <div class="flex gap-4 pt-4">
+                <button type="button" onclick="document.getElementById('enrollModal').classList.add('hidden')"
+                    class="flex-1 py-3 bg-white/5 border border-white/5 text-white/30 rounded-xl text-[11px] font-bold uppercase tracking-widest hover:text-white transition-all">
+                    Discard
+                </button>
+                <button type="submit" class="cc-button-primary flex-1">
+                    Authorize Entry
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 
 </x-cc-shell>

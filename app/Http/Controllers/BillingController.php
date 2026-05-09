@@ -116,12 +116,15 @@ class BillingController extends Controller
     /**
      * Handle Institutional Invoice Refund Protocol via Action
      */
+    public function refund(string $id, \App\Actions\Finance\ProcessRefundAction $action): RedirectResponse
+    {
         try {
             $action->execute($id);
             return redirect()->route('finance.billing.index', ['subtab' => 'history'])->with('success', 'Institutional refund successfully processed.');
         } catch (\Exception $e) {
             return redirect()->route('finance.billing.index', ['subtab' => 'history'])->with('error', $e->getMessage());
         }
+    }
 
     /**
      * Institutional Payment Reconciliation Hub

@@ -25,7 +25,7 @@ class IncidentController extends Controller
     /**
      * Authorize Institutional Incident Reporting Protocol
      */
-    public function submit(Request $request): RedirectResponse
+    public function submit(Request $request, \App\Actions\Ops\ReportIncidentAction $action): RedirectResponse
     {
         $validated = $request->validate([
             'type' => 'required|string', // Near Miss, Adverse Event, Sentinel Event
@@ -36,40 +36,36 @@ class IncidentController extends Controller
             'severity' => 'required|string', // low, medium, high, critical
         ]);
 
-        $incident = IncidentReport::create([
-            'incident_type' => $validated['type'],
-            'date_of_incident' => $validated['incident_date'],
-            'location' => $validated['location'],
-            'description' => $validated['description'],
-            'immediate_action' => $validated['immediate_action'],
-            'severity' => $validated['severity'],
-            'status' => 'reported',
-            'reported_by' => auth()->id(),
-        ]);
-
-        Opeshis::logAction('INCIDENT_REPORT', 'incident_reports', $incident->id, "Protocol: Institutional incident reported - Type: {$validated['type']}, Severity: {$validated['severity']}.");
-        
-        return redirect()->back()->with('success', 'Institutional incident report submitted to Quality Surveillance.');
+        try {
+            $action->execute([
+                'incident_type' => $validated['type'],
+                'date_of_incident' => $validated['incident_date'],
+                'location' => $validated['location'],
+                'description' => $validated['description'],
+                'immediate_action' => $validated['immediate_action'],
+                'severity' => $validated['severity'],
+            ]);
+            return redirect()->back()->with('success', 'Institutional incident report submitted to Quality Surveillance.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Submission failure: ' . $e->getMessage());
+        }
     }
 
     /**
      * Authorize Institutional Incident Investigation Protocol
      */
-    public function investigate(Request $request, string $id): RedirectResponse
+    public function investigate(Request $request, string $id, \App\Actions\Ops\InvestigateIncidentAction $action): RedirectResponse
     {
         $validated = $request->validate([
             'root_cause' => 'required|string',
             'action' => 'required|string',
         ]);
 
-        IncidentReport::findOrFail($id)->update([
-            'root_cause' => $validated['root_cause'],
-            'corrective_action' => $validated['action'],
-            'status' => 'investigated',
-            'investigated_by' => auth()->id(),
-            'investigated_at' => now(),
-        ]);
-
-        return redirect()->back()->with('success', 'Institutional investigation findings committed.');
+        try {
+            $action->execute($id, $validated);
+            return redirect()->back()->with('success', 'Institutional investigation findings committed.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Investigation commit failure: ' . $e->getMessage());
+        }
     }
 }

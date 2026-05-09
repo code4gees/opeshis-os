@@ -9,5 +9,6 @@ class PaymentProvider extends Model
 {
     use HasUuids;
 
-    protected $fillable = ['provider_name', 'credentials', 'status'];
+    protected $table = 'payment_providers';
+    protected $guarded = [];
 }

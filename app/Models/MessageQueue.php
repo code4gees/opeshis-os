@@ -13,6 +13,6 @@ class MessageQueue extends Model
 
     public function provider()
     {
-        return $this->belongsTo(MessagingProviders::class, 'provider_id');
+        return $this->belongsTo(MessagingProvider::class, 'provider_id');
     }
 }

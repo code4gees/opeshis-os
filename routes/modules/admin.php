@@ -34,8 +34,32 @@ Route::middleware(['permission:module_admin'])->group(function () {
     
     // HR & Compliance
     Route::prefix('hr')->name('admin.hr.')->group(function() {
-        Route::get('/performance', [PerformanceController::class, 'index'])->name('performance');
-        Route::get('/training', [TrainingController::class, 'index'])->name('training');
-        Route::get('/credentialing', [CredentialingController::class, 'index'])->name('credentialing');
+        // Performance Management
+        Route::prefix('performance')->name('performance.')->group(function() {
+            Route::get('/', [PerformanceController::class, 'index'])->name('index');
+            Route::post('/cycle', [PerformanceController::class, 'createCycle'])->name('cycle.store');
+            Route::post('/review', [PerformanceController::class, 'completeReview'])->name('review.store');
+            Route::post('/review/{id}/sign', [PerformanceController::class, 'signReview'])->name('review.sign');
+            Route::post('/self-assessment', [PerformanceController::class, 'submitSelfAssessment'])->name('self_assessment.store');
+        });
+
+        // Professional Training
+        Route::prefix('training')->name('training.')->group(function() {
+            Route::get('/', [TrainingController::class, 'index'])->name('index');
+            Route::post('/course', [TrainingController::class, 'createCourse'])->name('course.store');
+            Route::post('/session', [TrainingController::class, 'createSession'])->name('session.store');
+            Route::post('/attendance', [TrainingController::class, 'recordAttendance'])->name('attendance.store');
+            Route::post('/certification', [TrainingController::class, 'addCertification'])->name('certification.store');
+            Route::post('/need', [TrainingController::class, 'addNeed'])->name('need.store');
+        });
+
+        // Credentialing & Licensing
+        Route::prefix('credentialing')->name('credentialing.')->group(function() {
+            Route::get('/', [CredentialingController::class, 'index'])->name('index');
+            Route::post('/store', [CredentialingController::class, 'addCredential'])->name('store');
+            Route::post('/{id}/update', [CredentialingController::class, 'updateCredential'])->name('update');
+            Route::post('/{id}/acknowledge', [CredentialingController::class, 'acknowledgeAlert'])->name('acknowledge');
+            Route::post('/audit', [CredentialingController::class, 'runExpiryCheck'])->name('audit');
+        });
     });
 });

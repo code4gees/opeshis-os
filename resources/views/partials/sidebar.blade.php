@@ -1,33 +1,35 @@
-<aside class="w-[240px] bg-sidebar flex flex-col h-screen sticky top-0 shrink-0">
- <div class="pt-8 pb-6 px-6">
- <div class="flex items-center gap-3">
- <div class="grid grid-cols-2 gap-0.5">
- <div class="w-2 h-2 rounded-sm bg-sage"></div>
- <div class="w-2 h-2 rounded-sm bg-slate-500"></div>
- <div class="w-2 h-2 rounded-sm bg-slate-500"></div>
- <div class="w-2 h-2 rounded-sm bg-sage"></div>
- </div>
- <h1 class="text-lg font-medium text-white tracking-wide">Hospital</h1>
- </div>
- </div>
+<aside class="w-[260px] bg-sidebar flex flex-col h-screen sticky top-0 shrink-0 border-r border-white/[0.02]">
+    <div class="pt-10 pb-8 px-8">
+        <div class="flex items-center gap-4">
+            <div class="grid grid-cols-2 gap-1">
+                <div class="w-2.5 h-2.5 rounded-[3px] bg-sage shadow-[0_0_10px_rgba(130,192,154,0.3)]"></div>
+                <div class="w-2.5 h-2.5 rounded-[3px] bg-white/10"></div>
+                <div class="w-2.5 h-2.5 rounded-[3px] bg-white/10"></div>
+                <div class="w-2.5 h-2.5 rounded-[3px] bg-sage shadow-[0_0_10px_rgba(130,192,154,0.3)]"></div>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-white tracking-tighter leading-tight">Opeshis</h1>
+                <p class="text-[9px] font-bold text-white/20 uppercase tracking-[0.2em]">Institutional OS</p>
+            </div>
+        </div>
+    </div>
 
  <nav class="flex-1 px-4 py-2 flex flex-col gap-2">
- @php
- $nav = function($href, $label, $icon, $pattern) {
- $active = request()->is($pattern);
- $cls = $active
- ? 'bg-sage text-sidebar font-medium shadow-[#82c09a]/20'
- : 'text-slate-400 hover:text-white hover:bg-[#22262f] transition-colors';
- $iconCls = $active ? 'text-[#16191f]' : 'text-slate-500';
- $textCls = $active ? 'text-[#16191f]' : '';
- 
- return "
- <a href=\"{$href}\" class=\"flex items-center gap-4 px-4 py-2.5 rounded-lg {$cls}\">
- <i class=\"fas {$icon} w-4 text-center text-sm {$iconCls}\"></i>
- <span class=\"text-[13px] {$textCls}\">{$label}</span>
- </a>";
- };
- @endphp
+    @php
+    $nav = function($href, $label, $icon, $pattern) {
+        $active = request()->is($pattern);
+        $cls = $active
+            ? 'bg-sage text-[#1a1d24] font-bold shadow-[0_0_15px_rgba(130,192,154,0.2)]'
+            : 'text-white/30 hover:text-white hover:bg-white/5 transition-all duration-300';
+        $iconCls = $active ? 'text-[#1a1d24]' : 'text-white/20';
+        
+        return "
+            <a href=\"{$href}\" class=\"flex items-center gap-4 px-5 py-3 rounded-xl {$cls} group\">
+                <i class=\"fas {$icon} w-5 text-center text-[13px] {$iconCls} group-hover:scale-110 transition-transform\"></i>
+                <span class=\"text-[12px] tracking-tight\">{$label}</span>
+            </a>";
+    };
+    @endphp
 
      {!! $nav(route('dashboard'), 'Dashboard', 'fa-grip-vertical', 'dashboard') !!}
 
@@ -56,8 +58,8 @@
     @endif
 
     @if(auth()->user()->hasPermission('module_clinical') || auth()->user()->hasPermission('module_emergency'))
-        <div class="px-4 mt-4 mb-2">
-            <span class="text-[10px] font-bold text-slate-600 uppercase tracking-widest px-2">Clinical Command</span>
+        <div class="px-6 mt-8 mb-3">
+            <span class="text-[9px] font-bold text-white/10 uppercase tracking-[0.25em] px-2">Clinical Command</span>
         </div>
         @if(auth()->user()->hasPermission('module_clinical'))
             {!! $nav(route('specialty.critical.icu.index'), 'ICU Command', 'fa-heart-pulse', 'specialty/critical-care/icu*') !!}
@@ -69,53 +71,70 @@
         @endif
     @endif
 
-    @if(auth()->user()->hasPermission('module_pharmacy') || auth()->user()->hasPermission('module_lab') || auth()->user()->hasPermission('module_radiology') || auth()->user()->hasPermission('module_warehouse'))
-        <div class="px-4 mt-4 mb-2">
-            <span class="text-[10px] font-bold text-slate-600 uppercase tracking-widest px-2">Diagnostics & Logistics</span>
+    @if(auth()->user()->hasPermission('module_pharmacy') || auth()->user()->hasPermission('module_lab') || auth()->user()->hasPermission('module_radiology') || auth()->user()->hasPermission('module_warehouse') || auth()->user()->hasPermission('module_inventory'))
+        <div class="px-6 mt-8 mb-3">
+            <span class="text-[9px] font-bold text-white/10 uppercase tracking-[0.25em] px-2">Diagnostics & Supply</span>
         </div>
         @if(auth()->user()->hasPermission('module_pharmacy'))
-            {!! $nav(route('operations.diagnostics.pharmacy.index'), 'Pharmacy', 'fa-pills', 'operations/diagnostics/pharmacy*') !!}
+            {!! $nav(route('operations.diagnostics.pharmacy.index'), 'Pharmacy Hub', 'fa-pills', 'operations/diagnostics/pharmacy*') !!}
         @endif
         @if(auth()->user()->hasPermission('module_lab'))
-            {!! $nav(route('operations.diagnostics.lab.index'), 'Laboratory', 'fa-flask', 'operations/diagnostics/lab*') !!}
+            {!! $nav(route('operations.diagnostics.lab.index'), 'Laboratory Hub', 'fa-flask', 'operations/diagnostics/lab*') !!}
         @endif
         @if(auth()->user()->hasPermission('module_radiology'))
-            {!! $nav(route('operations.diagnostics.radiology.index'), 'Radiology', 'fa-x-ray', 'operations/diagnostics/radiology*') !!}
+            {!! $nav(route('operations.diagnostics.radiology.index'), 'Radiology Unit', 'fa-x-ray', 'operations/diagnostics/radiology*') !!}
         @endif
         @if(auth()->user()->hasPermission('module_warehouse'))
             {!! $nav(route('operations.supply.warehouse.index'), 'Warehouse', 'fa-warehouse', 'operations/supply-chain/warehouse*') !!}
         @endif
+        @if(auth()->user()->hasPermission('module_inventory'))
+            {!! $nav(route('operations.supply.inventory.index'), 'Inventory Matrix', 'fa-boxes-stacked', 'operations/supply-chain/inventory*') !!}
+        @endif
     @endif
 
-    @if(auth()->user()->hasPermission('module_clinical'))
-        <div class="px-4 mt-4 mb-2">
-            <span class="text-[10px] font-bold text-slate-600 uppercase tracking-widest px-2">Specialized Clinics</span>
+    @if(auth()->user()->hasPermission('module_assets') || auth()->user()->hasPermission('core_admin'))
+        <div class="px-6 mt-8 mb-3">
+            <span class="text-[9px] font-bold text-white/10 uppercase tracking-[0.25em] px-2">Logistics & Support</span>
         </div>
-        {!! $nav(route('specialty.clinics.dental.index'), 'Dental Clinic', 'fa-tooth', 'specialty/clinics/dental*') !!}
-        {!! $nav(route('specialty.clinics.eye.index'), 'Eye Clinic', 'fa-eye', 'specialty/clinics/eye*') !!}
+        @if(auth()->user()->hasPermission('module_assets'))
+            {!! $nav(route('operations.logistics.assets.index'), 'Asset Register', 'fa-microchip', 'operations/logistics/assets*') !!}
+        @endif
+        @if(auth()->user()->hasPermission('core_admin'))
+            {!! $nav(route('operations.logistics.laundry.index'), 'Laundry Unit', 'fa-shirt', 'operations/logistics/laundry*') !!}
+            {!! $nav(route('operations.logistics.fleet.index'), 'Fleet Management', 'fa-van-shuttle', 'operations/logistics/fleet*') !!}
+        @endif
+        @if(auth()->user()->hasPermission('module_clinical'))
+            {!! $nav(route('operations.clinical.bloodbank.index'), 'Blood Bank', 'fa-droplet', 'operations/clinical/bloodbank*') !!}
+            {!! $nav(route('operations.clinical.mortuary.index'), 'Mortuary Services', 'fa-tombstone', 'operations/clinical/mortuary*') !!}
+        @endif
     @endif
 
     @if(auth()->user()->hasPermission('module_billing'))
-        {!! $nav(route('finance.billing.index'), 'Billing & Revenue', 'fa-file-invoice-dollar', 'finance*') !!}
+        <div class="px-6 mt-8 mb-3">
+            <span class="text-[9px] font-bold text-white/10 uppercase tracking-[0.25em] px-2">Finance</span>
+        </div>
+        {!! $nav(route('finance.billing.index'), 'Financial Command', 'fa-file-invoice-dollar', 'finance*') !!}
     @endif
 
     @if(auth()->user()->hasPermission('module_admin'))
-        <div class="px-4 mt-4 mb-2">
-            <span class="text-[10px] font-bold text-slate-600 uppercase tracking-widest px-2">Governance</span>
+        <div class="px-6 mt-8 mb-3">
+            <span class="text-[9px] font-bold text-white/10 uppercase tracking-[0.25em] px-2">Governance</span>
         </div>
         {!! $nav(route('admin.index'), 'Control Plane', 'fa-shield-halved', 'admin*') !!}
+        {!! $nav(route('analytics.index'), 'Analytics Hub', 'fa-chart-mixed', 'analytics*') !!}
+        {!! $nav(route('reporting.index'), 'Reporting Command', 'fa-file-chart-column', 'reporting*') !!}
     @endif
 
 
  
- <div class="mt-auto pb-4">
- <form method="POST" action="{{ route('logout') }}" class="w-full">
- @csrf
- <button type="submit" class="w-full flex items-center gap-4 px-4 py-2.5 rounded-lg text-slate-400 hover:text-alert hover:bg-[#22262f] transition-colors text-left">
- <i class="fas fa-sign-out-alt w-4 text-center text-sm text-slate-500 group-hover:text-alert"></i>
- <span class="text-[13px]">Log out</span>
- </button>
- </form>
- </div>
+    <div class="mt-auto pb-8 px-4">
+        <form method="POST" action="{{ route('logout') }}" class="w-full">
+            @csrf
+            <button type="submit" class="w-full flex items-center gap-4 px-5 py-3 rounded-xl text-white/20 hover:text-alert hover:bg-alert/5 transition-all duration-300 group">
+                <i class="fas fa-sign-out-alt w-5 text-center text-[13px] group-hover:scale-110 transition-transform"></i>
+                <span class="text-[12px] font-bold uppercase tracking-widest">Terminate Session</span>
+            </button>
+        </form>
+    </div>
  </nav>
 </aside>

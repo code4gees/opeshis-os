@@ -2,187 +2,206 @@
 
 @section('title', 'Hospital Analytics - Opeshis OS')
 
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<div class="max-w-7xl mx-auto space-y-8 animate-fade-in pb-20">
- 
- <!-- Header -->
- <header class="flex flex-col md:flex-row justify-between items-start md:items-center bg-card border border-subtle rounded-xl p-6 ">
- <div>
- <h1 class="text-2xl font-bold text-white tracking-tight">Analytics & Reports</h1>
- <p class="text-sm text-slate-400 mt-1">Institutional performance tracking, clinical outcomes, and resource management.</p>
- </div>
- <div class="mt-4 md:mt-0 flex gap-3">
- <button class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-bold rounded-lg transition-colors border border-slate-600">Export DHIS2 Data</button>
- <button class="px-4 py-2 bg-sage hover:bg-sage text-white text-xs font-bold rounded-lg /10 transition-colors">Download PDF Report</button>
- </div>
- </header>
+<div class="space-y-10 pb-20">
+    <!-- Institutional Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
+        <div>
+            <h1 class="text-3xl font-extrabold text-white tracking-tighter uppercase">Intelligence <span class="text-sage">Hub</span></h1>
+            <p class="text-[11px] font-bold text-white/20 uppercase tracking-[0.2em] mt-1">Institutional Performance Tracking, Clinical Outcomes & Resource Velocity</p>
+        </div>
+        <div class="flex gap-4">
+            <button class="cc-button-secondary py-2 px-6">
+                Export DHIS2
+            </button>
+            <button class="cc-button-primary py-2 px-6">
+                Generate Dossier
+            </button>
+        </div>
+    </div>
 
- <!-- KPI Summary Row -->
- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
- <div class="bg-[#2a2e38] p-6 rounded-xl border border-subtle ">
- <p class="text-xs font-bold text-slate-500 font-medium mb-4">Billing Efficiency</p>
- <div class="flex items-end gap-2">
- <h3 class="text-4xl font-bold text-white">{{ number_format($collectionEfficiency, 1) }}%</h3>
- <span class="text-xs font-bold text-emerald-500 mb-1">+2.1%</span>
- </div>
- <div class="w-full bg-card h-1.5 rounded-full mt-6 overflow-hidden">
- <div class="bg-emerald-500 h-full" style="width: {{ $collectionEfficiency }}%"></div>
- </div>
- </div>
- 
- <div class="bg-[#2a2e38] p-6 rounded-xl border border-subtle ">
- <p class="text-xs font-bold text-slate-500 font-medium mb-4">Avg. Patient Wait (OPD)</p>
- <div class="flex items-end gap-2">
- <h3 class="text-4xl font-bold text-sage">{{ $avgWaitTime }}m</h3>
- <span class="text-xs font-bold text-slate-600 mb-1">Target: 30m</span>
- </div>
- </div>
+    <!-- Intelligence Telemetry Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <x-cc-stat 
+            title="Billing Efficiency" 
+            value="{{ number_format($collectionEfficiency, 1) }}%" 
+            icon="fa-file-invoice-dollar" 
+            trend="+2.1% Alpha" 
+            color="emerald" 
+        />
+        <x-cc-stat 
+            title="OPD Wait Matrix" 
+            value="{{ $avgWaitTime }}m" 
+            icon="fa-clock" 
+            trend="Target: 30m" 
+            color="amber" 
+        />
+        <x-cc-stat 
+            title="Gross Revenue" 
+            value="{{ number_format($totalCollected, 0) }}" 
+            icon="fa-vault" 
+            trend="XAF Institutional" 
+            color="sage" 
+        />
+        <x-cc-stat 
+            title="Registry Velocity" 
+            value="{{ $patientGrowth->last()->count ?? 0 }}" 
+            icon="fa-user-plus" 
+            trend="Current Month" 
+            color="indigo" 
+        />
+    </div>
 
- <div class="bg-[#2a2e38] p-6 rounded-xl border border-subtle ">
- <p class="text-xs font-bold text-slate-500 font-medium mb-4">Total Revenue (FCFA)</p>
- <h3 class="text-3xl font-bold text-white">{{ number_format($totalCollected, 0) }}</h3>
- <p class="text-[12px] text-slate-600 mt-2 font-medium">Billed: {{ number_format($totalBilled, 0) }}</p>
- </div>
+    <!-- Intelligence Visualizers -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <!-- Patient Growth Matrix -->
+        <div class="lg:col-span-2">
+            <x-cc-card title="Longitudinal Registration Trends" icon="fa-chart-line">
+                <div class="p-10 h-[400px]">
+                    <canvas id="growthChart"></canvas>
+                </div>
+            </x-cc-card>
+        </div>
 
- <div class="bg-[#2a2e38] p-6 rounded-xl border border-subtle relative overflow-hidden">
- <p class="text-xs font-bold text-slate-500 font-medium mb-4">System Availability</p>
- <h3 class="text-4xl font-bold text-emerald-500 ">99.9%</h3>
- <div class="flex gap-1 mt-6">
- @for($i=0; $i<15; $i++) <div class="w-2 h-3 bg-emerald-500/20 rounded-sm"></div> @endfor
- </div>
- </div>
- </div>
+        <!-- Clinical Distribution Matrix -->
+        <div class="lg:col-span-1">
+            <x-cc-card title="Morbidity Distribution" icon="fa-virus-covid">
+                <div class="p-10 flex flex-col h-full">
+                    <div class="h-60 mb-10">
+                        <canvas id="morbidityChart"></canvas>
+                    </div>
+                    <div class="space-y-4">
+                        @foreach($morbidityPulse as $m)
+                            <div class="flex justify-between items-center p-4 bg-white/[0.02] border border-white/[0.04] rounded-2xl">
+                                <span class="text-[11px] font-bold text-white/40 uppercase tracking-widest truncate max-w-[140px]">{{ $m->diagnosis ?? 'UNKNOWN' }}</span>
+                                <span class="text-[12px] font-bold text-sage">{{ $m->count }} <span class="text-[9px] text-white/20 ml-1">NODES</span></span>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </x-cc-card>
+        </div>
+    </div>
 
- <!-- Charts Row -->
- <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
- <!-- Patient Growth -->
- <div class="lg:col-span-2 bg-[#2a2e38] p-8 rounded-xl border border-subtle ">
- <h3 class="text-sm font-bold text-slate-200 font-medium mb-8">Patient Registration Trends</h3>
- <div class="h-80">
- <canvas id="growthChart"></canvas>
- </div>
- </div>
+    <!-- Supply Chain Risk Matrix -->
+    <x-cc-card>
+        <div class="px-8 py-6 border-b border-white/[0.04] flex items-center justify-between bg-white/[0.02]">
+            <h2 class="text-[12px] font-bold text-white/40 uppercase tracking-[0.2em] flex items-center gap-3">
+                <i class="fas fa-box-taped text-rose-500 text-[14px]"></i>
+                Critical Supply Depletion Surveillance
+            </h2>
+            <span class="px-3 py-1 bg-rose-500/10 text-rose-500 border border-rose-500/20 text-[9px] font-bold rounded-lg uppercase tracking-widest">
+                RESTOCK_REQUIRED
+            </span>
+        </div>
 
- <!-- Clinical Distribution -->
- <div class="lg:col-span-1 bg-[#2a2e38] p-8 rounded-xl border border-subtle flex flex-col">
- <h3 class="text-sm font-bold text-slate-200 font-medium mb-8 text-center">Top Clinical Diagnoses</h3>
- <div class="h-60 mb-8">
- <canvas id="morbidityChart"></canvas>
- </div>
- <div class="space-y-3">
- @foreach($morbidityPulse as $m)
- <div class="flex justify-between items-center p-3 bg-card/40 rounded-lg border border-slate-700/40">
- <span class="text-xs font-semibold text-slate-400 truncate max-w-[140px]">{{ $m->provisional_diagnosis }}</span>
- <span class="text-xs font-bold text-sage">{{ $m->count }} Cases</span>
- </div>
- @endforeach
- </div>
- </div>
- </div>
-
- <!-- Inventory Alerts -->
- <div class="bg-[#2a2e38] rounded-xl border border-subtle overflow-hidden">
- <div class="px-8 py-6 border-b border-subtle bg-card/40 flex justify-between items-center">
- <h3 class="text-sm font-bold text-rose-400 font-medium">Critical Supply Depletion Warnings</h3>
- <span class="px-3 py-1 bg-rose-500/10 text-rose-500 border border-rose-500/20 rounded text-[12px] font-bold uppercase">Restock Required</span>
- </div>
- <div class="overflow-x-auto">
- <table class="w-full text-left text-sm">
- <thead>
- <tr class="text-slate-500 border-b border-subtle">
- <th class="px-8 py-5 font-semibold">Item Name</th>
- <th class="px-6 py-5 font-semibold text-center">Current Stock</th>
- <th class="px-6 py-5 font-semibold text-center">Min. Level</th>
- <th class="px-6 py-5 font-semibold">Stock Status</th>
- <th class="px-8 py-5 text-right">Action</th>
- </tr>
- </thead>
- <tbody class="divide-y divide-slate-700/40">
- @foreach($supplyRisk as $item)
- <tr class="hover:bg-slate-700/30 transition-colors">
- <td class="px-8 py-5">
- <div class="text-white font-bold uppercase text-xs">{{ $item->item_name }}</div>
- <div class="text-[12px] text-slate-500 font-medium mt-1 uppercase">Asset ID: {{ $item->id }}</div>
- </td>
- <td class="px-6 py-5 text-center">
- <span class="text-lg font-bold text-rose-500">{{ $item->stock_level }}</span>
- </td>
- <td class="px-6 py-5 text-center text-slate-500 font-bold">{{ $item->reorder_level }}</td>
- <td class="px-6 py-5">
- <div class="w-40 bg-card h-1.5 rounded-full overflow-hidden">
- <div class="bg-rose-500 h-full" style="width: {{ ($item->stock_level / ($item->reorder_level ?: 1)) * 100 }}%"></div>
- </div>
- </td>
- <td class="px-8 py-5 text-right">
- <button class="px-4 py-2 bg-slate-700 hover:bg-rose-600 text-slate-300 hover:text-white rounded-lg text-[12px] font-bold uppercase transition-all">Order Stock</button>
- </td>
- </tr>
- @endforeach
- @if($supplyRisk->isEmpty())
- <tr>
- <td colspan="5" class="px-8 py-16 text-center text-slate-500 ">
- All medical supplies are currently at stable levels.
- </td>
- </tr>
- @endif
- </tbody>
- </table>
- </div>
- </div>
+        <x-cc-table :headers="['Material Intelligence', 'Stock Density', 'Reorder Matrix', 'Restock']">
+            @forelse($supplyRisk as $item)
+                <tr class="hover:bg-white/[0.01] transition-colors">
+                    <td class="px-8 py-5">
+                        <div class="text-[12px] font-bold text-white uppercase tracking-tight">{{ $item->item_name }}</div>
+                        <div class="text-[10px] font-bold text-white/20 uppercase tracking-widest mt-1">ID: {{ substr($item->id, 0, 8) }}...</div>
+                    </td>
+                    <td class="px-8 py-5">
+                        <div class="flex items-center gap-6">
+                            <span class="text-[14px] font-bold text-rose-500">{{ $item->stock_level }}</span>
+                            <div class="w-24 bg-white/5 h-1 rounded-full overflow-hidden">
+                                <div class="bg-rose-500 h-full" style="width: {{ min(100, ($item->stock_level / ($item->reorder_level ?: 1)) * 100) }}%"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-8 py-5">
+                        <span class="text-[11px] font-bold text-white/20 uppercase tracking-widest">Limit: {{ $item->reorder_level }}</span>
+                    </td>
+                    <td class="px-8 py-5 text-right">
+                        <button class="cc-button-secondary py-1.5 px-4 text-[10px]">
+                            Authorize Restock
+                        </button>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4" class="px-8 py-20 text-center">
+                        <p class="text-[11px] font-bold text-white/20 uppercase tracking-widest">All institutional supplies are currently at stable levels.</p>
+                    </td>
+                </tr>
+            @endforelse
+        </x-cc-table>
+    </x-cc-card>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
- // Growth Chart
- const growthCtx = document.getElementById('growthChart').getContext('2d');
- new Chart(growthCtx, {
- type: 'line',
- data: {
- labels: {!! json_encode($patientGrowth->pluck('month')) !!},
- datasets: [{
- label: 'Patient Registrations',
- data: {!! json_encode($patientGrowth->pluck('count')) !!},
- borderColor: '#3b82f6',
- backgroundColor: 'rgba(59, 130, 246, 0.05)',
- fill: true,
- tension: 0.4,
- borderWidth: 3,
- pointRadius: 4,
- pointBackgroundColor: '#3b82f6',
- }]
- },
- options: {
- responsive: true,
- maintainAspectRatio: false,
- plugins: { legend: { display: false } },
- scales: {
- y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#64748b', font: { size: 10, weight: 'bold' } } },
- x: { grid: { display: false }, ticks: { color: '#64748b', font: { size: 10, weight: 'bold' } } }
- }
- }
- });
+    Chart.defaults.color = 'rgba(255,255,255,0.2)';
+    Chart.defaults.font.family = 'Inter, sans-serif';
+    Chart.defaults.font.weight = '700';
 
- // Morbidity Chart
- const morbidityCtx = document.getElementById('morbidityChart').getContext('2d');
- new Chart(morbidityCtx, {
- type: 'doughnut',
- data: {
- labels: {!! json_encode($morbidityPulse->pluck('provisional_diagnosis')) !!},
- datasets: [{
- data: {!! json_encode($morbidityPulse->pluck('count')) !!},
- backgroundColor: ['#3b82f6', '#f43f5e', '#fbbf24', '#10b981', '#8b5cf6'],
- borderWidth: 0,
- cutout: '80%',
- }]
- },
- options: {
- responsive: true,
- maintainAspectRatio: false,
- plugins: { legend: { display: false } }
- }
- });
+    // Growth Matrix Chart
+    const growthCtx = document.getElementById('growthChart').getContext('2d');
+    new Chart(growthCtx, {
+        type: 'line',
+        data: {
+            labels: {!! json_encode($patientGrowth->pluck('month')) !!},
+            datasets: [{
+                label: 'REGISTRATIONS',
+                data: {!! json_encode($patientGrowth->pluck('count')) !!},
+                borderColor: '#82c09a',
+                backgroundColor: 'rgba(130, 192, 154, 0.05)',
+                fill: true,
+                tension: 0.4,
+                borderWidth: 3,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBackgroundColor: '#82c09a',
+                pointHoverBorderColor: '#fff',
+                pointHoverBorderWidth: 2,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { 
+                    beginAtZero: true, 
+                    grid: { color: 'rgba(255,255,255,0.03)' },
+                    border: { display: false },
+                    ticks: { font: { size: 9 } } 
+                },
+                x: { 
+                    grid: { display: false },
+                    border: { display: false },
+                    ticks: { font: { size: 9 } } 
+                }
+            }
+        }
+    });
+
+    // Morbidity Matrix Chart
+    const morbidityCtx = document.getElementById('morbidityChart').getContext('2d');
+    new Chart(morbidityCtx, {
+        type: 'doughnut',
+        data: {
+            labels: {!! json_encode($morbidityPulse->pluck('diagnosis')) !!},
+            datasets: [{
+                data: {!! json_encode($morbidityPulse->pluck('count')) !!},
+                backgroundColor: ['#82c09a', '#4f46e5', '#f59e0b', '#ef4444', '#06b6d4'],
+                borderWidth: 0,
+                hoverOffset: 15,
+                cutout: '85%',
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        }
+    });
 });
 </script>
 </x-cc-shell>

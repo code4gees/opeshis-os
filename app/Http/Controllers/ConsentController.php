@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ConsentTemplates;
-use App\Models\PatientConsents;
+use App\Models\ConsentTemplate;
+use App\Models\PatientConsent;
 use App\Helpers\Opeshis;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -17,9 +17,9 @@ class ConsentController extends Controller
      */
     public function index(): View
     {
-        $templates = ConsentTemplates::orderBy('category')->get();
+        $templates = ConsentTemplate::orderBy('category')->get();
         
-        $recentConsents = PatientConsents::with('patient')
+        $recentConsents = PatientConsent::with('patient')
             ->orderBy('created_at', 'desc')
             ->take(50)
             ->get();
@@ -48,7 +48,7 @@ class ConsentController extends Controller
             'signature' => 'required|string',
         ]);
 
-        $consent = PatientConsents::create([
+        $consent = PatientConsent::create([
             'patient_id' => $validated['patient_id'],
             'template_id' => $validated['template_id'],
             'signed_by_patient' => (bool)$request->input('signed'),

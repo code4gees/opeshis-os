@@ -13,6 +13,10 @@ export default {
                 'navy': '#0A192F',
                 'critical': '#E11D48',
                 'success': '#10B981',
+                'sage': '#82C09A',
+                'alert': '#D9776C',
+                'subtle': 'rgba(255, 255, 255, 0.04)',
+                'card': 'rgba(255, 255, 255, 0.02)',
             }
         },
     },

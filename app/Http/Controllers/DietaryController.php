@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\DietaryPlans;
-use App\Models\KitchenDeliveries;
+use App\Models\DietaryPlan;
+use App\Models\KitchenDelivery;
 use App\Models\Admission;
 use App\Helpers\Opeshis;
 use Illuminate\View\View;
@@ -17,7 +17,7 @@ class DietaryController extends Controller
      */
     public function index(): View
     {
-        $activePlans = DietaryPlans::with(['admission.patient', 'deliveries' => function($query) {
+        $activePlans = DietaryPlan::with(['admission.patient', 'deliveries' => function($query) {
                 $query->whereDate('delivery_date', now());
             }])
             ->whereHas('admission', function($query) {
@@ -40,7 +40,7 @@ class DietaryController extends Controller
             'instructions' => 'nullable|string',
         ]);
 
-        DietaryPlans::create([
+        DietaryPlan::create([
             'admission_id' => $validated['admission_id'],
             'meal_type' => $validated['meal_type'],
             'restrictions' => $validated['restrictions'],
@@ -62,7 +62,7 @@ class DietaryController extends Controller
             'status' => 'nullable|string',
         ]);
 
-        KitchenDeliveries::create([
+        KitchenDelivery::create([
             'plan_id' => $validated['plan_id'],
             'delivery_date' => now()->toDateString(),
             'meal_name' => $validated['meal_name'],

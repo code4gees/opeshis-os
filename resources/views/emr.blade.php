@@ -139,9 +139,13 @@
  </x-cc-button>
  </x-cc-card>
  
- <x-cc-card title="Diagnostic Investigations" icon="fa-microscope">
- <textarea id="procedure_notes" class="w-full h-32 bg-[#1a1d24]/50 border border-subtle rounded-2xl p-4 text-xs font-bold text-slate-400 placeholder-slate-800 outline-none focus:border-emerald-500/50 focus:ring-4 focus:ring-emerald-500/10 transition-all resize-none " placeholder="Request labs or radiology scans...">{{ $consult->procedure_notes ?? '' }}</textarea>
- </x-cc-card>
+                <x-cc-card title="Diagnostic Investigations" icon="fa-microscope">
+                    <textarea id="procedure_notes" oninput="syncInputs()" class="w-full h-32 bg-[#1a1d24]/50 border border-subtle rounded-2xl p-4 text-xs font-bold text-slate-400 placeholder-slate-800 outline-none focus:border-emerald-500/50 focus:ring-4 focus:ring-emerald-500/10 transition-all resize-none " placeholder="Request labs or radiology scans...">{{ $consult->procedure_notes ?? '' }}</textarea>
+                    <div class="mt-4 flex gap-2">
+                        <button type="button" onclick="requestLab()" class="flex-1 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:text-sage transition-all">Request Lab</button>
+                        <button type="button" onclick="requestRadiology()" class="flex-1 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:text-sage transition-all">Request X-Ray</button>
+                    </div>
+                </x-cc-card>
  </div>
  </div>
  </div>
@@ -233,6 +237,9 @@
  <input type="hidden" name="objective" id="hidden_objective">
  <input type="hidden" name="assessment" id="hidden_assessment">
  <input type="hidden" name="plan" id="hidden_plan">
+ <input type="hidden" name="procedure_notes" id="hidden_procedure_notes">
+ <input type="hidden" name="icd10" id="hidden_icd10">
+ <input type="hidden" name="prescriptions" id="hidden_prescriptions">
 </form>
 
 <style>
@@ -251,25 +258,104 @@
  document.getElementById('soap-' + name).classList.remove('hidden');
  }
 
- function syncInputs() {
- document.getElementById('hidden_subjective').value = document.getElementById('subjective').value;
- document.getElementById('hidden_objective').value = document.getElementById('objective').value;
- document.getElementById('hidden_assessment').value = document.getElementById('assessment').value;
- document.getElementById('hidden_plan').value = document.getElementById('plan').value;
- }
+  let icdCodes = {!! json_encode($icd10) !!};
+  let prescriptions = {!! json_encode($prescriptions) !!};
 
- function submitSave() {
- syncInputs();
- document.getElementById('saveForm').submit();
- }
+  function addICD() {
+  const input = document.getElementsByName('icdSearch')[0];
+  const val = input.value.trim().toUpperCase();
+  if (val && !icdCodes.includes(val)) {
+  icdCodes.push(val);
+  renderICD();
+  input.value = '';
+  }
+  }
 
- function finalizeSession() {
- if(confirm("Institutional Protocol: Finalize this clinical session? The forensic record will be synchronized and locked.")) {
- document.getElementById('closeForm').submit();
- }
- }
+  function removeICD(code) {
+  icdCodes = icdCodes.filter(c => c !== code);
+  renderICD();
+  }
 
- // Initialize synchronization
- syncInputs();
+  function renderICD() {
+  const container = document.getElementById('icdList');
+  container.innerHTML = icdCodes.map(c => `
+  <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-sage/10 text-sage border border-blue-500/20 rounded-xl text-[12px] font-semibold uppercase tracking-tight">
+  ${c} 
+  <button type="button" onclick="removeICD('${c}')" class="hover:text-white transition-colors">✕</button>
+  </span>
+  `).join('');
+  syncInputs();
+  }
+
+  function addPresc() {
+  const drug = prompt("Drug Identity (e.g. PARACETAMOL 500MG):");
+  if (!drug) return;
+  const dose = prompt("Dosage Protocol (e.g. 1G TDS X 3 DAYS):");
+  if (!dose) return;
+  
+  prescriptions.push({ drug, dose });
+  renderPresc();
+  }
+
+  function removePresc(index) {
+  prescriptions.splice(index, 1);
+  renderPresc();
+  }
+
+  function renderPresc() {
+  const container = document.getElementById('prescList');
+  container.innerHTML = prescriptions.map((p, i) => `
+  <div class="p-4 bg-card rounded-xl border border-subtle flex justify-between items-center group hover:border-blue-500/30 transition-all">
+  <div>
+  <div class="text-[12px] text-slate-200 font-semibold uppercase tracking-tight">${p.drug}</div>
+  <div class="text-[12px] text-slate-500 font-bold uppercase mt-1">${p.dose}</div>
+  </div>
+  <button type="button" onclick="removePresc(${i})" class="text-slate-600 hover:text-rose-500 transition-colors">✕</button>
+  </div>
+  `).join('');
+  syncInputs();
+  }
+
+  function requestLab() {
+  const test = prompt("Institutional Lab Protocol (e.g. FBC, MP, LFT):");
+  if (test) {
+  const area = document.getElementById('procedure_notes');
+  area.value += (area.value ? "\n" : "") + "LAB_REQUEST: " + test.toUpperCase();
+  syncInputs();
+  }
+  }
+
+  function requestRadiology() {
+  const scan = prompt("Radiology Modality (e.g. CHEST X-RAY, PELVIC US):");
+  if (scan) {
+  const area = document.getElementById('procedure_notes');
+  area.value += (area.value ? "\n" : "") + "RAD_REQUEST: " + scan.toUpperCase();
+  syncInputs();
+  }
+  }
+
+  function syncInputs() {
+  document.getElementById('hidden_subjective').value = document.getElementById('subjective').value;
+  document.getElementById('hidden_objective').value = document.getElementById('objective').value;
+  document.getElementById('hidden_assessment').value = document.getElementById('assessment').value;
+  document.getElementById('hidden_plan').value = document.getElementById('plan').value;
+  document.getElementById('hidden_procedure_notes').value = document.getElementById('procedure_notes').value;
+  document.getElementById('hidden_icd10').value = JSON.stringify(icdCodes);
+  document.getElementById('hidden_prescriptions').value = JSON.stringify(prescriptions);
+  }
+
+  function submitSave() {
+  syncInputs();
+  document.getElementById('saveForm').submit();
+  }
+
+  function finalizeSession() {
+  if(confirm("Institutional Protocol: Finalize this clinical session? The forensic record will be synchronized and locked.")) {
+  document.getElementById('closeForm').submit();
+  }
+  }
+
+  // Initialize synchronization
+  syncInputs();
 </script>
 </x-cc-shell>

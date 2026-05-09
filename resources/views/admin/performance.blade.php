@@ -2,149 +2,160 @@
 
 @section('title', 'Institutional Performance - Opeshis OS')
 
+<div class="space-y-10 pb-20">
+    <!-- Institutional Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
+        <div>
+            <h1 class="text-3xl font-extrabold text-white tracking-tighter uppercase">Performance <span class="text-sage">& Talent</span></h1>
+            <p class="text-[11px] font-bold text-white/20 uppercase tracking-[0.2em] mt-1">Institutional Review Cycles, Staff Assessments & Merit Matrices</p>
+        </div>
+        <div class="flex gap-4">
+            <button onclick="document.getElementById('cycleModal').classList.remove('hidden')"
+                class="cc-button-primary flex items-center gap-2">
+                <i class="fas fa-plus-circle text-[10px]"></i>
+                Initialize Review Cycle
+            </button>
+        </div>
+    </div>
 
-<div class="space-y-8 animate-fade-in">
- <!-- Header: Performance & Compliance Command -->
- <header class="flex justify-between items-center mb-10 pb-8 border-b border-subtle">
- <div>
- <h1 class="text-3xl font-semibold text-white tracking-tight uppercase">Performance & Talent</h1>
- <p class="text-[12px] font-semibold text-slate-400 font-medium mt-1">Institutional Review Cycles, Staff Assessments & Merit Matrices</p>
- </div>
- <div class="flex gap-4">
- <div class="flex items-center gap-6 px-8 py-3 bg-card rounded-2xl border border-subtle">
- <div class="text-center">
- <p class="text-[8px] font-semibold text-emerald-500 font-medium mb-1">Active Cycles</p>
- <p class="text-xl font-semibold text-emerald-500 leading-none">{{ $stats->active }}</p>
- </div>
- <div class="w-px h-8 bg-white/10"></div>
- <div class="text-center">
- <p class="text-[8px] font-semibold text-sage font-medium mb-1">Total Cycles</p>
- <p class="text-xl font-semibold text-sage leading-none">{{ $stats->total }}</p>
- </div>
- </div>
- <button onclick="document.getElementById('cycleModal').classList.remove('hidden')" class="px-8 py-4 bg-sage text-white rounded-xl font-semibold text-[12px] font-medium /20 hover:bg-indigo-700 transition-all border border-indigo-500/50">
- Initialize Review Cycle
- </button>
- </div>
- </header>
+    @if(session('success'))
+        <div class="cc-card p-6 bg-emerald-500/5 border-emerald-500/20 text-emerald-400 text-[11px] font-bold uppercase tracking-widest mb-10 animate-pulse">
+            <i class="fas fa-check-circle mr-2"></i>
+            {{ session('success') }}
+        </div>
+    @endif
 
- @if(session('success'))
- <div class="p-6 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl text-xs font-semibold font-medium mb-8 animate-pulse">
- {{ session('success') }}
- </div>
- @endif
+    <!-- Performance Telemetry Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <x-cc-stat 
+            title="Active Cycles" 
+            value="{{ $stats->active }}" 
+            icon="fa-rotate" 
+            trend="Live Appraisal" 
+            color="emerald" 
+        />
+        <x-cc-stat 
+            title="Compliance" 
+            value="88%" 
+            icon="fa-shield-check" 
+            trend="Staff Signed" 
+            color="indigo" 
+        />
+        <x-cc-stat 
+            title="Merit Yield" 
+            value="4.2" 
+            icon="fa-star" 
+            trend="Avg Rating" 
+            color="amber" 
+        />
+        <x-cc-stat 
+            title="Total Cycles" 
+            value="{{ $stats->total }}" 
+            icon="fa-database" 
+            trend="Historical" 
+            color="slate" 
+        />
+    </div>
 
- <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
- <!-- Performance Cycles -->
- <div class="lg:col-span-5 space-y-8">
- <div class="bg-card rounded-[3rem] border border-subtle shadow-lg overflow-hidden">
- <div class="px-10 py-8 border-b border-subtle bg-[#2a2e38] flex justify-between items-center">
- <h3 class="text-xs font-semibold text-white font-medium ">Review Frameworks</h3>
- </div>
- <div class="divide-y divide-white/5">
- @foreach($cycles as $cycle)
- <div class="px-10 py-6 group hover:bg-[#2a2e38] transition-all">
- <div class="flex justify-between items-start mb-2">
- <h4 class="text-sm font-semibold text-white uppercase">{{ $cycle->name }}</h4>
- <span class="px-2 py-0.5 {{ $cycle->status === 'active' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 'bg-[#2a2e38] text-slate-500 border-subtle' }} rounded text-[8px] font-semibold uppercase border tracking-wider">
- {{ $cycle->status }}
- </span>
- </div>
- <p class="text-[12px] font-bold text-slate-500 font-medium">
- Timeline: {{ \Carbon\Carbon::parse($cycle->start_date)->format('M Y') }} — {{ \Carbon\Carbon::parse($cycle->end_date)->format('M Y') }}
- </p>
- </div>
- @endforeach
- @if($cycles->isEmpty())
- <div class="px-10 py-20 text-center text-slate-600 text-[12px] font-semibold font-medium">No performance cycles initialized.</div>
- @endif
- </div>
- </div>
- </div>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <!-- Review Frameworks Matrix -->
+        <div class="lg:col-span-4">
+            <x-cc-card title="Review Frameworks" icon="fa-network-wired">
+                <div class="divide-y divide-white/[0.04]">
+                    @forelse($cycles as $cycle)
+                        <div class="p-8 group hover:bg-white/[0.01] transition-all">
+                            <div class="flex justify-between items-start mb-3">
+                                <h4 class="text-[12px] font-bold text-white uppercase tracking-tight group-hover:text-sage transition-colors">{{ $cycle->name }}</h4>
+                                <span class="px-2 py-0.5 {{ $cycle->status === 'active' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 'bg-white/5 text-white/20 border-white/10' }} rounded text-[8px] font-bold uppercase border tracking-widest">
+                                    {{ $cycle->status }}
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-3 text-[10px] font-bold text-white/20 uppercase tracking-widest">
+                                <i class="fas fa-calendar-day text-[9px]"></i>
+                                {{ \Carbon\Carbon::parse($cycle->start_date)->format('M Y') }} — {{ \Carbon\Carbon::parse($cycle->end_date)->format('M Y') }}
+                            </div>
+                        </div>
+                    @empty
+                        <div class="p-20 text-center">
+                            <i class="fas fa-ghost text-2xl text-white/10 mb-4 block"></i>
+                            <p class="text-[11px] font-bold text-white/20 uppercase tracking-widest">No review frameworks initialized.</p>
+                        </div>
+                    @endforelse
+                </div>
+            </x-cc-card>
+        </div>
 
- <!-- Recent Reviews Feed -->
- <div class="lg:col-span-7 space-y-8">
- <div class="bg-card rounded-[3rem] border border-subtle shadow-lg overflow-hidden">
- <div class="px-10 py-8 border-b border-subtle bg-[#2a2e38] flex justify-between items-center">
- <h3 class="text-xs font-semibold text-white font-medium ">Live Review Matrix</h3>
- <span class="px-3 py-1 bg-[#2a2e38] text-slate-400 rounded-lg text-[8px] font-semibold font-medium border border-subtle">Compliance: 88%</span>
- </div>
- <div class="overflow-x-auto">
- <table class="w-full text-left">
- <thead class="bg-[#2a2e38] text-[12px] font-semibold text-slate-400 font-medium">
- <tr>
- <th class="px-10 py-6">Staff Member</th>
- <th class="px-6 py-6 text-center">Merit Rating</th>
- <th class="px-6 py-6">Review Status</th>
- <th class="px-10 py-6 text-right">Strategic Action</th>
- </tr>
- </thead>
- <tbody class="divide-y divide-white/5">
- @foreach($reviews as $r)
- <tr class="hover:bg-[#2a2e38] transition-all group">
- <td class="px-10 py-6">
- <div class="font-semibold text-white text-sm uppercase group-hover:text-sage transition-colors">{{ $r->staff_name }}</div>
- <div class="text-[12px] font-bold text-slate-500 font-medium mt-0.5">{{ $r->role }}</div>
- </td>
- <td class="px-6 py-6 text-center">
- <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-sage/10 text-sage rounded-lg border border-indigo-500/20">
- <span class="text-xs font-semibold">{{ $r->overall_rating }}</span>
- <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" class="text-sage"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
- </div>
- </td>
- <td class="px-6 py-6">
- <span class="text-[12px] font-semibold {{ $r->status === 'signed' ? 'text-emerald-500' : 'text-amber-500' }} font-medium">
- {{ str_replace('_',' ', $r->status) }}
- </span>
- </td>
- <td class="px-10 py-6 text-right">
- <button class="px-4 py-2 bg-[#2a2e38] text-slate-300 rounded-lg text-[12px] font-semibold font-medium hover:bg-white/10 transition">View Dossier</button>
- </td>
- </tr>
- @endforeach
- @if($reviews->isEmpty())
- <tr>
- <td colspan="4" class="px-10 py-24 text-center">
- <div class="w-16 h-16 bg-[#2a2e38] rounded-3xl flex items-center justify-center mx-auto mb-6 text-slate-600">
- <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
- </div>
- <p class="text-[12px] font-semibold text-slate-600 font-medium ">No performance reviews recorded in the active cycle.</p>
- </td>
- </tr>
- @endif
- </tbody>
- </table>
- </div>
- </div>
- </div>
- </div>
+        <!-- Live Review Matrix -->
+        <div class="lg:col-span-8">
+            <x-cc-card>
+                <div class="px-8 py-6 border-b border-white/[0.04] flex items-center justify-between bg-white/[0.02]">
+                    <h2 class="text-[12px] font-bold text-white/40 uppercase tracking-[0.2em] flex items-center gap-3">
+                        <i class="fas fa-users-viewfinder text-sage text-[14px]"></i>
+                        Institutional Personnel Review Matrix
+                    </h2>
+                </div>
+
+                <x-cc-table :headers="['Staff Member', 'Merit Rating', 'Status Protocol', 'Dossier']">
+                    @forelse($reviews as $r)
+                        <tr class="group hover:bg-white/[0.01] transition-colors">
+                            <td class="px-8 py-5">
+                                <div class="text-[12px] font-bold text-white uppercase tracking-tight group-hover:text-sage transition-colors">{{ $r->staff->name ?? 'UNKNOWN_ACTOR' }}</div>
+                                <div class="text-[10px] font-bold text-white/20 uppercase tracking-widest mt-1">{{ $r->staff->role ?? 'N/A' }}</div>
+                            </td>
+                            <td class="px-8 py-5">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 bg-sage/10 text-sage rounded-lg border border-sage/20">
+                                    <span class="text-[11px] font-bold">{{ $r->overall_rating }}</span>
+                                    <i class="fas fa-star text-[9px]"></i>
+                                </div>
+                            </td>
+                            <td class="px-8 py-5">
+                                <span class="text-[10px] font-bold {{ $r->status === 'signed' ? 'text-emerald-500' : 'text-amber-500' }} uppercase tracking-widest">
+                                    {{ str_replace('_',' ', $r->status) }}
+                                </span>
+                            </td>
+                            <td class="px-8 py-5 text-right">
+                                <button class="w-8 h-8 rounded-xl bg-white/5 flex items-center justify-center text-white/20 hover:text-white transition-colors">
+                                    <i class="fas fa-folder-open text-[10px]"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="px-8 py-20 text-center">
+                                <div class="w-16 h-16 bg-white/5 rounded-3xl flex items-center justify-center mx-auto mb-6 text-white/10">
+                                    <i class="fas fa-user-clock text-2xl"></i>
+                                </div>
+                                <p class="text-[11px] font-bold text-white/20 uppercase tracking-widest">No reviews recorded in the active cycle.</p>
+                            </td>
+                        </tr>
+                    @endforelse
+                </x-cc-table>
+            </x-cc-card>
+        </div>
+    </div>
 </div>
 
 <!-- Modal: New Cycle -->
-<div id="cycleModal" class="fixed inset-0 bg-card z-[100] hidden flex items-center justify-center p-8">
- <div class="bg-card w-full max-w-xl rounded-[3rem] p-12 border border-subtle">
- <h3 class="text-2xl font-semibold text-white mb-8 uppercase tracking-tight">Initialize Review Framework</h3>
- <form method="POST" action="{{ url('/admin/performance/cycle') }}" class="space-y-6">
- @csrf
- <div>
- <label class="block text-[12px] font-semibold text-slate-400 uppercase mb-2 tracking-wider">Cycle Nomenclature</label>
- <input name="name" required class="w-full bg-[#2a2e38] border border-subtle rounded-2xl px-6 py-4 text-sm font-bold text-white outline-none focus:border-indigo-500/50 transition-all" placeholder="e.g. FY2026 Q1 Appraisal">
- </div>
- <div class="grid grid-cols-2 gap-6">
- <div>
- <label class="block text-[12px] font-semibold text-slate-400 uppercase mb-2 tracking-wider">Start Matrix Date</label>
- <input name="start_date" type="date" required class="w-full bg-[#2a2e38] border border-subtle rounded-2xl px-6 py-4 text-sm font-bold text-white outline-none">
- </div>
- <div>
- <label class="block text-[12px] font-semibold text-slate-400 uppercase mb-2 tracking-wider">End Matrix Date</label>
- <input name="end_date" type="date" required class="w-full bg-[#2a2e38] border border-subtle rounded-2xl px-6 py-4 text-sm font-bold text-white outline-none">
- </div>
- </div>
- <div class="flex gap-4 mt-8">
- <button type="button" onclick="document.getElementById('cycleModal').classList.add('hidden')" class="flex-1 py-5 bg-[#2a2e38] border border-subtle text-slate-400 rounded-2xl text-[12px] font-semibold font-medium">Cancel</button>
- <button type="submit" class="flex-1 py-5 bg-sage text-white rounded-2xl text-[12px] font-semibold font-medium /20">Authorize Cycle</button>
- </div>
- </form>
- </div>
-</div>
+<x-cc-modal id="cycleModal" title="Initialize Review Framework" icon="fa-network-wired">
+    <form method="POST" action="{{ route('admin.hr.performance.cycle.store') }}" class="space-y-6">
+        @csrf
+        <div>
+            <label class="block text-[10px] font-bold text-white/20 uppercase tracking-widest mb-3">Cycle Nomenclature</label>
+            <input name="name" required class="cc-input w-full" placeholder="e.g. FY2026 Q1 APPRAISAL">
+        </div>
+        <div class="grid grid-cols-2 gap-8">
+            <div>
+                <label class="block text-[10px] font-bold text-white/20 uppercase tracking-widest mb-3">Start Matrix Date</label>
+                <input name="start_date" type="date" required class="cc-input w-full">
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold text-white/20 uppercase tracking-widest mb-3">End Matrix Date</label>
+                <input name="end_date" type="date" required class="cc-input w-full">
+            </div>
+        </div>
+        <div class="pt-4">
+            <button type="submit" class="cc-button-primary w-full">Authorize Framework Transmission</button>
+        </div>
+    </form>
+</x-cc-modal>
 </x-cc-shell>

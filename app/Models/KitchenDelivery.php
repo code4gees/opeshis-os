@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class LogisticsLogs extends Model
+class KitchenDelivery extends Model
 {
     use HasUuids;
-    protected $table = 'logistics_logs';
+    protected $table = 'kitchen_deliveries';
     protected $guarded = [];
 }

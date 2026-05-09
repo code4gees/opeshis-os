@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\SystemSetting;
+use App\Models\SysSetting;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -16,7 +16,7 @@ class SettingsController extends Controller
      */
     public function index(): View
     {
-        $settings = SystemSetting::pluck('setting_value', 'setting_key');
+        $settings = SysSetting::pluck('value', 'key');
         return view('settings', compact('settings'));
     }
 
@@ -29,9 +29,9 @@ class SettingsController extends Controller
         
         DB::transaction(function() use ($inputs, $request) {
             foreach ($inputs as $key => $value) {
-                SystemSetting::updateOrCreate(
-                    ['setting_key' => $key],
-                    ['setting_value' => $value]
+                SysSetting::updateOrCreate(
+                    ['key' => $key],
+                    ['value' => $value]
                 );
             }
 
@@ -41,9 +41,9 @@ class SettingsController extends Controller
                     $path = $request->file($key)->store('system', 'public');
                     $url = '/storage/' . $path;
                     
-                    SystemSetting::updateOrCreate(
-                        ['setting_key' => $key],
-                        ['setting_value' => $url]
+                    SysSetting::updateOrCreate(
+                        ['key' => $key],
+                        ['value' => $url]
                     );
                 }
             }

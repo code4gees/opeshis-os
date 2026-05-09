@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class LaundryIssues extends Model
+class PerformanceIndicator extends Model
 {
     use HasUuids;
-    protected $table = 'laundry_issues';
+    protected $table = 'performance_indicators';
     protected $guarded = [];
 }

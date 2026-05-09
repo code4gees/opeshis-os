@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\PaymentTransactions;
-use App\Models\PaymentProviders;
+use App\Models\PaymentTransaction;
+use App\Models\PaymentProvider;
 use App\Models\Patient;
 use App\Services\PaymentService;
 use App\Helpers\Opeshis;
@@ -21,16 +21,16 @@ class PaymentsController extends Controller
      */
     public function index(): View
     {
-        $transactions = PaymentTransactions::with('patient')
+        $transactions = PaymentTransaction::with('patient')
             ->orderBy('created_at', 'desc')
             ->take(100)
             ->get();
 
         $stats = [
-            'today_collected' => PaymentTransactions::whereDate('created_at', today())
+            'today_collected' => PaymentTransaction::whereDate('created_at', today())
                 ->where('status', 'success')
                 ->sum('amount'),
-            'pending' => PaymentTransactions::where('status', 'pending')->count(),
+            'pending' => PaymentTransaction::where('status', 'pending')->count(),
         ];
 
         return view('billing.payments', compact('transactions', 'stats'));
@@ -51,7 +51,7 @@ class PaymentsController extends Controller
 
         $ref = 'PAY-' . strtoupper(Str::random(10));
 
-        $provider = PaymentProviders::where('is_active', true)->first();
+        $provider = PaymentProvider::where('is_active', true)->first();
         if (!$provider) {
             return redirect()->back()->with('error', 'No active payment provider configured.');
         }
@@ -59,7 +59,7 @@ class PaymentsController extends Controller
         $result = $service->initiate($provider->id, (float)$validated['amount'], $validated['phone'], $ref, ['message' => $validated['description']]);
 
         if ($result['success']) {
-            $tx = PaymentTransactions::create([
+            $tx = PaymentTransaction::create([
                 'reference' => $ref,
                 'patient_id' => $validated['patient_id'],
                 'amount' => $validated['amount'],
@@ -87,7 +87,7 @@ class PaymentsController extends Controller
     {
         Log::info('Payment callback', $request->all());
 
-        $transaction = PaymentTransactions::where('reference', $request->input('reference'))->first();
+        $transaction = PaymentTransaction::where('reference', $request->input('reference'))->first();
         if ($transaction) {
             $status = $request->input('status') === 'SUCCESSFUL' ? 'success' : 'failed';
             $transaction->update([
@@ -106,7 +106,7 @@ class PaymentsController extends Controller
      */
     public function reconcile(Request $request): View
     {
-        $unmatched = PaymentTransactions::where('status', 'pending')
+        $unmatched = PaymentTransaction::where('status', 'pending')
             ->where('created_at', '<', now()->subHours(2))
             ->get();
 
@@ -120,7 +120,7 @@ class PaymentsController extends Controller
     {
         $validated = $request->validate(['reason' => 'required|string']);
 
-        PaymentTransactions::findOrFail($id)->update([
+        PaymentTransaction::findOrFail($id)->update([
             'status' => 'refunded',
             'refund_reason' => $validated['reason'],
             'refunded_by' => auth()->id(),

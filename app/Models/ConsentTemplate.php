@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class StaffCredentials extends Model
+class ConsentTemplate extends Model
 {
     use HasUuids;
-    protected $table = 'staff_credentials';
+    protected $table = 'consent_templates';
     protected $guarded = [];
 }

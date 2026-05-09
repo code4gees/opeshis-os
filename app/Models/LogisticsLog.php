@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 class LogisticsLog extends Model
 {
     use HasUuids;
-    //
+    protected $table = 'logistics_logs';
+    protected $guarded = [];
 }

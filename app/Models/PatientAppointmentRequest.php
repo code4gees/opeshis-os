@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class PatientAppointmentRequest extends Model
 {
-    use HasUuids;
+    use HasUuids, \App\Traits\ProtectsPII;
 
     protected $fillable = [
         'patient_id',
@@ -17,6 +17,14 @@ class PatientAppointmentRequest extends Model
         'reason',
         'status'
     ];
+
+    /**
+     * Institutional PII Protection
+     */
+    protected function reason(): \Illuminate\Database\Eloquent\Casts\Attribute
+    {
+        return $this->castPII('reason');
+    }
 
     public function patient()
     {

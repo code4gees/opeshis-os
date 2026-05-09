@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\WarehouseStock;
-use App\Models\StockRequisitions;
+use App\Models\StockRequisition;
 use App\Models\WarehouseLedger;
-use App\Models\Vendors;
+use App\Models\Vendor;
 use App\Models\User;
 use App\Models\BloodBankInventory; // Using this as the standardized model
 use App\Models\Inventory; // Pharmacy inventory
@@ -39,7 +39,7 @@ class WarehouseController extends Controller
             $data['stats'] = [
                 'total_items' => WarehouseStock::count(),
                 'total_value' => WarehouseStock::sum(DB::raw('bulk_quantity * unit_cost')) ?: 0,
-                'pending_reqs' => StockRequisitions::where('status', 'pending')->count(),
+                'pending_reqs' => StockRequisition::where('status', 'pending')->count(),
                 'expiring_soon' => WarehouseStock::where('expiry_date', '<=', now()->addDays(90))
                     ->where('expiry_date', '>=', now())
                     ->count(),
@@ -61,7 +61,7 @@ class WarehouseController extends Controller
             }
 
         } elseif ($tab === 'requisitions') {
-            $data['requisitions'] = StockRequisitions::with(['pharmacyItem', 'requester'])
+            $data['requisitions'] = StockRequisition::with(['pharmacyItem', 'requester'])
                 ->orderBy('created_at', 'desc')
                 ->limit(50)
                 ->get();
@@ -70,7 +70,7 @@ class WarehouseController extends Controller
                 ->get();
 
         } elseif ($tab === 'vendors') {
-            $data['vendors'] = Vendors::withCount('items')
+            $data['vendors'] = Vendor::withCount('items')
                 ->orderBy('name')
                 ->get();
         }
@@ -81,13 +81,17 @@ class WarehouseController extends Controller
     /**
      * Authorize Institutional Warehouse Action Protocol
      */
-    public function action(Request $request): RedirectResponse
+    public function action(
+        Request $request, 
+        \App\Actions\Ops\RegisterWarehouseStockAction $addStockAction,
+        \App\Actions\Ops\DispatchWarehouseStockAction $dispatchAction,
+        \App\Actions\Ops\RegisterVendorAction $registerVendorAction
+    ): RedirectResponse
     {
-        $action = $request->input('action');
-        $user_id = auth()->id();
+        $actionType = $request->input('action');
 
         try {
-            if ($action === 'add_stock') {
+            if ($actionType === 'add_stock') {
                 $validated = $request->validate([
                     'item_name' => 'required|string',
                     'category' => 'required|string',
@@ -99,88 +103,28 @@ class WarehouseController extends Controller
                     'expiry_date' => 'nullable|date',
                 ]);
 
-                DB::transaction(function() use ($validated, $user_id) {
-                    $item = WarehouseStock::create([
-                        'item_name' => $validated['item_name'],
-                        'category' => $validated['category'],
-                        'bulk_quantity' => $validated['bulk_quantity'],
-                        'unit_cost' => $validated['unit_cost'],
-                        'vendor_id' => $validated['vendor_id'],
-                        'batch_number' => $validated['batch_number'],
-                        'min_quantity' => $validated['min_quantity'] ?? 10,
-                        'expiry_date' => $validated['expiry_date'],
-                        'modified_by' => $user_id,
-                    ]);
-
-                    WarehouseLedger::create([
-                        'warehouse_item_id' => $item->id,
-                        'movement_type' => 'IN',
-                        'quantity' => $validated['bulk_quantity'],
-                        'previous_quantity' => 0,
-                        'new_quantity' => $validated['bulk_quantity'],
-                        'notes' => 'Initial registration protocol established.',
-                        'recorded_by' => $user_id,
-                    ]);
-
-                    Opeshis::logAction('WAREHOUSE_STOCK_ADD', 'warehouse_stock', $item->id, "Protocol: Registered new stock item: {$item->item_name}.");
-                });
+                $addStockAction->execute($validated);
                 return redirect()->route('operations.supply.warehouse.index', ['subtab' => 'stock'])->with('success', 'Institutional item registered successfully.');
 
-            } elseif ($action === 'deliver_req') {
+            } elseif ($actionType === 'deliver_req') {
                 $reqId = $request->input('req_id');
                 $whItemId = $request->input('warehouse_item_id');
 
-                DB::transaction(function() use ($reqId, $whItemId, $user_id) {
-                    $req = StockRequisitions::where('id', $reqId)->where('status', 'approved')->lockForUpdate()->first();
-                    if ($req && $whItemId) {
-                        $wh = WarehouseStock::where('id', $whItemId)->lockForUpdate()->first();
-                        if ($wh && $wh->bulk_quantity >= $req->requested_qty) {
-                            $wh->decrement('bulk_quantity', $req->requested_qty);
-                            $req->update([
-                                'status' => 'dispatched',
-                                'warehouse_item_id' => $whItemId
-                            ]);
-                            
-                            WarehouseLedger::create([
-                                'warehouse_item_id' => $whItemId,
-                                'movement_type' => 'OUT',
-                                'quantity' => $req->requested_qty,
-                                'previous_quantity' => $wh->bulk_quantity + $req->requested_qty,
-                                'new_quantity' => $wh->bulk_quantity,
-                                'reference_id' => $reqId,
-                                'reference_type' => 'requisition',
-                                'notes' => 'Pharmacy Order Fulfillment Protocol.',
-                                'recorded_by' => $user_id,
-                            ]);
-
-                            Opeshis::logAction('WAREHOUSE_STOCK_DISPATCH', 'stock_requisitions', $reqId, "Protocol: Dispatched {$req->requested_qty} units for requisition.");
-                        } else {
-                            throw new \Exception("Insufficient institutional stock in warehouse.");
-                        }
-                    }
-                });
+                $dispatchAction->execute($reqId, $whItemId);
                 return redirect()->route('operations.supply.warehouse.index', ['subtab' => 'requisitions'])->with('success', 'Institutional stock dispatched.');
 
-            } elseif ($action === 'register_vendor') {
+            } elseif ($actionType === 'register_vendor') {
                 $validated = $request->validate([
                     'name' => 'required|string',
                     'contact_person' => 'required|string',
                     'email' => 'required|email',
                 ]);
 
-                $vendor = Vendors::create([
-                    'name' => $validated['name'],
-                    'contact_person' => $validated['contact_person'],
-                    'email' => $validated['email'],
-                    'status' => 'active',
-                ]);
-                
-                Opeshis::logAction('VENDOR_REGISTER', 'vendors', $vendor->id, "Protocol: Registered new vendor: {$vendor->name}.");
-                
+                $registerVendorAction->execute($validated);
                 return redirect()->route('operations.supply.warehouse.index', ['subtab' => 'vendors'])->with('success', 'Institutional vendor registered successfully.');
             }
         } catch (\Exception $e) {
-            return redirect()->route('operations.supply.warehouse.index', ['subtab' => $action === 'deliver_req' ? 'requisitions' : ($action === 'register_vendor' ? 'vendors' : 'stock')])->with('error', $e->getMessage());
+            return redirect()->route('operations.supply.warehouse.index', ['subtab' => $actionType === 'deliver_req' ? 'requisitions' : ($actionType === 'register_vendor' ? 'vendors' : 'stock')])->with('error', $e->getMessage());
         }
 
         return redirect()->route('operations.supply.warehouse.index');

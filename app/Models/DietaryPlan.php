@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class PaymentTransactions extends Model
+class DietaryPlan extends Model
 {
     use HasUuids;
-    protected $table = 'payment_transactions';
+    protected $table = 'dietary_plans';
     protected $guarded = [];
 
     public function patient()
@@ -16,8 +16,8 @@ class PaymentTransactions extends Model
         return $this->belongsTo(Patient::class, 'patient_id');
     }
 
-    public function initiator()
+    public function deliveries()
     {
-        return $this->belongsTo(User::class, 'initiated_by');
+        return $this->hasMany(KitchenDelivery::class, 'plan_id');
     }
 }

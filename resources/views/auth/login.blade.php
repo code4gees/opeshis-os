@@ -6,290 +6,256 @@
  <meta name="description" content="Opeshis OS — Institutional Healthcare Operating System. Secure access portal.">
  <title>Institutional Login — Opeshis OS</title>
 
- <link rel="dns-prefetch" href="https://fonts.googleapis.com">
- <link rel="preconnect" href="https://fonts.googleapis.com">
- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
- <style>
- *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
- body {
- font-family: 'Inter', sans-serif;
- background: #0b0f19;
- color: #cbd5e1;
- overflow: hidden;
- display: flex;
- align-items: stretch;
- min-height: 100vh;
- }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #1a1d24;
+            color: #cbd5e1;
+            overflow: hidden;
+            display: flex;
+            align-items: stretch;
+            min-height: 100vh;
+        }
 
- /* ─── LEFT PANEL ─── */
- .left-panel {
- display: none;
- width: 55%;
- position: relative;
- overflow: hidden;
- background: #06080c;
- border-right: 1px solid rgba(255,255,255,0.04);
- }
- @media (min-width: 1024px) { .left-panel { display: flex; flex-direction: column; justify-content: space-between; padding: 4rem; } }
+        .left-panel {
+            display: none;
+            width: 55%;
+            position: relative;
+            overflow: hidden;
+            background: #0b0f19;
+            border-right: 1px solid rgba(255,255,255,0.04);
+        }
+        @media (min-width: 1024px) { .left-panel { display: flex; flex-direction: column; justify-content: space-between; padding: 5rem; } }
 
- .grid-bg {
- position: absolute;
- inset: 0;
- background-image:
- linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
- linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
- background-size: 64px 64px;
- opacity: 0.5;
- }
+        .grid-bg {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 2px 2px, rgba(255,255,255,0.02) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
 
- .left-content { position: relative; z-index: 10; }
+        .left-content { position: relative; z-index: 10; }
 
- .brand-logo {
- display: flex;
- align-items: center;
- gap: 1rem;
- }
- .brand-icon {
- width: 48px; height: 48px;
- background: #131824;
- border: 1px solid rgba(255,255,255,0.04);
- border-radius: 12px;
- display: flex; align-items: center; justify-content: center;
- }
- .brand-icon-inner {
- width: 16px; height: 16px;
- background: #4ade80;
- border-radius: 4px;
- }
- .brand-name { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; color: #fff; }
- .brand-sub { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: #64748b; margin-top: 2px; }
+        .brand-icon {
+            width: 56px; height: 56px;
+            background: #131824;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .brand-icon-inner {
+            width: 20px; height: 20px;
+            background: #82c09a;
+            border-radius: 6px;
+        }
 
- .hero-block { margin-top: auto; margin-bottom: 2rem; }
- .hero-badge {
- display: inline-flex; align-items: center; gap: 0.5rem;
- padding: 0.35rem 0.75rem;
- background: rgba(74,222,128,0.1);
- border: 1px solid rgba(74,222,128,0.2);
- border-radius: 6px;
- font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
- color: #4ade80;
- margin-bottom: 2rem;
- }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: rgba(130,192,154,0.1);
+            border: 1px solid rgba(130,192,154,0.2);
+            border-radius: 8px;
+            font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+            color: #82c09a;
+            margin-bottom: 2.5rem;
+        }
 
- .hero-title {
- font-size: clamp(3rem, 4.5vw, 4.5rem);
- font-weight: 900;
- line-height: 1;
- letter-spacing: -0.04em;
- color: #fff;
- margin-bottom: 1.5rem;
- }
- .hero-title span { color: #4ade80; }
+        .hero-title {
+            font-size: clamp(3.5rem, 5vw, 5.5rem);
+            font-weight: 800;
+            line-height: 0.95;
+            letter-spacing: -0.05em;
+            color: #fff;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+        .hero-title span { color: #82c09a; }
 
- .hero-desc {
- font-size: 1rem; font-weight: 400; line-height: 1.6;
- color: #94a3b8;
- max-width: 32rem;
- margin-bottom: 3rem;
- }
+        .hero-desc {
+            font-size: 1.125rem; font-weight: 300; line-height: 1.6;
+            color: rgba(255,255,255,0.4);
+            max-width: 32rem;
+            margin-bottom: 4rem;
+        }
 
- .stat-row { display: flex; gap: 3rem; flex-wrap: wrap; }
- .stat-num { font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
- .stat-label { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #64748b; margin-top: 4px; }
+        .stat-num { font-size: 1.75rem; font-weight: 700; color: #fff; letter-spacing: -0.02em; }
+        .stat-label { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: #64748b; margin-top: 6px; }
 
- .left-footer {
- position: relative; z-index: 10;
- display: flex; gap: 2rem;
- }
- .left-footer-link { font-size: 0.7rem; font-weight: 500; color: #64748b; text-decoration: none; transition: color 0.2s; }
- .left-footer-link:hover { color: #cbd5e1; }
+        .right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: #1a1d24;
+            position: relative;
+        }
 
- /* ─── RIGHT PANEL ─── */
- .right-panel {
- flex: 1;
- display: flex;
- flex-direction: column;
- align-items: center;
- justify-content: center;
- padding: 2rem;
- background: #0b0f19;
- position: relative;
- }
+        .cc-login-card {
+            width: 100%;
+            max-width: 420px;
+            background: #22262f;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 2rem;
+            padding: 3.5rem;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
 
- .login-box {
- width: 100%;
- max-width: 400px;
- position: relative;
- z-index: 10;
- }
+        .login-header h2 { font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; color: #fff; margin-bottom: 0.5rem; }
+        .login-header p { font-size: 0.9375rem; color: rgba(255,255,255,0.3); font-weight: 300; }
 
- .login-header { margin-bottom: 2.5rem; text-align: left; }
- .login-header h2 { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em; color: #fff; }
- .login-header p { font-size: 0.875rem; color: #94a3b8; margin-top: 0.5rem; }
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #82c09a;
+            border: none; border-radius: 12px;
+            color: #1a1d24;
+            font-size: 0.8125rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-top: 1.5rem;
+        }
+        .submit-btn:hover { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 10px 20px -5px rgba(130,192,154,0.4); }
+        .submit-btn:active { transform: translateY(0); }
 
- .form-group { margin-bottom: 1.25rem; }
- .form-label {
- display: block;
- font-size: 0.75rem; font-weight: 600;
- color: #94a3b8;
- margin-bottom: 0.5rem;
- }
- .form-input {
- width: 100%;
- background: #131824;
- border: 1px solid rgba(255,255,255,0.04);
- border-radius: 8px;
- padding: 0.75rem 1rem;
- font-size: 0.875rem; color: #fff;
- font-family: 'Inter', sans-serif;
- outline: none;
- transition: all 0.2s;
- }
- .form-input::placeholder { color: #475569; }
- .form-input:focus {
- border-color: rgba(74,222,128,0.4);
- box-shadow: 0 0 0 3px rgba(74,222,128,0.1);
- }
+        .demo-select {
+            width: 100%;
+            background: #1a1d24;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 0.875rem 1rem;
+            font-size: 0.875rem; color: rgba(255,255,255,0.4);
+            font-family: 'Outfit', sans-serif;
+            outline: none; cursor: pointer;
+            appearance: none;
+            transition: all 0.2s;
+        }
+        .demo-select:focus { border-color: rgba(130,192,154,0.4); color: #fff; }
 
- .submit-btn {
- width: 100%;
- padding: 0.875rem;
- background: #4ade80;
- border: none; border-radius: 8px;
- color: #06080c;
- font-family: 'Inter', sans-serif;
- font-size: 0.875rem; font-weight: 700;
- cursor: pointer;
- transition: opacity 0.2s;
- margin-top: 1rem;
- }
- .submit-btn:hover { opacity: 0.9; }
+        .security-strip {
+            display: flex; align-items: center; justify-content: center; gap: 1.5rem;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+        .security-text { font-size: 0.65rem; font-weight: 600; color: #475569; display: flex; align-items: center; gap: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .security-dot { width: 5px; height: 5px; background: #82c09a; border-radius: 50%; box-shadow: 0 0 10px #82c09a; }
+    </style>
 
- .divider {
- display: flex; align-items: center; gap: 1rem;
- margin: 2rem 0;
- }
- .divider-line { flex: 1; height: 1px; background: rgba(255,255,255,0.04); }
- .divider-text { font-size: 0.75rem; font-weight: 500; color: #64748b; }
-
- .demo-select {
- width: 100%;
- background: #131824;
- border: 1px solid rgba(255,255,255,0.04);
- border-radius: 8px;
- padding: 0.75rem 1rem;
- font-size: 0.875rem; color: #94a3b8;
- font-family: 'Inter', sans-serif;
- outline: none; cursor: pointer;
- appearance: none;
- }
- .demo-select:focus { border-color: rgba(74,222,128,0.4); }
-
- .security-strip {
- display: flex; align-items: center; justify-content: flex-start; gap: 1rem;
- margin-top: 2rem;
- padding-top: 2rem;
- border-top: 1px solid rgba(255,255,255,0.04);
- }
- .security-text { font-size: 0.7rem; font-weight: 500; color: #64748b; display: flex; align-items: center; gap: 0.4rem; }
- .security-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; }
- </style>
 </head>
 <body>
 
 <div class="left-panel">
- <div class="grid-bg"></div>
+    <div class="grid-bg"></div>
 
- <div class="left-content">
- <div class="brand-logo">
- <div class="brand-icon"><div class="brand-icon-inner"></div></div>
- <div>
- <div class="brand-name">Opeshis OS</div>
- <div class="brand-sub">Healthcare Intelligence Core</div>
- </div>
- </div>
- </div>
+    <div class="left-content">
+        <div class="flex items-center gap-4">
+            <div class="brand-icon"><div class="brand-icon-inner"></div></div>
+            <div>
+                <div class="text-white font-bold text-lg tracking-tight">Opeshis OS</div>
+                <div class="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">Institutional Core</div>
+            </div>
+        </div>
+    </div>
 
- <div class="left-content hero-block">
- <div class="hero-badge">Sentinel v2.2</div>
- <h1 class="hero-title">
- Clinical<br>
- Intelligence.<br>
- <span>Without Limits.</span>
- </h1>
- <p class="hero-desc">
- The world's first offline-first, multi-branch hospital operating system. 
- Engineered for high-density clinical environments.
- </p>
- <div class="stat-row">
- <div>
- <div class="stat-num">40+</div>
- <div class="stat-label">Modules</div>
- </div>
- <div>
- <div class="stat-num">99.9%</div>
- <div class="stat-label">Uptime</div>
- </div>
- <div>
- <div class="stat-num">HIPAA</div>
- <div class="stat-label">Compliant</div>
- </div>
- </div>
- </div>
+    <div class="left-content mb-20">
+        <div class="hero-badge">Sentinel Matrix v2.2</div>
+        <h1 class="hero-title">
+            Clinical<br>
+            Sovereignty.<br>
+            <span>Without Limits.</span>
+        </h1>
+        <p class="hero-desc">
+            The institutional operating system for high-density medical environments. 
+            Engineered for clinical intelligence and zero-leakage operations.
+        </p>
+        
+        <div class="flex gap-16">
+            <div>
+                <div class="stat-num text-sage">22</div>
+                <div class="stat-label">Pillar Modules</div>
+            </div>
+            <div>
+                <div class="stat-num">100%</div>
+                <div class="stat-label">Offline Uptime</div>
+            </div>
+            <div>
+                <div class="stat-num">FIPS</div>
+                <div class="stat-label">Secure Core</div>
+            </div>
+        </div>
+    </div>
 
- <div class="left-footer left-content">
- <a href="{{ route('public.about') }}" class="left-footer-link">About</a>
- <a href="{{ route('public.features') }}" class="left-footer-link">Features</a>
- <span class="left-footer-link" style="margin-left: auto;">© 2026 Opesware Innovation</span>
- </div>
+    <div class="left-content flex items-center justify-between border-t border-white/[0.04] pt-10">
+        <div class="flex gap-10">
+            <a href="{{ route('public.about') }}" class="text-[11px] font-bold text-white/20 uppercase tracking-widest hover:text-sage transition-all">Institutional About</a>
+            <a href="{{ route('public.features') }}" class="text-[11px] font-bold text-white/20 uppercase tracking-widest hover:text-sage transition-all">Feature Intelligence</a>
+        </div>
+        <span class="text-[11px] font-bold text-white/10 uppercase tracking-widest">© 2026 Opesware</span>
+    </div>
 </div>
+
 
 <div class="right-panel">
- <div class="login-box">
+    <div class="cc-login-card">
 
- <div class="login-header">
- <h2>Sign in to Opeshis</h2>
- <p>Enter your institutional credentials</p>
- </div>
+        <div class="login-header mb-10">
+            <h2>Sign In</h2>
+            <p>Access the Opeshis OS Core Matrix</p>
+        </div>
 
- <form id="loginForm" action="{{ route('login.post') }}" method="POST">
- @csrf
- <div class="form-group">
- <label class="form-label" for="email">Email address</label>
- <input id="email" type="email" name="email" value="{{ old('email') }}" required class="form-input">
- </div>
+        <form id="loginForm" action="{{ route('login.post') }}" method="POST">
+            @csrf
+            <div class="form-group mb-6">
+                <label class="block text-[10px] font-bold text-white/20 uppercase tracking-widest mb-3" for="email">Institutional Email</label>
+                <input id="email" type="email" name="email" value="{{ old('email') }}" required 
+                    class="cc-input w-full" placeholder="name@institution.com">
+            </div>
 
- <div class="form-group">
- <label class="form-label" for="password">Password</label>
- <input id="password" type="password" name="password" required class="form-input">
- </div>
+            <div class="form-group mb-6">
+                <label class="block text-[10px] font-bold text-white/20 uppercase tracking-widest mb-3" for="password">Security Protocol</label>
+                <input id="password" type="password" name="password" required 
+                    class="cc-input w-full" placeholder="••••••••">
+            </div>
 
- <button type="submit" class="submit-btn">Sign in</button>
- </form>
+            <button type="submit" class="submit-btn">Authorize Access</button>
+        </form>
 
- <div class="divider">
- <div class="divider-line"></div>
- <span class="divider-text">or use demo access</span>
- <div class="divider-line"></div>
- </div>
+        <div class="divider flex items-center gap-4 my-10">
+            <div class="h-[1px] flex-1 bg-white/[0.04]"></div>
+            <span class="text-[10px] font-bold text-white/10 uppercase tracking-widest">Demo Override</span>
+            <div class="h-[1px] flex-1 bg-white/[0.04]"></div>
+        </div>
 
- <select class="demo-select" onchange="if(this.value) quickLogin(this.value);">
- <option value="" disabled selected>Select a demo role...</option>
- <option value="bamenda.admin@clinicore.com">Administrator (Full Access)</option>
- <option value="chiefmedicalofficer@clinicore.test">Medical Doctor (Clinical)</option>
- <option value="chiefmatron@clinicore.test">Registered Nurse</option>
- </select>
+        <select class="demo-select" onchange="if(this.value) quickLogin(this.value);">
+            <option value="" disabled selected>Select Simulation Role...</option>
+            <option value="bamenda.admin@clinicore.com">Institutional Administrator</option>
+            <option value="chiefmedicalofficer@clinicore.test">Clinical Director (MD)</option>
+            <option value="chiefmatron@clinicore.test">Head of Nursing</option>
+        </select>
 
- <div class="security-strip">
- <span class="security-text"><div class="security-dot"></div> Secure Session</span>
- <span class="security-text">AES-256 Encrypted</span>
- </div>
+        <div class="security-strip">
+            <span class="security-text"><div class="security-dot"></div> Session Active</span>
+            <span class="security-text">FIPS 140-2 Validated</span>
+        </div>
 
- </div>
+    </div>
 </div>
+
 
 <script>
  function quickLogin(email) {

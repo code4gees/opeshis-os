@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class MaintenanceRequests extends Model
+class MaintenanceRequest extends Model
 {
     use HasUuids;
     protected $table = 'maintenance_work_orders';

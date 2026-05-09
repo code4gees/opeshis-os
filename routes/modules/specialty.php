@@ -110,4 +110,7 @@ Route::middleware(['permission:module_clinical'])->group(function () {
         Route::get('/referrals', [ReferralController::class, 'index'])->name('referrals.index');
         Route::get('/narcotics', [NarcoticsController::class, 'index'])->name('narcotics.index');
     });
+
+    // Generic Specialty Hub Commitment
+    Route::post('/save', [SpecialtyController::class, 'save'])->name('specialty.save');
 });

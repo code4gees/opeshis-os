@@ -5,9 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class SystemSetting extends Model
+class Vendor extends Model
 {
     use HasUuids;
-    protected $table = 'system_settings';
+    protected $table = 'vendors';
     protected $guarded = [];
+
+    public function items()
+    {
+        return $this->hasMany(WarehouseStock::class, 'vendor_id');
+    }
 }

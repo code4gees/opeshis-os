@@ -66,7 +66,7 @@ class TheatreController extends Controller
     /**
      * Authorize Institutional Intra-operative Procedure Initiation
      */
-    public function startIntraop(Request $request): RedirectResponse
+    public function startIntraop(Request $request, \App\Actions\Clinical\StartSurgicalProcedureAction $action): RedirectResponse
     {
         $validated = $request->validate([
             'case_id' => ['required', 'uuid', 'exists:theatre_cases,id'],
@@ -74,31 +74,18 @@ class TheatreController extends Controller
             'surgeon_id' => ['required', 'uuid', 'exists:users,id'],
         ]);
 
-        DB::transaction(function () use ($validated) {
-            $intraop = TheatreIntraop::create([
-                'case_id' => $validated['case_id'],
-                'anaesthesia_type' => $validated['anaesthesia_type'],
-                'surgeon_id' => $validated['surgeon_id'],
-                'anaesthetist_id' => auth()->id(),
-                'incision_time' => now(),
-                'status' => 'in_progress',
-            ]);
-
-            TheatreCase::where('id', $validated['case_id'])->update([
-                'status' => 'in_progress',
-                'started_at' => now(),
-            ]);
-
-            Opeshis::logAction('THEATRE_START', 'theatre_intraop', $intraop->id, 'Institutional surgical incision started');
-        });
-
-        return redirect()->back()->with('success', 'Institutional intra-operative record protocol initiated.');
+        try {
+            $action->execute($validated);
+            return redirect()->back()->with('success', 'Institutional intra-operative record protocol initiated.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Initiation failure: ' . $e->getMessage());
+        }
     }
 
     /**
      * Finalize Institutional Intra-operative Procedure Protocol
      */
-    public function completeIntraop(Request $request): RedirectResponse
+    public function completeIntraop(Request $request, \App\Actions\Clinical\CompleteSurgicalProcedureAction $action): RedirectResponse
     {
         $validated = $request->validate([
             'case_id' => ['required', 'uuid', 'exists:theatre_cases,id'],
@@ -107,22 +94,12 @@ class TheatreController extends Controller
             'specimens' => ['nullable', 'string'],
         ]);
 
-        DB::transaction(function () use ($validated) {
-            TheatreIntraop::where('case_id', $validated['case_id'])->update([
-                'closure_time' => now(),
-                'operative_findings' => $validated['findings'],
-                'estimated_blood_loss' => $validated['ebl'],
-                'specimens_sent' => $validated['specimens'],
-                'status' => 'completed',
-                'completed_by' => auth()->id(),
-            ]);
-
-            TheatreCase::where('id', $validated['case_id'])->update(['status' => 'recovery']);
-
-            Opeshis::logAction('THEATRE_COMPLETE', 'theatre_cases', $validated['case_id'], 'Institutional surgical procedure finalized');
-        });
-
-        return redirect()->back()->with('success', 'Institutional intra-operative protocol finalized.');
+        try {
+            $action->execute($validated);
+            return redirect()->back()->with('success', 'Institutional intra-operative protocol finalized.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Finalization failure: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -174,7 +151,7 @@ class TheatreController extends Controller
     /**
      * Authorize Institutional Recovery Unit Surveillance Initiation Protocol
      */
-    public function saveRecovery(Request $request): RedirectResponse
+    public function saveRecovery(Request $request, \App\Actions\Clinical\LogSurgicalRecoveryAction $action): RedirectResponse
     {
         $validated = $request->validate([
             'case_id' => ['required', 'uuid', 'exists:theatre_cases,id'],
@@ -184,21 +161,12 @@ class TheatreController extends Controller
             'discharge_time' => ['nullable', 'date'],
         ]);
 
-        DB::transaction(function () use ($validated) {
-            TheatreRecovery::create([
-                'case_id' => $validated['case_id'],
-                'arrival_time' => now(),
-                'aldrete_score' => $validated['aldrete'],
-                'pain_score' => $validated['pain'],
-                'nausea' => $validated['nausea'],
-                'discharge_time' => $validated['discharge_time'],
-                'recorded_by' => auth()->id(),
-            ]);
-
-            TheatreCase::where('id', $validated['case_id'])->update(['status' => 'completed']);
-        });
-
-        return redirect()->back()->with('success', 'Institutional recovery surveillance protocol authorized.');
+        try {
+            $action->execute($validated);
+            return redirect()->back()->with('success', 'Institutional recovery surveillance protocol authorized.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Recovery log failure: ' . $e->getMessage());
+        }
     }
 
     /**

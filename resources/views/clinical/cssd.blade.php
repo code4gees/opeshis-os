@@ -1,116 +1,105 @@
-<x-cc-shell title='Opeshis OS'>
-@section('title', 'CSSD Ops — Opeshis OS')
+<x-cc-shell title='Sterile Logistics | Opeshis OS'>
 
-<div class="space-y-8 animate-fade-in">
+<div class="max-w-[1600px] mx-auto pb-20">
+    <!-- Institutional Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+        <div>
+            <h1 class="text-3xl font-extrabold text-white tracking-tighter uppercase">Sterile <span class="text-sage">Logistics</span></h1>
+            <p class="text-[11px] font-bold text-white/20 uppercase tracking-[0.25em] mt-2">Central Sterile Services Department · Load Tracking · Biological Surveillance Matrix</p>
+        </div>
+        <div class="flex gap-4">
+            <x-cc-button icon="fa-plus-circle" color="sage" variant="ghost" onclick="document.getElementById('loadModal').classList.remove('hidden')">
+                Start Sterilization Load
+            </x-cc-button>
+        </div>
+    </div>
 
- {{-- Header --}}
- <div class="flex justify-between items-start border-b border-subtle pb-8">
- <div>
- <h2 class="text-2xl font-semibold uppercase text-white tracking-tight">CSSD & Sterile Logistics</h2>
- <p class="text-[12px] font-bold text-slate-400 font-medium mt-1">Sterilization Load Tracking · Biological Indicators · Sterile Storage</p>
- </div>
- <div class="flex gap-4">
- <button onclick="document.getElementById('loadModal').classList.remove('hidden')" class="px-6 py-3 bg-sage text-white rounded-xl font-bold text-xs hover:bg-indigo-700 transition-all">
- + Start Sterilization Load
- </button>
- </div>
- </div>
+    <!-- Sterilization Telemetry Matrix -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <x-cc-stat title="Today's Loads" :value="$loadStats->total ?? 0" icon="fa-layer-group" trend="Institutional Log" color="indigo" />
+        <x-cc-stat title="Passed Cycles" :value="$loadStats->passed ?? 0" icon="fa-check-double" trend="Compliance Signal" color="emerald" />
+        <x-cc-stat title="Failed / Quarantined" :value="$loadStats->failed ?? 0" icon="fa-biohazard" trend="Critical Alert" color="rose" />
+        <x-cc-stat title="Expiring Sterile Stock" :value="$expiringCount" icon="fa-hourglass-half" trend="Storage Surveillance" color="amber" />
+    </div>
 
- {{-- Stats Row --}}
- <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
- @foreach([
- ['Today\'s Loads', $loadStats->total ?? 0, 'indigo'],
- ['Passed Cycles', $loadStats->passed ?? 0, 'emerald'],
- ['Failed / Quarantined', $loadStats->failed ?? 0, 'rose'],
- ['Expiring Sterile Stock', $expiringCount, 'amber']
- ] as [$label, $val, $color])
- <div class="bg-card rounded-3xl border border-subtle shadow-lg px-8 py-6">
- <p class="text-[12px] font-semibold text-slate-400 font-medium mb-2">{{ $label }}</p>
- <p class="text-3xl font-semibold text-{{ $color }}-600">{{ $val }}</p>
- </div>
- @endforeach
- </div>
+    <!-- Active Sterilization Cycles Matrix -->
+    <x-cc-card class="overflow-hidden">
+        <div class="px-8 py-6 border-b border-white/[0.04] bg-white/[0.02] flex justify-between items-center">
+            <h3 class="text-[11px] font-bold text-white/20 uppercase tracking-[0.25em]">Active Sterilization Cycles Matrix</h3>
+            <div class="flex items-center gap-2">
+                <div class="w-1.5 h-1.5 rounded-full bg-sage animate-pulse"></div>
+                <span class="text-[9px] font-black text-sage uppercase tracking-widest">Live Surveillance Active</span>
+            </div>
+        </div>
 
- {{-- Active Loads Table --}}
- <div class="bg-card rounded-[2.5rem] border border-subtle shadow-lg overflow-hidden">
- <div class="px-10 py-6 border-b border-subtle bg-slate-50/30">
- <h3 class="text-xs font-semibold text-white font-medium">Active Sterilization Cycles</h3>
- </div>
- <table class="w-full text-left">
- <thead class="bg-[#2a2e38] text-[12px] font-semibold text-slate-400 font-medium">
- <tr>
- <th class="px-10 py-4">Load Number</th>
- <th class="py-4">Sterilizer / Modality</th>
- <th class="py-4">Method</th>
- <th class="py-4">Status</th>
- <th class="py-4">Expiry Date</th>
- <th class="py-4 text-right px-10">Actions</th>
- </tr>
- </thead>
- <tbody class="divide-y divide-slate-50">
- @forelse($todayLoads as $l)
- <tr class="hover:bg-slate-50/60 transition group">
- <td class="px-10 py-5">
- <p class="text-sm font-semibold text-white">{{ $l->load_number }}</p>
- <p class="text-[12px] text-slate-400 font-bold font-medium">{{ date('H:i', strtotime($l->created_at)) }} HRS</p>
- </td>
- <td class="py-5">
- <p class="text-xs font-semibold text-slate-700 uppercase">{{ $l->sterilizer_name }}</p>
- </td>
- <td class="py-5">
- <span class="px-2 py-1 bg-white/10 rounded-lg text-[12px] font-semibold text-slate-500 uppercase">{{ $l->sterilization_method }}</span>
- </td>
- <td class="py-5">
- <span class="px-2 py-1 rounded-full text-[12px] font-semibold font-medium
- {{ $l->load_status === 'passed' ? 'bg-emerald-100 text-emerald-700' : ($l->load_status === 'in_progress' ? 'bg-indigo-100 text-indigo-700 animate-pulse' : 'bg-rose-100 text-rose-700') }}">
- {{ str_replace('_',' ',$l->load_status) }}
- </span>
- </td>
- <td class="py-5 text-xs font-bold text-slate-400">{{ $l->expiry_date ?: 'TBD' }}</td>
- <td class="px-10 py-5 text-right">
- @if($l->load_status === 'in_progress')
- <button class="text-[12px] font-semibold text-sage hover:underline uppercase">Verify Load</button>
- @else
- <button class="text-[12px] font-semibold text-slate-300 uppercase cursor-not-allowed">Archived</button>
- @endif
- </td>
- </tr>
- @empty
- <tr><td colspan="6" class="p-20 text-center text-slate-300 text-sm">No sterilization loads recorded today.</td></tr>
- @endforelse
- </tbody>
- </table>
- </div>
-
+        <x-cc-table :headers="['Load Number', 'Sterilizer Modality', 'Sterilization Method', 'Cycle Status', 'Expiry Projection', 'Strategic Action']">
+            @forelse($todayLoads as $l)
+                <tr class="group hover:bg-white/[0.01] transition-all duration-300 border-b border-white/[0.02] last:border-0">
+                    <td class="px-8 py-6">
+                        <div class="text-[13px] font-bold text-white uppercase tracking-tight group-hover:text-sage transition-colors">{{ $l->load_number }}</div>
+                        <div class="text-[9px] font-black text-white/10 uppercase tracking-widest mt-1">{{ date('H:i', strtotime($l->created_at)) }} HRS · LOGGED</div>
+                    </td>
+                    <td class="px-8 py-6">
+                        <div class="text-[11px] font-bold text-white/40 uppercase tracking-widest">{{ $l->sterilizer_name }}</div>
+                    </td>
+                    <td class="px-8 py-6">
+                        <span class="px-3 py-1.5 bg-white/5 border border-white/10 rounded-xl text-[9px] font-black text-white/40 uppercase tracking-widest">
+                            {{ $l->sterilization_method }}
+                        </span>
+                    </td>
+                    <td class="px-8 py-6">
+                        @php
+                            $statusCls = match($l->load_status) {
+                                'passed' => 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
+                                'in_progress' => 'bg-indigo-500/10 text-indigo-500 border-indigo-500/20 animate-pulse',
+                                default => 'bg-rose-500/10 text-rose-500 border-rose-500/20'
+                            };
+                        @endphp
+                        <span class="px-3 py-1.5 rounded-xl border {{ $statusCls }} text-[9px] font-black uppercase tracking-widest">
+                            {{ str_replace('_',' ',$l->load_status) }}
+                        </span>
+                    </td>
+                    <td class="px-8 py-6 text-[11px] font-bold text-white/20 uppercase tracking-tighter">
+                        {{ $l->expiry_date ?: 'TBD_SIGNAL' }}
+                    </td>
+                    <td class="px-8 py-6 text-right">
+                        @if($l->load_status === 'in_progress')
+                            <x-cc-button variant="ghost" size="sm" icon="fa-shield-check" color="sage">Verify Load</x-cc-button>
+                        @else
+                            <span class="text-[9px] font-black text-white/10 uppercase tracking-widest">Protocol Archived</span>
+                        @endif
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="6" class="px-8 py-20 text-center">
+                        <i class="fas fa-layer-group text-white/5 text-2xl mb-4"></i>
+                        <p class="text-[11px] font-bold text-white/10 uppercase tracking-widest">No sterilization loads recorded in the current cycle.</p>
+                    </td>
+                </tr>
+            @endforelse
+        </x-cc-table>
+    </x-cc-card>
 </div>
 
-{{-- Load Modal --}}
-<div id="loadModal" class="fixed inset-0 bg-card z-[100] hidden flex items-center justify-center p-8">
- <div class="bg-card w-full max-w-xl rounded-[2.5rem] p-12 ">
- <h3 class="text-xl font-semibold text-white mb-8 uppercase">Initiate Sterilization Cycle</h3>
- <form method="POST" action="{{ url('/clinical/cssd/start') }}" class="space-y-5">
- @csrf
- <div><label class="block text-[12px] font-semibold text-slate-400 font-medium mb-2">Select Sterilizer</label>
- <select name="sterilizer_id" class="w-full bg-[#2a2e38] border border-subtle rounded-2xl px-5 py-4 text-sm font-bold outline-none">
- @foreach($sterilizers as $s)
- <option value="{{ $s->id }}">{{ $s->sterilizer_name }}</option>
- @endforeach
- </select>
- </div>
- <div><label class="block text-[12px] font-semibold text-slate-400 font-medium mb-2">Sterilization Method</label>
- <select name="method" class="w-full bg-[#2a2e38] border border-subtle rounded-2xl px-5 py-4 text-sm font-bold outline-none">
- <option value="Steam Autoclave (134°C)">Steam Autoclave (134°C)</option>
- <option value="Hydrogen Peroxide Plasma">Hydrogen Peroxide Plasma</option>
- <option value="Ethylene Oxide (ETO)">Ethylene Oxide (ETO)</option>
- <option value="Dry Heat">Dry Heat</option>
- </select>
- </div>
- <div class="flex gap-4 mt-8">
- <button type="button" onclick="document.getElementById('loadModal').classList.add('hidden')" class="flex-1 py-4 bg-white/10 text-slate-400 rounded-2xl text-xs font-semibold uppercase">Cancel</button>
- <button type="submit" class="flex-1 py-4 bg-sage text-white rounded-2xl text-xs font-semibold uppercase ">Start Cycle</button>
- </div>
- </form>
- </div>
-</div>
-
+<!-- Modal: Start Sterilization Load -->
+<x-cc-modal id="loadModal" title="Initiate Sterilization Cycle" icon="fa-plus-circle">
+    <form method="POST" action="{{ url('/clinical/cssd/start') }}" class="space-y-6">
+        @csrf
+        <x-cc-select label="Select Sterilizer Modality" name="sterilizer_id" icon="fa-microchip">
+            @foreach($sterilizers as $s)
+                <option value="{{ $s->id }}">{{ $s->sterilizer_name }}</option>
+            @endforeach
+        </x-cc-select>
+        <x-cc-select label="Sterilization Method Matrix" name="method" icon="fa-flask-vial">
+            <option value="Steam Autoclave (134°C)">Steam Autoclave (134°C)</option>
+            <option value="Hydrogen Peroxide Plasma">Hydrogen Peroxide Plasma</option>
+            <option value="Ethylene Oxide (ETO)">Ethylene Oxide (ETO)</option>
+            <option value="Dry Heat">Dry Heat</option>
+        </x-cc-select>
+        <div class="pt-4">
+            <x-cc-button type="submit" color="sage" class="w-full">Authorize Cycle Initiation</x-cc-button>
+        </div>
+    </form>
+</x-cc-modal>
 </x-cc-shell>

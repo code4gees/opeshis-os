@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Models\MessagingProviders;
+use App\Models\MessagingProvider;
 use App\Models\MessageQueue;
 use Illuminate\Support\Facades\Log;
 

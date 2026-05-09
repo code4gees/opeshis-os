@@ -35,10 +35,12 @@
  return "<a href=\"".route('finance.billing.index', ['subtab' => $sub])."\" class=\"pb-4 text-xs font-semibold font-medium border-b-2 transition-all {$cls}\">{$label}</a>";
  };
  @endphp
- {!! $subnav('pending', 'Unpaid Invoices') !!}
- {!! $subnav('insurance', 'Insurance Claims') !!}
- {!! $subnav('providers', 'Network Providers') !!}
- {!! $subnav('ledger', 'Revenue Ledger') !!}
+  {!! $subnav('pending', 'Unpaid Invoices') !!}
+  {!! $subnav('insurance', 'Insurance Claims') !!}
+  <a href="{{ route('finance.eclaims.index') }}" class="pb-4 text-xs font-semibold font-medium border-b-2 transition-all text-slate-500 border-transparent hover:text-slate-300">E-Claims Hub</a>
+  <a href="{{ route('uhc.index') }}" class="pb-4 text-xs font-semibold font-medium border-b-2 transition-all text-slate-500 border-transparent hover:text-slate-300">UHC / Social Health</a>
+  {!! $subnav('providers', 'Network Providers') !!}
+  {!! $subnav('ledger', 'Revenue Ledger') !!}
  </div>
 
  @if(session('success'))

@@ -1,34 +1,37 @@
-@props(['id', 'title', 'icon' => null])
+@props(['id', 'title', 'icon' => null, 'maxWidth' => 'xl'])
 
 <div id="{{ $id }}" class="fixed inset-0 z-[100] hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <!-- Backdrop -->
-    <div class="fixed inset-0 bg-[#1a1d24]/80  transition-opacity"></div>
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-md transition-opacity"></div>
 
     <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-        <div class="relative transform overflow-hidden rounded-2xl bg-[#2a2e38] border border-slate-700/60 text-left  transition-all sm:my-8 sm:w-full sm:max-w-xl">
+        <div class="relative transform overflow-hidden cc-card shadow-2xl text-left transition-all sm:my-8 sm:w-full 
+            {{ $maxWidth === 'sm' ? 'sm:max-w-sm' : ($maxWidth === 'md' ? 'sm:max-w-md' : ($maxWidth === 'lg' ? 'sm:max-w-lg' : 'sm:max-w-xl')) }}">
+            
             <!-- Header -->
-            <div class="bg-card/50 px-6 py-4 border-b border-slate-700/60 flex items-center justify-between">
-                <div class="flex items-center gap-3">
+            <div class="px-8 py-6 border-b border-white/[0.04] flex items-center justify-between bg-white/[0.02]">
+                <div class="flex items-center gap-4">
                     @if($icon)
-                        <div class="w-8 h-8 rounded-lg bg-sage/10 flex items-center justify-center border border-blue-500/20 text-sage">
-                            <i class="fas {{ $icon }} text-xs"></i>
+                        <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-sage">
+                            <i class="fas {{ $icon }} text-[14px]"></i>
                         </div>
                     @endif
-                    <h3 class="text-sm font-black uppercase tracking-widest text-slate-100" id="modal-title">{{ $title }}</h3>
+                    <h3 class="text-[12px] font-bold text-white/40 uppercase tracking-[0.2em]" id="modal-title">{{ $title }}</h3>
                 </div>
-                <button type="button" onclick="document.getElementById('{{ $id }}').classList.add('hidden')" class="text-slate-500 hover:text-slate-300 transition-colors">
-                    <i class="fas fa-times"></i>
+                <button type="button" onclick="document.getElementById('{{ $id }}').classList.add('hidden')" 
+                    class="w-8 h-8 rounded-xl bg-white/5 flex items-center justify-center text-white/20 hover:text-white transition-colors">
+                    <i class="fas fa-times text-[10px]"></i>
                 </button>
             </div>
 
             <!-- Body -->
-            <div class="px-6 py-6">
+            <div class="p-8">
                 {{ $slot }}
             </div>
 
             @if(isset($footer))
                 <!-- Footer -->
-                <div class="bg-card/50 px-6 py-4 border-t border-slate-700/60 flex flex-row-reverse gap-3">
+                <div class="px-8 py-6 border-t border-white/[0.04] flex flex-row-reverse gap-4 bg-white/[0.01]">
                     {{ $footer }}
                 </div>
             @endif

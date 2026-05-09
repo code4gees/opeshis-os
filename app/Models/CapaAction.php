@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class CapaActions extends Model
+class CapaAction extends Model
 {
     use HasUuids;
     protected $table = 'capa_actions';
@@ -13,7 +13,7 @@ class CapaActions extends Model
 
     public function incident()
     {
-        return $this->belongsTo(Incidents::class, 'incident_id');
+        return $this->belongsTo(IncidentReport::class, 'incident_id');
     }
 
     public function assignee()

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\StaffCredentials;
+use App\Models\StaffCredential;
 use App\Models\User;
 use App\Helpers\Opeshis;
 use Illuminate\View\View;
@@ -23,12 +23,12 @@ class CredentialingController extends Controller
             }])
             ->get();
 
-        $expiringAlerts = StaffCredentials::with('user')
+        $expiringAlerts = StaffCredential::with('user')
             ->where('expires_at', '<=', now()->addDays(30))
             ->where('expires_at', '>=', now())
             ->get();
 
-        $expiredCount = StaffCredentials::where('expires_at', '<', now())->count();
+        $expiredCount = StaffCredential::where('expires_at', '<', now())->count();
 
         return view('admin.credentialing', compact('staff', 'expiringAlerts', 'expiredCount'));
     }
@@ -39,7 +39,7 @@ class CredentialingController extends Controller
     public function getStaffProfile(string $userId): JsonResponse
     {
         $user = User::findOrFail($userId);
-        $credentials = StaffCredentials::where('user_id', $userId)
+        $credentials = StaffCredential::where('user_id', $userId)
             ->orderBy('expires_at')
             ->get();
 
@@ -63,7 +63,7 @@ class CredentialingController extends Controller
             'expires_at' => 'required|date',
         ]);
 
-        $credential = StaffCredentials::create([
+        $credential = StaffCredential::create([
             'user_id' => $validated['user_id'],
             'credential_type' => $validated['type'],
             'credential_number' => $validated['number'],
@@ -90,7 +90,7 @@ class CredentialingController extends Controller
             'status' => 'required|string',
         ]);
 
-        StaffCredentials::findOrFail($id)->update([
+        StaffCredential::findOrFail($id)->update([
             'credential_number' => $validated['number'],
             'expires_at' => $validated['expires_at'],
             'status' => $validated['status'],
@@ -105,7 +105,7 @@ class CredentialingController extends Controller
      */
     public function acknowledgeAlert(Request $request, string $id): RedirectResponse
     {
-        StaffCredentials::findOrFail($id)->update([
+        StaffCredential::findOrFail($id)->update([
             'alert_acknowledged_at' => now(),
             'acknowledged_by' => auth()->id()
         ]);
@@ -118,7 +118,7 @@ class CredentialingController extends Controller
      */
     public function runExpiryCheck(): RedirectResponse
     {
-        $count = StaffCredentials::where('expires_at', '<=', now()->addDays(30))->count();
+        $count = StaffCredential::where('expires_at', '<=', now()->addDays(30))->count();
         Opeshis::logAction('CRED_EXPIRY_CHECK', 'staff_credentials', null, "Protocol: Institutional expiry audit complete. Alerts: {$count}.");
         
         return redirect()->back()->with('success', "Institutional audit complete: {$count} credentials flagged.");

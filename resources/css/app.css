@@ -11,28 +11,79 @@
     --cc-indigo-500: #6366f1;
     --cc-rose-500: #f43f5e;
     --cc-emerald-500: #10b981;
+    --cc-sage: #82c09a;
+    --cc-bg: #1a1d24;
+    --cc-card: #22262f;
+    --cc-border: rgba(255, 255, 255, 0.06);
   }
   
   body {
-    font-family: 'Inter', sans-serif;
-    background-color: #1a1d24;
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--cc-bg);
     color: #ffffff;
+    -webkit-font-smoothing: antialiased;
   }
 }
 
 @layer components {
-  .glass-panel {
-    background-color: #22262f;
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 0.75rem;
+  .cc-shell {
+    @apply min-h-screen bg-[#1a1d24] text-white selection:bg-sage/30;
+  }
+
+  .cc-card {
+    @apply bg-[#22262f] border border-white/[0.06] rounded-2xl shadow-2xl;
   }
   
-  .bg-card { background-color: #22262f; }
-  .border-subtle { border-color: rgba(255,255,255,0.06); }
-  .text-sage { color: #82c09a; }
-  .bg-sage { background-color: #82c09a; }
+  .glass-panel {
+    @apply bg-[#22262f] border border-white/[0.06] rounded-xl backdrop-blur-sm;
+  }
+  
+  .bg-card { background-color: var(--cc-card); }
+  .border-subtle { border-color: var(--cc-border); }
+  .text-sage { color: var(--cc-sage); }
+  .bg-sage { background-color: var(--cc-sage); }
   .text-alert { color: #d9776c; }
+
+  .cc-button-primary {
+    @apply bg-sage text-[#1a1d24] px-6 py-2.5 rounded-xl font-semibold uppercase text-[11px] tracking-wider transition-all hover:brightness-110 active:scale-95;
+  }
+
+  .cc-input {
+    @apply bg-[#1a1d24] border border-white/[0.06] rounded-xl px-4 py-3 text-sm focus:border-sage/50 focus:ring-0 transition-all placeholder:text-white/20;
+  }
+
+  .font-outfit { font-family: 'Outfit', sans-serif; }
+
+  /* High-Fidelity Scrollbar */
+  .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { 
+    @apply bg-white/5 rounded-full hover:bg-white/10 transition-colors;
+  }
+
+  /* SVG / Icon Clarity Optimization */
+  i.fas, i.far, i.fab, i.fa-solid, i.fa-regular, i.fa-brands {
+    @apply inline-block align-middle antialiased;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: grayscale;
+    transform: translateZ(0); /* Force GPU rendering for crispness */
+  }
+
+  .feature-card {
+    @apply bg-[#22262f] border border-white/[0.06] hover:border-sage/30 transition-all duration-500;
+  }
   
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up {
+    animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .bg-sidebar { background-color: #16191f; }
 }

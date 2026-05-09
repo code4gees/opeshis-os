@@ -1,61 +1,73 @@
-<x-cc-shell title='Opeshis OS'>
+<x-cc-shell title='Medical Consent | Opeshis OS'>
 
-@section('title', 'Informed Consent Hub — Opeshis OS')
+<div class="max-w-[1600px] mx-auto pb-20">
+    <!-- Institutional Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+        <div>
+            <h1 class="text-3xl font-extrabold text-white tracking-tighter uppercase">Medical <span class="text-indigo-500">Consent</span></h1>
+            <p class="text-[11px] font-bold text-white/20 uppercase tracking-[0.25em] mt-2">Institutional Informed Consent · Bioethics Compliance · Digital Signature Matrix Hub</p>
+        </div>
+        <div class="flex gap-4">
+            <x-cc-button icon="fa-file-signature" color="indigo" onclick="alert('Consent Protocol Initialization Initiated.')">
+                Authorize Consent Protocol
+            </x-cc-button>
+        </div>
+    </div>
 
+    @if(session('success'))
+        <div class="mb-8 p-6 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl text-[10px] font-black uppercase tracking-widest animate-pulse">
+            Consent Protocol Synchronized Successfully.
+        </div>
+    @endif
 
-<div class="space-y-8 animate-fade-in pb-20">
- <!-- Header: Bioethics & Consent Command -->
- <header class="flex justify-between items-center mb-10 pb-8 border-b border-subtle">
- <div>
- <h1 class="text-3xl font-semibold text-white tracking-tight uppercase">Medical Consent</h1>
- <p class="text-[12px] font-semibold text-slate-400 font-medium mt-1">Institutional Informed Consent · Bioethics Compliance · Digital Signature Matrix</p>
- </div>
- <div class="flex gap-4">
- <button class="px-8 py-4 bg-sage text-white rounded-xl font-semibold text-[12px] font-medium /20 hover:bg-indigo-700 transition-all border border-indigo-500/50">
- Authorize Consent Protocol
- </button>
- </div>
- </header>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Live Consent Matrix -->
+        <div class="lg:col-span-8">
+            <x-cc-card class="py-24 flex flex-col items-center justify-center text-center border-white/[0.04] bg-white/[0.01]">
+                <div class="w-24 h-24 bg-white/5 rounded-[2.5rem] flex items-center justify-center mb-10 border border-white/10 group hover:bg-indigo-500/10 hover:border-indigo-500/20 transition-all duration-700">
+                    <i class="fas fa-file-contract text-3xl text-white/20 group-hover:text-indigo-500 transition-colors"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white uppercase tracking-tight mb-4">Bioethics Matrix Active</h3>
+                <p class="text-[11px] font-bold text-white/20 max-w-md mx-auto uppercase tracking-widest leading-relaxed">
+                    The institutional informed consent and bioethics module is operational. Real-time digital signatures and authorization telemetry will populate the matrix as protocols are executed.
+                </p>
+            </x-cc-card>
+        </div>
 
- @if(session('success'))
- <div class="p-6 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl text-[12px] font-semibold font-medium mb-8 animate-pulse ">
- Consent protocol synchronized successfully.
- </div>
- @endif
+        <!-- Ethics Telemetry Sidebar -->
+        <div class="lg:col-span-4 space-y-8">
+            <x-cc-card class="p-8 bg-gradient-to-br from-indigo-500/5 to-transparent border-indigo-500/10">
+                <h3 class="text-[11px] font-bold text-indigo-500 uppercase tracking-[0.25em] mb-10">Bioethics Integrity Pulse</h3>
+                
+                <div class="flex items-end gap-3 mb-10">
+                    <span class="text-7xl font-black text-white tracking-tighter leading-none">100</span>
+                    <span class="text-xl font-black text-indigo-500 mb-1 uppercase tracking-widest">%</span>
+                </div>
 
- <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
- <!-- Live Consent Matrix -->
- <div class="lg:col-span-8 bg-card rounded-[3rem] border border-subtle overflow-hidden bg-card p-20 text-center flex flex-col items-center justify-center">
- <div class="w-24 h-24 bg-[#2a2e38] rounded-[2.5rem] flex items-center justify-center mb-10 border border-subtle group hover:bg-sage/20 hover:border-indigo-500/30 transition-all duration-700">
- <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-slate-500 group-hover:text-sage transition-colors"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
- </div>
- <h3 class="text-2xl font-semibold text-white uppercase tracking-tighter mb-4 ">Bioethics Matrix Active</h3>
- <p class="text-slate-500 text-[12px] max-w-sm mx-auto font-semibold font-medium leading-relaxed ">The institutional informed consent and bioethics module is operational. Real-time digital signatures and authorization telemetry will populate the matrix as protocols are executed.</p>
- </div>
+                <div class="space-y-6">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] font-black text-white/20 uppercase tracking-widest">Compliance Vector</span>
+                        <span class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Optimized</span>
+                    </div>
+                    <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                        <div class="bg-indigo-500 h-full shadow-[0_0_15px_rgba(99,102,241,0.5)]" style="width: 100%"></div>
+                    </div>
+                    <p class="text-[10px] font-bold text-white/40 leading-relaxed uppercase tracking-tight">
+                        Institutional ethics protocols are fully synchronized. Zero compliance deviations detected in the current cycle.
+                    </p>
+                </div>
+            </x-cc-card>
 
- <!-- Ethics Telemetry Sidebar -->
- <div class="lg:col-span-4 space-y-8">
- <div class="bg-card rounded-[3rem] p-10 border border-subtle bg-card relative overflow-hidden">
- <div class="relative z-10">
- <h3 class="text-[12px] font-semibold text-sage font-medium mb-10 ">Bioethics Integrity Pulse</h3>
- <div class="flex items-end gap-3 mb-10">
- <span class="text-6xl font-semibold text-white tracking-tighter leading-none">100</span>
- <span class="text-xl font-semibold text-sage opacity-60 mb-1 uppercase">%</span>
- </div>
- <div class="space-y-6">
- <div class="flex justify-between items-center">
- <span class="text-[12px] font-semibold text-slate-500 font-medium ">Compliance Vector:</span>
- <span class="text-[12px] font-semibold text-emerald-500 font-medium">Optimized</span>
- </div>
- <div class="w-full bg-[#2a2e38] h-2 rounded-full overflow-hidden ">
- <div class="bg-gradient-to-r from-indigo-600 to-indigo-400 h-full w-full shadow-[0_0_10px_rgba(99,102,241,0.5)]"></div>
- </div>
- </div>
- </div>
- <!-- Decorative background -->
- <div class="absolute -right-20 -bottom-20 w-48 h-48 bg-sage/5 rounded-full blur-3xl"></div>
- </div>
- </div>
- </div>
+            <x-cc-card class="p-8 border-white/[0.04] bg-white/[0.01]">
+                <h3 class="text-[11px] font-bold text-white/20 uppercase tracking-[0.25em] mb-4 flex items-center gap-2">
+                    <i class="fas fa-shield-halved text-[10px]"></i>
+                    Legal Governance
+                </h3>
+                <p class="text-[10px] font-bold text-white/20 leading-relaxed uppercase tracking-tight">
+                    All consent records are cryptographically secured and timestamped for institutional audit persistence.
+                </p>
+            </x-cc-card>
+        </div>
+    </div>
 </div>
 </x-cc-shell>

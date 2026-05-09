@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 class SysSetting extends Model
 {
     use HasUuids;
+
     protected $table = 'sys_settings';
     protected $guarded = [];
+
+    protected $primaryKey = 'key';
+    public $incrementing = false;
+    protected $keyType = 'string';
 }

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Incidents;
-use App\Models\CapaActions;
+use App\Models\IncidentReport;
+use App\Models\CapaAction;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -15,11 +15,11 @@ class QualityController extends Controller
      */
     public function index(): View
     {
-        $incidents = Incidents::with('reporter')
-            ->orderBy('incident_date', 'desc')
+        $incidents = IncidentReport::with('reporter')
+            ->orderBy('created_at', 'desc')
             ->get();
 
-        $capas = CapaActions::with(['incident', 'assignee'])
+        $capas = CapaAction::with(['incident', 'assignee'])
             ->orderBy('deadline', 'asc')
             ->get();
 
@@ -29,25 +29,27 @@ class QualityController extends Controller
     /**
      * Report Institutional Incident Protocol
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, \App\Actions\Ops\ReportIncidentAction $action): RedirectResponse
     {
-        $request->validate([
+        $validated = $request->validate([
             'incident_type' => 'required|string',
             'severity_level' => 'required|string',
             'description' => 'required|string',
+            'location' => 'nullable|string',
+            'is_anonymous' => 'nullable|string',
         ]);
 
-        Incidents::create([
-            'reporter_id' => $request->input('is_anonymous') === 'true' ? null : auth()->id(),
-            'incident_type' => $request->input('incident_type'),
-            'severity_level' => $request->input('severity_level'),
-            'description' => $request->input('description'),
-            'location' => $request->input('location'),
-            'incident_date' => now(),
-            'is_anonymous' => $request->input('is_anonymous') === 'true',
-            'status' => 'reported',
-        ]);
-
-        return redirect()->back()->with('success', 'Institutional incident report transmitted to safety office.');
+        try {
+            $action->execute([
+                'incident_type' => $validated['incident_type'],
+                'severity' => $validated['severity_level'],
+                'description' => $validated['description'],
+                'location' => $validated['location'],
+                'is_anonymous' => $request->input('is_anonymous') === 'true',
+            ]);
+            return redirect()->back()->with('success', 'Institutional incident report transmitted to safety office.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Reporting failure: ' . $e->getMessage());
+        }
     }
 }
