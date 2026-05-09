@@ -1,4 +1,4 @@
-<aside class="w-[260px] bg-sidebar flex flex-col h-screen sticky top-0 shrink-0 border-r border-white/[0.02]">
+<aside class="w-[260px] bg-surface-base flex flex-col h-screen sticky top-0 shrink-0 border-r border-white/[0.02]">
     <div class="pt-10 pb-8 px-8">
         <div class="flex items-center gap-4">
             <div class="grid grid-cols-2 gap-1">
@@ -19,9 +19,9 @@
     $nav = function($href, $label, $icon, $pattern) {
         $active = request()->is($pattern);
         $cls = $active
-            ? 'bg-sage text-[#1a1d24] font-bold shadow-[0_0_15px_rgba(130,192,154,0.2)]'
-            : 'text-white/30 hover:text-white hover:bg-white/5 transition-all duration-300';
-        $iconCls = $active ? 'text-[#1a1d24]' : 'text-white/20';
+            ? 'bg-cobalt text-white font-bold shadow-[0_0_15px_rgba(27,95,168,0.2)]'
+            : 'text-slate-400 hover:text-white hover:bg-white/5 transition-all duration-300';
+        $iconCls = $active ? 'text-white' : 'text-slate-500';
         
         return "
             <a href=\"{$href}\" class=\"flex items-center gap-4 px-5 py-3 rounded-xl {$cls} group\">

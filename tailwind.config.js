@@ -9,11 +9,15 @@ export default {
     theme: {
         extend: {
             colors: {
+                'surface': {
+                    'deep': '#050B15',
+                    'base': '#0A192F',
+                    'elevated': '#112240',
+                    'overlay': '#1D2D50',
+                },
                 'cobalt': '#1B5FA8',
-                'navy': '#0A192F',
-                'critical': '#E11D48',
-                'success': '#10B981',
                 'sage': '#82C09A',
+                'rose': '#E11D48',
                 'alert': '#D9776C',
                 'subtle': 'rgba(255, 255, 255, 0.04)',
                 'card': 'rgba(255, 255, 255, 0.02)',
