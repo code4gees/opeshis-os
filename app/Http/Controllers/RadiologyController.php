@@ -69,8 +69,8 @@ class RadiologyController extends Controller
                 $imageUrl = '';
 
                 if ($request->hasFile('scan_file')) {
-                    $path = $request->file('scan_file')->store('radiology', 'public');
-                    $imageUrl = '/storage/' . $path;
+                    $path = $request->file('scan_file')->store('radiology', 'private');
+                    $imageUrl = $path; // Reference to private storage
                 }
 
                 RadiologyOrder::findOrFail($validated['order_id'])->update([

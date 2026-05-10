@@ -22,6 +22,7 @@ return new class extends Migration
         Schema::create('opd_encounters', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('patient_id');
+            $table->uuid('active_queue_id')->nullable();
             $table->string('encounter_number', 32)->unique();
             $table->timestamp('check_in_time')->useCurrent();
             $table->uuid('assigned_doctor_id')->nullable();

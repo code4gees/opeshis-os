@@ -12,6 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('active_queue', function (Blueprint $table) {
+            if (!Schema::hasColumn('active_queue', 'room_id')) {
+                $table->string('room_id', 50)->nullable();
+                $table->uuid('assigned_doctor_id')->nullable();
+                $table->string('intent', 100)->nullable();
+                $table->json('pre_check_data')->nullable();
+                $table->json('complaint_data')->nullable();
+                $table->json('vitals_data')->nullable();
+                $table->boolean('is_nurse_validated')->default(false);
+                $table->uuid('branch_id')->nullable();
+            }
             $table->index(['status', 'created_at']);
         });
 

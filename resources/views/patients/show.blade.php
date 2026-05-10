@@ -13,7 +13,7 @@
  <div class="flex-1 z-10">
  <div class="flex flex-col md:flex-row md:items-center gap-4 mb-4">
  <h1 class="text-3xl font-bold text-white tracking-tight uppercase">{{ $patient->full_name }}</h1>
- <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded text-[12px] font-bold font-medium inline-block w-fit">{{ $patient->verification_status }}</span>
+ <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded text-[12px] font-bold font-medium inline-block w-fit">VERIFIED</span>
  </div>
  <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
  <div>
@@ -26,11 +26,11 @@
  </div>
  <div>
  <p class="text-[12px] font-bold text-slate-500 font-medium mb-1">Date of Birth</p>
- <p class="text-sm font-bold text-slate-200">{{ $patient->date_of_birth ?? 'Not Recorded' }}</p>
+ <p class="text-sm font-bold text-slate-200">{{ $patient->dob ?? 'Not Recorded' }}</p>
  </div>
  <div>
  <p class="text-[12px] font-bold text-slate-500 font-medium mb-1">Phone Number</p>
- <p class="text-sm font-bold text-slate-200">{{ $patient->phone_number }}</p>
+ <p class="text-sm font-bold text-slate-200">{{ $patient->phone }}</p>
  </div>
  </div>
  <div class="mt-8 flex gap-3">

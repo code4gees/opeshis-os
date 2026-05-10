@@ -110,7 +110,7 @@ return new class extends Migration
             $table->uuid('record_id')->nullable();
             $table->text('details')->nullable();
             $table->string('ip_address', 45)->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
         });
 
         Schema::create('sys_medical_terms', function (Blueprint $table) {

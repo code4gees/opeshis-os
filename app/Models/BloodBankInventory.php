@@ -9,5 +9,7 @@ class BloodBankInventory extends Model
 {
     use HasUuids;
 
+    protected $table = 'blood_bank_inventory';
+
     protected $fillable = ['blood_group', 'units', 'status'];
 }

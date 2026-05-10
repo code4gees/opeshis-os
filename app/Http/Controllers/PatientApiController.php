@@ -24,7 +24,7 @@ class PatientApiController extends Controller
 
         // Forensic Query via Eloquent
         $patient = Patient::where('medical_id', $request->medical_id)
-            ->where('phone_number', $request->phone_number)
+            ->where('phone', $request->phone_number)
             ->first();
 
         if (!$patient) {

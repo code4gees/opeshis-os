@@ -21,6 +21,15 @@ class AdmitPatientToWardAction
             ->orWhere('medical_id', $data['patient_id'])
             ->firstOrFail();
 
+        // ⚠️ Forensic Guard: Prevent Duplicate Active Admissions
+        $existing = Admission::where('patient_id', $patient->id)
+            ->where('status', 'admitted')
+            ->exists();
+
+        if ($existing) {
+            throw new \Exception("Patient is already admitted to another ward/unit. Discharge required first.");
+        }
+
         return DB::transaction(function() use ($data, $patient) {
             $admission = Admission::create([
                 'admission_type' => 'general',

@@ -26,6 +26,7 @@ class PsychPatient extends Model
     ];
 
     protected function presentingComplaint(): \Illuminate\Database\Eloquent\Casts\Attribute { return $this->castPII('presenting_complaint'); }
+    protected function referralSource(): \Illuminate\Database\Eloquent\Casts\Attribute { return $this->castPII('referral_source'); }
     protected function admissionReason(): \Illuminate\Database\Eloquent\Casts\Attribute { return $this->castPII('admission_reason'); }
     protected function dischargePlan(): \Illuminate\Database\Eloquent\Casts\Attribute { return $this->castPII('discharge_plan'); }
 

@@ -9,5 +9,7 @@ class BloodTransfusion extends Model
 {
     use HasUuids;
 
+    protected $table = 'blood_transfusions';
+
     protected $fillable = ['patient_id', 'blood_group', 'units', 'status'];
 }
