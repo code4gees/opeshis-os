@@ -12,14 +12,26 @@ return new class extends Migration
     public function up(): void
     {
         // 1. Drop the legacy view if it exists
-        \DB::statement('DROP VIEW IF EXISTS sys_settings CASCADE');
-
-        // 2. If the real table system_settings exists, rename it to sys_settings
-        if (Schema::hasTable('system_settings')) {
-            Schema::rename('system_settings', 'sys_settings');
+        if (\DB::getDriverName() === 'sqlite') {
+            \DB::statement('DROP VIEW IF EXISTS sys_settings');
+        } else {
+            \DB::statement('DROP VIEW IF EXISTS sys_settings CASCADE');
         }
 
-        // 3. Standardize columns in the now-base-table sys_settings
+        // 2. Ensure sys_settings table exists
+        if (!Schema::hasTable('sys_settings')) {
+            if (Schema::hasTable('system_settings')) {
+                Schema::rename('system_settings', 'sys_settings');
+            } else {
+                Schema::create('sys_settings', function (Blueprint $table) {
+                    $table->string('key')->primary();
+                    $table->text('value')->nullable();
+                    $table->timestamps();
+                });
+            }
+        }
+
+        // 3. Standardize columns in sys_settings
         Schema::table('sys_settings', function (Blueprint $table) {
             if (Schema::hasColumn('sys_settings', 'setting_key')) {
                 $table->renameColumn('setting_key', 'key');

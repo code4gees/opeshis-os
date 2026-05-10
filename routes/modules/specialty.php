@@ -8,7 +8,7 @@ use App\Http\Controllers\ObstetricsController;
 use App\Http\Controllers\FamilyPlanningController;
 use App\Http\Controllers\OncologyController;
 use App\Http\Controllers\PsychController;
-use App\Http\Controllers\TBController;
+use App\Http\Controllers\TbController;
 use App\Http\Controllers\MalariaController;
 use App\Http\Controllers\WoundCareController;
 use App\Http\Controllers\PFTController;
@@ -91,7 +91,7 @@ Route::middleware(['permission:module_clinical'])->group(function () {
 
     // Chronic & Infectious Disease Domain
     Route::prefix('chronic')->name('specialty.chronic.')->group(function () {
-        Route::get('/tb', [TBController::class, 'index'])->name('tb.index');
+        Route::get('/tb', [TbController::class, 'index'])->name('tb.index');
         
         Route::get('/malaria', [MalariaController::class, 'index'])->name('malaria.index');
         Route::post('/malaria/register', [MalariaController::class, 'registerCase'])->name('malaria.register');

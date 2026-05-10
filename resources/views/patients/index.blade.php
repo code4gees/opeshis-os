@@ -165,21 +165,30 @@
                         <i class="fas fa-venus-mars absolute left-4 top-1/2 -translate-y-1/2 text-white/10 text-[12px]"></i>
                         <select name="gender" required
                             class="cc-input w-full pl-12 appearance-none">
-                            <option value="Male" class="bg-[#1a1d24]">Male</option>
-                            <option value="Female" class="bg-[#1a1d24]">Female</option>
-                            <option value="Other" class="bg-[#1a1d24]">Other</option>
+                            <option value="male" class="bg-[#1a1d24]">Male</option>
+                            <option value="female" class="bg-[#1a1d24]">Female</option>
+                            <option value="other" class="bg-[#1a1d24]">Other</option>
                         </select>
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-[10px] font-bold text-white/20 uppercase tracking-widest mb-3">Primary Contact</label>
+                    <label class="block text-[10px] font-bold text-white/20 uppercase tracking-widest mb-3">Date of Birth</label>
                     <div class="relative">
-                        <i class="fas fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-white/10 text-[12px]"></i>
-                        <input name="phone"
-                            class="cc-input w-full pl-12"
-                            placeholder="+237 ...">
+                        <i class="fas fa-calendar absolute left-4 top-1/2 -translate-y-1/2 text-white/10 text-[12px]"></i>
+                        <input type="date" name="dob" required
+                            class="cc-input w-full pl-12">
                     </div>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-[10px] font-bold text-white/20 uppercase tracking-widest mb-3">Primary Contact</label>
+                <div class="relative">
+                    <i class="fas fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-white/10 text-[12px]"></i>
+                    <input name="phone"
+                        class="cc-input w-full pl-12"
+                        placeholder="+237 ...">
                 </div>
             </div>
 

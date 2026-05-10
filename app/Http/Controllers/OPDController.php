@@ -38,6 +38,7 @@ class OPDController extends Controller
     {
         $validated = $request->validate([
             'patient_id' => ['required', 'uuid', 'exists:patients,id'],
+            'active_queue_id' => ['nullable', 'uuid', 'exists:active_queue,id'],
             'department' => ['required', 'string'],
             'visit_type' => ['required', 'string'],
             'complaint' => ['nullable', 'string'],
@@ -47,10 +48,15 @@ class OPDController extends Controller
 
         $encounter = OpdEncounter::create([
             'patient_id' => $validated['patient_id'],
+            'active_queue_id' => $validated['active_queue_id'] ?? null,
             'encounter_number' => $encounterNumber,
             'status' => 'waiting',
             'branch_id' => auth()->user()->branch_id ?? null,
         ]);
+
+        if ($encounter->active_queue_id) {
+            \App\Models\ActiveQueue::where('id', $encounter->active_queue_id)->update(['status' => 'in_progress']);
+        }
 
         // Forensic: Log registration
         Opeshis::logAction('OPD_REGISTER', 'opd_encounters', $encounter->id, "Institutional OPD Encounter authorized: {$encounterNumber}");

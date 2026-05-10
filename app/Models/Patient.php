@@ -51,6 +51,7 @@ class Patient extends Model
     /**
      * Institutional PII Protection: Automatic Encryption/Decryption
      */
+    protected function medicalId(): Attribute { return $this->castPII('medical_id'); }
     protected function fullName(): Attribute { return $this->castPII('full_name'); }
     protected function phone(): Attribute { return $this->castPII('phone'); }
     protected function email(): Attribute { return $this->castPII('email'); }

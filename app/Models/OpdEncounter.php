@@ -13,6 +13,7 @@ class OpdEncounter extends Model
 
     protected $fillable = [
         'patient_id',
+        'active_queue_id',
         'encounter_number',
         'check_in_time',
         'assigned_doctor_id',

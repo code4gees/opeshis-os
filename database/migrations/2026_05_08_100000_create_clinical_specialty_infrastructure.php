@@ -120,6 +120,41 @@ return new class extends Migration
             });
         }
 
+        // 3.5 Institutional Vitals Registry
+        if (!Schema::hasTable('vitals_records')) {
+            Schema::create('vitals_records', function (Blueprint $table) {
+                $table->uuid('id')->primary();
+                $table->uuid('admission_id')->nullable();
+                $table->uuid('round_id')->nullable();
+                $table->decimal('temp', 4, 1)->nullable();
+                $table->integer('pulse')->nullable();
+                $table->integer('respiratory_rate')->nullable();
+                $table->integer('bp_sys')->nullable();
+                $table->integer('bp_dia')->nullable();
+                $table->integer('spo2')->nullable();
+                $table->integer('news2_score')->default(0);
+                $table->string('risk_level', 20)->default('low');
+                $table->uuid('recorded_by')->nullable();
+                $table->timestamp('recorded_at')->useCurrent();
+            });
+        }
+
+        if (!Schema::hasTable('nicu_vitals')) {
+            Schema::create('nicu_vitals', function (Blueprint $table) {
+                $table->uuid('id')->primary();
+                $table->uuid('admission_id');
+                $table->decimal('temperature', 4, 1)->nullable();
+                $table->integer('heart_rate')->nullable();
+                $table->integer('resp_rate')->nullable();
+                $table->integer('spo2')->nullable();
+                $table->integer('bp_systolic')->nullable();
+                $table->integer('bp_diastolic')->nullable();
+                $table->uuid('recorded_by')->nullable();
+                $table->timestamp('recorded_at')->useCurrent();
+                $table->timestamps();
+            });
+        }
+
         // 4. Lab Infrastructure
         if (!Schema::hasTable('lab_orders')) {
             Schema::create('lab_orders', function (Blueprint $table) {

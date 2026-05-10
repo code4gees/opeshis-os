@@ -23,7 +23,10 @@ class Opeshis
         if (empty($val)) return $val;
         
         try {
-            $secret = config('app.secret', env('APP_SECRET', 'opeshis_secret_key_v2.1'));
+            $secret = config('app.secret', env('APP_SECRET'));
+            if (!$secret) {
+                throw new \Exception("Institutional Encryption Secret Missing. Forensic safety bypass triggered.");
+            }
             $decoded = base64_decode($val, true);
             if ($decoded === false) return $val; 
             
@@ -57,7 +60,10 @@ class Opeshis
         if (!is_string($val)) {
             $val = json_encode($val);
         }
-        $secret = config('app.secret', env('APP_SECRET', 'opeshis_secret_key_v2.1'));
+        $secret = config('app.secret', env('APP_SECRET'));
+        if (!$secret) {
+            throw new \Exception("Institutional Encryption Secret Missing. Forensic lockdown initiated.");
+        }
         $iv_len = openssl_cipher_iv_length('aes-256-cbc');
         $iv = openssl_random_pseudo_bytes($iv_len);
         $encrypted = openssl_encrypt($val, 'aes-256-cbc', $secret, OPENSSL_RAW_DATA, $iv);
@@ -72,7 +78,7 @@ class Opeshis
         if (!$text) return null;
         // Normalize: lowercase, remove special chars, trim
         $normalized = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $text));
-        return hash('sha256', $normalized . env('APP_SECRET', 'opeshis_secret_key_v2.1'));
+        return hash('sha256', $normalized . env('APP_SECRET'));
     }
 
     /**

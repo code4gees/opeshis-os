@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class AuditLog extends Model
 {
-    use \App\Traits\ProtectsPII;
+    use \App\Traits\ProtectsPII, HasUuids;
 
     protected $table = 'sys_audit_log';
     protected $guarded = [];

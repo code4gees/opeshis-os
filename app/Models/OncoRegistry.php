@@ -21,6 +21,8 @@ class OncoRegistry extends Model
         'registered_by'
     ];
 
+    protected function cancerType(): \Illuminate\Database\Eloquent\Casts\Attribute { return $this->castPII('cancer_type'); }
+    protected function icdCode(): \Illuminate\Database\Eloquent\Casts\Attribute { return $this->castPII('icd_code'); }
     protected function histology(): \Illuminate\Database\Eloquent\Casts\Attribute { return $this->castPII('histology'); }
 
     public function patient()

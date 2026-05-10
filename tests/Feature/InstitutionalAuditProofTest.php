@@ -22,21 +22,19 @@ class InstitutionalAuditProofTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * PROOF: Specialty Infrastructure Gap
-     * Demonstrates that specialty tables (e.g., Oncology) are missing despite having Models.
+     * VERIFICATION: Specialty Infrastructure Restored
      */
-    public function test_specialty_infrastructure_is_missing(): void
+    public function test_specialty_infrastructure_is_restored(): void
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
-        // This will fail because the table does not exist in migrations
-        DB::table('onco_registry')->count();
+        // Should no longer throw QueryException
+        $count = DB::table('onco_registry')->count();
+        $this->assertEquals(0, $count);
     }
 
     /**
-     * PROOF: Clinical Flow Disconnect (Triage to OPD)
-     * Demonstrates that vitals captured in Triage are not linked to subsequent OPD encounters.
+     * VERIFICATION: Clinical Flow Unification (Triage to OPD)
      */
-    public function test_triage_to_opd_linkage_gap(): void
+    public function test_triage_to_opd_linkage_restored(): void
     {
         $patient = Patient::factory()->create();
 
@@ -47,19 +45,20 @@ class InstitutionalAuditProofTest extends TestCase
             'status' => 'awaiting_consultation'
         ]);
 
-        // 2. OPD Registration (Simulating the controller action)
-        $user = User::factory()->create(['role' => 'doctor']);
-        $this->actingAs($user)->post('/clinical/opd/register', [
+        // 2. OPD Registration with linkage
+        $user = User::factory()->create(['role' => 'System Core']);
+        $response = $this->actingAs($user)->post(route('clinical.opd.register'), [
             'patient_id' => $patient->id,
+            'active_queue_id' => (string) $queue->id,
             'department' => 'General Medicine',
             'visit_type' => 'Consultation'
         ]);
 
         $encounter = OpdEncounter::where('patient_id', $patient->id)->first();
 
-        // ASSERT: The encounter has NO reference to the triage/queue entry
-        // In a connected HIS, $encounter->active_queue_id or shared vitals would exist.
-        $this->assertNull($encounter->active_queue_id ?? null, "OPD Encounter is orphaned from Triage data.");
+        // ASSERT: The encounter IS now linked to the triage record
+        $this->assertNotNull($encounter, "Encounter was not created.");
+        $this->assertEquals($queue->id, $encounter->active_queue_id, "OPD Encounter is successfully linked to Triage data.");
     }
 
     /**
@@ -68,16 +67,17 @@ class InstitutionalAuditProofTest extends TestCase
      */
     public function test_billing_forensic_audit_gap(): void
     {
+        $patient = Patient::factory()->create();
         $invoice = BillingInvoice::create([
             'invoice_number' => 'INV-AUDIT-001',
-            'patient_id' => (string) \Illuminate\Support\Str::uuid(),
+            'patient_id' => $patient->id,
             'total_amount' => 5000,
             'patient_due_amount' => 5000,
             'status' => 'paid'
         ]);
 
         // Check for mismatch: Paid status exists but no BILLING_PAYMENT action was logged.
-        $hasAuditLog = DB::table('audit_logs')
+        $hasAuditLog = DB::table('sys_audit_log')
             ->where('table_name', 'billing_invoices')
             ->where('record_id', $invoice->id)
             ->where('action', 'BILLING_PAYMENT')
@@ -92,11 +92,11 @@ class InstitutionalAuditProofTest extends TestCase
      */
     public function test_registration_validation_mismatch(): void
     {
-        $user = User::factory()->create(['role' => 'admin']);
+        $user = User::factory()->create(['role' => 'System Core']);
 
         // Form in resources/views/patients/index.blade.php only provides full_name, gender, phone.
         // But StorePatientRequest.php requires 'dob'.
-        $response = $this->actingAs($user)->post('/patients/register', [
+        $response = $this->actingAs($user)->post('/registry/patients/register', [
             'full_name' => 'John Auditor',
             'gender' => 'Male', // Form uses capitalized 'Male', validation requires lowercase 'male'
             'phone' => '123456789'
