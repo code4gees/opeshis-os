@@ -121,8 +121,8 @@
             <span class="text-[9px] font-bold text-white/10 uppercase tracking-[0.25em] px-2">Governance</span>
         </div>
         {!! $nav(route('admin.index'), 'Control Plane', 'fa-shield-halved', 'admin*') !!}
-        {!! $nav(route('analytics.index'), 'Analytics Hub', 'fa-chart-mixed', 'analytics*') !!}
-        {!! $nav(route('reporting.index'), 'Reporting Command', 'fa-file-chart-column', 'reporting*') !!}
+        {!! $nav(route('admin.intelligence.analytics'), 'Analytics Hub', 'fa-chart-mixed', 'analytics*') !!}
+        {!! $nav(route('admin.intelligence.reporting'), 'Reporting Command', 'fa-file-chart-column', 'reporting*') !!}
     @endif
 
 

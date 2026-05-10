@@ -36,7 +36,7 @@ class PatientEnrollmentTest extends TestCase
         $user = User::factory()->create(['role' => 'admin']);
 
         $this->withoutExceptionHandling();
-        $response = $this->actingAs($user)->post('/patients/register', [
+        $response = $this->actingAs($user)->post(route('patients.register'), [
             'full_name' => 'John Doe',
             'gender' => 'male',
             'phone' => '1234567890',
@@ -51,10 +51,11 @@ class PatientEnrollmentTest extends TestCase
     {
         $user = User::factory()->create(['role' => 'admin']);
 
-        $response = $this->actingAs($user)->post('/patients/register', [
+        $response = $this->actingAs($user)->post(route('patients.register'), [
             'gender' => 'male',
         ]);
 
+        $response->assertRedirect();
         $response->assertSessionHasErrors(['full_name']);
     }
 }

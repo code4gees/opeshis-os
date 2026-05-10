@@ -84,7 +84,7 @@ class InstitutionalSanityTest extends TestCase
 
         $this->assertDatabaseHas('active_queue', ['id' => $queueItem->id]);
 
-        $response = $this->get(route('emr', ['id' => $queueItem->id]));
+        $response = $this->get(route('emr.main', ['id' => $queueItem->id]));
         $response->assertStatus(200);
         $response->assertSee('Clinical Command'); // CC-Shell header check
     }

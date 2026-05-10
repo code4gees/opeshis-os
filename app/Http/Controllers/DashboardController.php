@@ -53,7 +53,14 @@ class DashboardController extends Controller
                 'pharmacy_orders'    => Prescription::where('status', 'pending')->count(),
                 'revenue_today'      => BillingInvoice::whereDate('updated_at', now()->toDateString())->where('status', 'paid')->sum('total_amount') ?: 0,
                 'low_stock_items'    => Inventory::where('stock_level', '<', 10)->count(),
-                'kiosk_vitals_today' => ActiveQueue::whereDate('created_at', now()->toDateString())->where('vitals_data->source', 'kiosk')->count(),
+                'kiosk_vitals_today' => ActiveQueue::whereDate('created_at', now()->toDateString())
+                    ->where(function($q) {
+                        if (config('database.default') === 'sqlite') {
+                            $q->whereRaw("json_extract(vitals_data, '$.source') = 'kiosk'");
+                        } else {
+                            $q->where('vitals_data->source', 'kiosk');
+                        }
+                    })->count(),
             ];
 
             $myAppointments = Appointment::with('patient')

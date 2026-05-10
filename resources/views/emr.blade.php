@@ -31,7 +31,7 @@
  </div>
  </div>
  <div class="mt-6 md:mt-0 flex gap-3">
- <x-cc-button variant="secondary" icon="fa-history" href="{{ route('clinical.dossier', $encounter->patient_id) }}">
+ <x-cc-button variant="secondary" icon="fa-history" href="{{ route('clinical.dossier.show', $encounter->patient_id) }}">
  Full Dossier
  </x-cc-button>
  <form action="{{ route('emr.close') }}" method="POST" id="closeForm">

@@ -49,6 +49,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Handle 500 (Internal Server Error)
         $exceptions->render(function (\Throwable $e, Request $request) {
+            if ($e instanceof \Illuminate\Validation\ValidationException) {
+                return null; // Let Laravel handle validation redirects
+            }
+
             if ($e instanceof \Symfony\Component\HttpKernel\Exception\HttpException) {
                 return null; // Let default handler handle other HTTP exceptions
             }
