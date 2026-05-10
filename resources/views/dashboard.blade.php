@@ -1,107 +1,60 @@
-<x-cc-shell title='Dashboard | Hospital'>
+<x-cc-shell title='Dashboard | Hospital Intelligence'>
 
 <div class="max-w-[1600px] mx-auto pb-10">
 
-  <!-- TOP ROW METRICS: Responsive Institutional Pulse -->
+  <!-- TOP ROW METRICS: Operational KPIs -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-10">
-    <!-- Admissions Matrix -->
-    <x-cc-card class="relative overflow-hidden group hover:bg-white/[0.03] transition-all duration-500">
-      <div class="p-6 h-full flex flex-col justify-between">
-        <h3 class="text-[10px] font-bold text-white/20 uppercase tracking-[0.25em]">Admissions Today</h3>
-        <div class="flex items-baseline gap-2 mt-2 relative z-10">
-          <span class="text-4xl font-extrabold text-white tracking-tighter">48</span>
-          <span class="text-[11px] text-sage font-bold tracking-tight bg-sage/10 px-2 py-0.5 rounded-lg border border-sage/20">+5%</span>
-        </div>
-        <!-- Micro-Trend Visualizer -->
-        <div class="absolute bottom-0 left-0 right-0 h-16 opacity-30 pointer-events-none group-hover:opacity-60 transition-opacity">
-          <svg viewBox="0 0 100 30" preserveAspectRatio="none" class="w-full h-full">
-            <path d="M0,20 Q10,10 20,20 T40,20 T60,10 T80,25 T100,5 L100,30 L0,30 Z" fill="rgba(130,192,154,0.2)"></path>
-            <path d="M0,20 Q10,10 20,20 T40,20 T60,10 T80,25 T100,5" fill="none" stroke="#82c09a" stroke-width="2"></path>
-          </svg>
-        </div>
-      </div>
-    </x-cc-card>
+    <x-cc-vital-trend
+        label="Admissions Today"
+        value="48"
+        unit="+5%"
+        trend="up"
+        :history="[20, 35, 25, 45, 48]"
+    />
 
-    <!-- Kiosk Intelligence -->
-    <x-cc-card class="relative overflow-hidden group hover:bg-white/[0.03] transition-all duration-500">
-      <div class="p-6 h-full flex flex-col justify-between">
-        <h3 class="text-[10px] font-bold text-white/20 uppercase tracking-[0.25em]">Self-Service Vitals</h3>
-        <div class="flex items-baseline gap-2 mt-2 relative z-10">
-          <span class="text-4xl font-extrabold text-white tracking-tighter">{{ $stats['kiosk_vitals_today'] }}</span>
-          <span class="text-[10px] font-bold text-white/20 uppercase tracking-widest">Kiosk Hub</span>
-        </div>
-        <div class="absolute bottom-0 left-0 right-0 h-16 opacity-30 pointer-events-none group-hover:opacity-60 transition-opacity">
-          <svg viewBox="0 0 100 30" preserveAspectRatio="none" class="w-full h-full">
-            <path d="M0,25 Q10,15 20,25 T40,15 T60,5 T80,15 T100,20 L100,30 L0,30 Z" fill="rgba(130,192,154,0.2)"></path>
-            <path d="M0,25 Q10,15 20,25 T40,15 T60,5 T80,15 T100,20" fill="none" stroke="#82c09a" stroke-width="2"></path>
-          </svg>
-        </div>
-      </div>
-    </x-cc-card>
+    <x-cc-vital-trend
+        label="Self-Service Vitals"
+        value="{{ $stats['kiosk_vitals_today'] }}"
+        unit="Kiosk Hub"
+        trend="stable"
+        :history="[10, 15, 12, 18, $stats['kiosk_vitals_today']]"
+    />
 
-    <!-- Occupancy Surveillance -->
-    <x-cc-card class="relative overflow-hidden group hover:bg-white/[0.03] transition-all duration-500">
-      <div class="p-6 h-full flex flex-col justify-between">
-        <h3 class="text-[10px] font-bold text-white/20 uppercase tracking-[0.25em]">Bed Occupancy</h3>
-        <div class="flex items-baseline gap-2 mt-2 relative z-10">
-          <span class="text-4xl font-extrabold text-white tracking-tighter">86%</span>
-          <div class="flex items-center gap-1">
-            <div class="w-2 h-2 rounded-full bg-sage animate-pulse shadow-[0_0_8px_rgba(130,192,154,0.5)]"></div>
-            <span class="text-[10px] font-bold text-white/20 uppercase tracking-widest">Optimal</span>
-          </div>
-        </div>
-        <div class="absolute bottom-0 left-0 right-0 h-16 opacity-30 pointer-events-none group-hover:opacity-60 transition-opacity">
-          <svg viewBox="0 0 100 30" preserveAspectRatio="none" class="w-full h-full">
-            <path d="M0,25 Q15,25 25,20 T50,20 T75,10 T100,20 L100,30 L0,30 Z" fill="rgba(130,192,154,0.2)"></path>
-            <path d="M0,25 Q15,25 25,20 T50,20 T75,10 T100,20" fill="none" stroke="#82c09a" stroke-width="2"></path>
-          </svg>
-        </div>
-      </div>
-    </x-cc-card>
+    <x-cc-vital-trend
+        label="Bed Occupancy"
+        value="86%"
+        unit="Optimal"
+        trend="up"
+        :history="[70, 75, 80, 82, 86]"
+    />
 
-    <!-- Critical Alerts Matrix -->
-    <x-cc-card class="relative overflow-hidden group border-alert/20 bg-alert/[0.02] hover:bg-alert/[0.05] transition-all duration-500">
-      <div class="p-6 h-full flex flex-col justify-between">
-        <div class="flex justify-between items-start relative z-10">
-          <h3 class="text-[10px] font-bold text-alert/40 uppercase tracking-[0.25em]">Critical Alerts</h3>
-          <i class="fas fa-triangle-exclamation text-alert text-[14px] animate-pulse"></i>
-        </div>
-        <div class="flex items-baseline gap-2 mt-2 relative z-10">
-          <span class="text-4xl font-extrabold text-alert tracking-tighter">3</span>
-          <span class="text-[10px] font-bold text-alert/40 uppercase tracking-widest">Immediate</span>
-        </div>
-        <div class="absolute bottom-0 left-0 right-0 h-16 opacity-30 pointer-events-none group-hover:opacity-60 transition-opacity">
-          <svg viewBox="0 0 100 30" preserveAspectRatio="none" class="w-full h-full">
-            <path d="M0,25 L30,25 L35,10 L45,28 L50,25 L100,25" fill="none" stroke="#d9776c" stroke-width="2"></path>
-          </svg>
-        </div>
-      </div>
-    </x-cc-card>
+    <x-cc-vital-trend
+        label="Critical Alerts"
+        value="3"
+        unit="Immediate"
+        trend="up"
+        status="critical"
+        :history="[0, 1, 0, 2, 3]"
+    />
 
-    <!-- Revenue / Workforce Intelligence -->
-    <x-cc-card class="relative overflow-hidden group hover:bg-white/[0.03] transition-all duration-500">
-      <div class="p-6 h-full flex flex-col justify-between">
-        @if(auth()->user()->hasPermission('module_billing'))
-          <h3 class="text-[10px] font-bold text-white/20 uppercase tracking-[0.25em]">Revenue Today</h3>
-          <div class="flex items-baseline gap-2 mt-2 relative z-10">
-            <span class="text-4xl font-extrabold text-white tracking-tighter">${{ number_format($stats['revenue_today']) }}</span>
-            <span class="text-[10px] font-bold text-sage/40 uppercase tracking-widest font-mono">XAF</span>
-          </div>
-        @else
-          <h3 class="text-[10px] font-bold text-white/20 uppercase tracking-[0.25em]">Staff on Duty</h3>
-          <div class="flex items-baseline gap-2 mt-2 relative z-10">
-            <span class="text-4xl font-extrabold text-white tracking-tighter">112</span>
-            <span class="text-[10px] font-bold text-white/20 uppercase tracking-widest">Synchronized</span>
-          </div>
-        @endif
-        <div class="absolute bottom-0 left-0 right-0 h-16 opacity-30 pointer-events-none group-hover:opacity-60 transition-opacity">
-          <svg viewBox="0 0 100 30" preserveAspectRatio="none" class="w-full h-full">
-            <path d="M0,20 Q10,15 20,20 T40,10 T60,20 T80,15 T100,20 L100,30 L0,30 Z" fill="rgba(130,192,154,0.2)"></path>
-            <path d="M0,20 Q10,15 20,20 T40,10 T60,20 T80,15 T100,20" fill="none" stroke="#82c09a" stroke-width="2"></path>
-          </svg>
-        </div>
-      </div>
-    </x-cc-card>
+    @if(auth()->user()->hasPermission('module_billing'))
+      <x-cc-vital-trend
+          label="Revenue Today"
+          value="${{ number_format($stats['revenue_today']) }}"
+          unit="XAF"
+          trend="up"
+          status="normal"
+          :history="[5000, 7000, 6000, 8000, $stats['revenue_today']]"
+      />
+    @else
+      <x-cc-vital-trend
+          label="Staff on Duty"
+          value="112"
+          unit="Synchronized"
+          trend="stable"
+          :history="[110, 112, 112, 111, 112]"
+      />
+    @endif
   </div>
 
   <!-- MAIN TWO COLUMNS: Responsive Grid Architecture -->
@@ -109,35 +62,31 @@
     @if(auth()->user()->hasPermission('module_clinical'))
       <!-- LEFT COLUMN: Patient Queue Survaillance -->
       <div class="xl:col-span-5 xl:h-[820px] min-h-[500px] flex flex-col">
-        <x-cc-card class="flex-1 flex flex-col overflow-hidden">
-          <div class="px-8 py-6 border-b border-white/[0.04] flex items-center justify-between bg-white/[0.02]">
-            <h2 class="text-[12px] font-bold text-white/40 uppercase tracking-[0.2em] flex items-center gap-3">
-              <i class="fas fa-users-viewfinder text-sage text-[14px]"></i>
-              Institutional Live Queue
-            </h2>
-            <a href="{{ route('patients.index') }}" class="cc-button-primary !py-1.5 !px-4 text-[10px]">
-              Master Index
-            </a>
-          </div>
+        <x-cc-card class="flex-1 flex flex-col p-0 overflow-hidden" title="Institutional Live Queue" icon="users">
+          <x-slot name="action">
+            <x-cc-button size="sm" variant="secondary" icon="arrow-right" onclick="window.location.href='{{ route('patients.index') }}'">
+                Master Index
+            </x-cc-button>
+          </x-slot>
           
           <div class="flex-1 overflow-y-auto custom-scrollbar">
-            <x-cc-table :headers="['Patient Identity', 'Protocol Status', 'Latency', 'Assigned Node']">
+            <x-cc-table :headers="['Patient Identity', 'Protocol Status', 'Latency', 'Assigned Node']" compact>
               @forelse($active_queue as $q)
                 <tr onclick="window.location.href='{{ route('emr.main', $q->id) }}'" class="group cursor-pointer hover:bg-white/[0.01] transition-colors border-b border-white/[0.02] last:border-0">
-                  <td class="px-8 py-5">
-                    <div class="text-[12px] font-bold text-white uppercase tracking-tight group-hover:text-sage transition-colors">{{ $q->patient->full_name }}</div>
-                    <div class="text-[10px] font-bold text-white/20 uppercase tracking-widest mt-1">{{ $q->patient->medical_id }}</div>
+                  <td class="px-4 py-4">
+                    <div class="text-[12px] font-bold text-slate-200 group-hover:text-cobalt transition-colors">{{ $q->patient->full_name }}</div>
+                    <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-0.5">{{ $q->patient->medical_id }}</div>
                   </td>
-                  <td class="px-8 py-5">
-                    <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-white/40 text-[9px] font-bold uppercase tracking-widest">
+                  <td class="px-4 py-4">
+                    <span class="px-2 py-1 rounded-lg bg-white/5 border border-white/10 text-slate-400 text-[9px] font-bold uppercase tracking-widest">
                       {{ $q->status }}
                     </span>
                   </td>
-                  <td class="px-8 py-5">
-                    <div class="text-[11px] font-bold text-white/20 uppercase tracking-tighter">{{ $q->created_at->diffForHumans(null, true) }}</div>
+                  <td class="px-4 py-4">
+                    <div class="text-[11px] font-bold text-slate-500 uppercase tracking-tighter">{{ $q->created_at->diffForHumans(null, true) }}</div>
                   </td>
-                  <td class="px-8 py-5">
-                    <div class="text-[11px] font-bold text-sage/60 uppercase tracking-widest">{{ $q->doctor->name ?? 'UNASSIGNED' }}</div>
+                  <td class="px-4 py-4">
+                    <div class="text-[11px] font-bold text-cobalt/60 uppercase tracking-widest">{{ $q->doctor->name ?? 'UNASSIGNED' }}</div>
                   </td>
                 </tr>
               @empty
@@ -327,58 +276,58 @@
   <!-- CLINICAL QUICK-LAUNCH MATRIX: Premium Operational Grid -->
   <div class="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
     @if(auth()->user()->hasPermission('module_emergency'))
-      <a href="{{ route('clinical.emergency.index') }}" class="group relative overflow-hidden bg-white/[0.01] border border-white/[0.04] p-8 rounded-[2rem] flex flex-col items-center justify-center gap-4 transition-all duration-500 hover:bg-white/[0.03] hover:border-rose-500/20 hover:-translate-y-2">
-        <div class="w-14 h-14 rounded-2xl bg-rose-500/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <i class="fas fa-truck-medical text-rose-500 text-xl"></i>
+      <a href="{{ route('clinical.emergency.index') }}" class="group relative overflow-hidden bg-surface-elevated border border-white/5 p-8 rounded-[2rem] flex flex-col items-center justify-center gap-4 transition-all duration-500 hover:bg-surface-overlay hover:border-rose/20 hover:-translate-y-2">
+        <div class="w-14 h-14 rounded-2xl bg-rose/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <i data-lucide="truck" class="text-rose w-6 h-6"></i>
         </div>
-        <span class="text-[10px] font-bold text-white/20 uppercase tracking-[0.25em] group-hover:text-rose-400 transition-colors">Emergency</span>
-        <div class="absolute -bottom-1 w-0 h-1 bg-rose-500 group-hover:w-full transition-all duration-500"></div>
+        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.25em] group-hover:text-rose transition-colors">Emergency</span>
+        <div class="absolute -bottom-1 w-0 h-1 bg-rose group-hover:w-full transition-all duration-500"></div>
       </a>
     @endif
 
     @if(auth()->user()->hasPermission('module_clinical'))
-      <a href="{{ route('specialty.critical.icu.index') }}" class="group relative overflow-hidden bg-white/[0.01] border border-white/[0.04] p-8 rounded-[2rem] flex flex-col items-center justify-center gap-4 transition-all duration-500 hover:bg-white/[0.03] hover:border-blue-500/20 hover:-translate-y-2">
-        <div class="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <i class="fas fa-heart-pulse text-blue-500 text-xl"></i>
+      <a href="{{ route('specialty.critical.icu.index') }}" class="group relative overflow-hidden bg-surface-elevated border border-white/5 p-8 rounded-[2rem] flex flex-col items-center justify-center gap-4 transition-all duration-500 hover:bg-surface-overlay hover:border-cobalt/20 hover:-translate-y-2">
+        <div class="w-14 h-14 rounded-2xl bg-cobalt/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+          <i data-lucide="activity" class="text-cobalt w-6 h-6"></i>
         </div>
-        <span class="text-[10px] font-bold text-white/20 uppercase tracking-[0.25em] group-hover:text-blue-400 transition-colors">ICU Command</span>
-        <div class="absolute -bottom-1 w-0 h-1 bg-blue-500 group-hover:w-full transition-all duration-500"></div>
+        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.25em] group-hover:text-cobalt transition-colors">ICU Command</span>
+        <div class="absolute -bottom-1 w-0 h-1 bg-cobalt group-hover:w-full transition-all duration-500"></div>
       </a>
     @endif
 
     @if(auth()->user()->hasPermission('module_pharmacy'))
-      <a href="{{ route('operations.diagnostics.pharmacy.index') }}" class="group relative overflow-hidden bg-white/[0.01] border border-white/[0.04] p-8 rounded-[2rem] flex flex-col items-center justify-center gap-4 transition-all duration-500 hover:bg-white/[0.03] hover:border-sage/20 hover:-translate-y-2">
+      <a href="{{ route('operations.diagnostics.pharmacy.index') }}" class="group relative overflow-hidden bg-surface-elevated border border-white/5 p-8 rounded-[2rem] flex flex-col items-center justify-center gap-4 transition-all duration-500 hover:bg-surface-overlay hover:border-sage/20 hover:-translate-y-2">
         <div class="w-14 h-14 rounded-2xl bg-sage/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <i class="fas fa-pills text-sage text-xl"></i>
+          <i data-lucide="pill" class="text-sage w-6 h-6"></i>
         </div>
-        <span class="text-[10px] font-bold text-white/20 uppercase tracking-[0.25em] group-hover:text-sage transition-colors">Pharmacy</span>
+        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.25em] group-hover:text-sage transition-colors">Pharmacy</span>
         <div class="absolute -bottom-1 w-0 h-1 bg-sage group-hover:w-full transition-all duration-500"></div>
       </a>
     @endif
 
     @if(auth()->user()->hasPermission('module_lab'))
-      <a href="{{ route('operations.diagnostics.lab.index') }}" class="group relative overflow-hidden bg-white/[0.01] border border-white/[0.04] p-8 rounded-[2rem] flex flex-col items-center justify-center gap-4 transition-all duration-500 hover:bg-white/[0.03] hover:border-amber-500/20 hover:-translate-y-2">
+      <a href="{{ route('operations.diagnostics.lab.index') }}" class="group relative overflow-hidden bg-surface-elevated border border-white/5 p-8 rounded-[2rem] flex flex-col items-center justify-center gap-4 transition-all duration-500 hover:bg-surface-overlay hover:border-amber-500/20 hover:-translate-y-2">
         <div class="w-14 h-14 rounded-2xl bg-amber-500/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <i class="fas fa-flask text-amber-500 text-xl"></i>
+          <i data-lucide="flask-conical" class="text-amber-500 w-6 h-6"></i>
         </div>
-        <span class="text-[10px] font-bold text-white/20 uppercase tracking-[0.25em] group-hover:text-amber-400 transition-colors">Laboratory</span>
+        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.25em] group-hover:text-amber-500 transition-colors">Laboratory</span>
         <div class="absolute -bottom-1 w-0 h-1 bg-amber-500 group-hover:w-full transition-all duration-500"></div>
       </a>
     @endif
 
     @if(auth()->user()->hasPermission('module_clinical'))
-      <a href="{{ route('specialty.clinics.dental.index') }}" class="group relative overflow-hidden bg-white/[0.01] border border-white/[0.04] p-8 rounded-[2rem] flex flex-col items-center justify-center gap-4 transition-all duration-500 hover:bg-white/[0.03] hover:border-white/20 hover:-translate-y-2">
+      <a href="{{ route('specialty.clinics.dental.index') }}" class="group relative overflow-hidden bg-surface-elevated border border-white/5 p-8 rounded-[2rem] flex flex-col items-center justify-center gap-4 transition-all duration-500 hover:bg-surface-overlay hover:border-white/20 hover:-translate-y-2">
         <div class="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <i class="fas fa-tooth text-white/40 text-xl"></i>
+          <i data-lucide="smile" class="text-slate-400 w-6 h-6"></i>
         </div>
-        <span class="text-[10px] font-bold text-white/20 uppercase tracking-[0.25em] group-hover:text-white transition-colors">Dental Clinic</span>
+        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.25em] group-hover:text-slate-100 transition-colors">Dental Clinic</span>
         <div class="absolute -bottom-1 w-0 h-1 bg-white/40 group-hover:w-full transition-all duration-500"></div>
       </a>
-      <a href="{{ route('specialty.clinics.eye.index') }}" class="group relative overflow-hidden bg-white/[0.01] border border-white/[0.04] p-8 rounded-[2rem] flex flex-col items-center justify-center gap-4 transition-all duration-500 hover:bg-white/[0.03] hover:border-indigo-500/20 hover:-translate-y-2">
+      <a href="{{ route('specialty.clinics.eye.index') }}" class="group relative overflow-hidden bg-surface-elevated border border-white/5 p-8 rounded-[2rem] flex flex-col items-center justify-center gap-4 transition-all duration-500 hover:bg-surface-overlay hover:border-indigo-500/20 hover:-translate-y-2">
         <div class="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-          <i class="fas fa-eye text-indigo-500 text-xl"></i>
+          <i data-lucide="eye" class="text-indigo-500 w-6 h-6"></i>
         </div>
-        <span class="text-[10px] font-bold text-white/20 uppercase tracking-[0.25em] group-hover:text-indigo-400 transition-colors">Eye Clinic</span>
+        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.25em] group-hover:text-indigo-400 transition-colors">Eye Clinic</span>
         <div class="absolute -bottom-1 w-0 h-1 bg-indigo-500 group-hover:w-full transition-all duration-500"></div>
       </a>
     @endif

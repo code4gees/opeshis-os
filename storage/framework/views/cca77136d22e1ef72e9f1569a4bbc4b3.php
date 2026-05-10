@@ -27,7 +27,7 @@
 
 <div class="py-24 max-w-7xl mx-auto px-6 lg:px-8">
  <div class="flex flex-col lg:flex-row gap-16">
- 
+
  <!-- Sidebar -->
  <aside class="w-full lg:w-1/4 shrink-0">
  <div class="sticky top-32 space-y-10">
@@ -49,11 +49,11 @@
  </div>
  </div>
  </aside>
- 
+
  <!-- Grid -->
  <div class="w-full lg:w-3/4">
  <div id="blog-grid" class="grid grid-cols-1 md:grid-cols-2 gap-12">
- 
+
  <article class="group fade-up blog-card" data-category="Infrastructure">
  <div class="aspect-video bg-[#2a2e38] rounded-[2.5rem] mb-8 overflow-hidden relative border border-subtle">
  <div class="absolute inset-0 bg-sage/10 group-hover:bg-transparent transition-all"></div>

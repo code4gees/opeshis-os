@@ -17,7 +17,7 @@
 <div class="min-h-screen flex flex-col items-center justify-center p-8 bg-[#1a1d24] bg-[radial-gradient(circle_at_center,rgba(79,70,229,0.1)_0%,transparent_70%)] w-full">
  <div class="w-full max-w-4xl bg-card rounded-[4rem] p-20 overflow-hidden relative border border-subtle">
  <div class="absolute top-0 left-0 w-full h-4 bg-gradient-to-r from-indigo-600 to-indigo-400"></div>
- 
+
  <div class="mb-20 text-center">
  <h1 class="text-6xl font-semibold text-white uppercase tracking-tighter mb-4 ">Institutional Kiosk</h1>
  <p class="text-xs font-semibold text-sage uppercase tracking-[0.4em]">Rapid Vital Integration Matrix</p>
@@ -48,25 +48,25 @@
 
  <div class="space-y-6">
  <label class="block text-[12px] font-semibold text-slate-400 font-medium text-center">Systolic BP (mmHg)</label>
- <input type="number" name="bp_systolic" required 
+ <input type="number" name="bp_systolic" required
  class="w-full bg-[#2a2e38] border-2 border-subtle rounded-3xl px-8 py-8 text-3xl font-semibold text-center text-white outline-none focus:border-indigo-500/50 transition-all">
  </div>
 
  <div class="space-y-6">
  <label class="block text-[12px] font-semibold text-slate-400 font-medium text-center">Diastolic BP (mmHg)</label>
- <input type="number" name="bp_diastolic" required 
+ <input type="number" name="bp_diastolic" required
  class="w-full bg-[#2a2e38] border-2 border-subtle rounded-3xl px-8 py-8 text-3xl font-semibold text-center text-white outline-none focus:border-indigo-500/50 transition-all">
  </div>
 
  <div class="space-y-6">
  <label class="block text-[12px] font-semibold text-slate-400 font-medium text-center">Temperature (°C)</label>
- <input type="number" step="0.1" name="temperature" required 
+ <input type="number" step="0.1" name="temperature" required
  class="w-full bg-[#2a2e38] border-2 border-subtle rounded-3xl px-8 py-8 text-3xl font-semibold text-center text-white outline-none focus:border-indigo-500/50 transition-all">
  </div>
 
  <div class="space-y-6">
  <label class="block text-[12px] font-semibold text-slate-400 font-medium text-center">Pulse Rate (BPM)</label>
- <input type="number" name="pulse" required 
+ <input type="number" name="pulse" required
  class="w-full bg-[#2a2e38] border-2 border-subtle rounded-3xl px-8 py-8 text-3xl font-semibold text-center text-white outline-none focus:border-indigo-500/50 transition-all">
  </div>
 

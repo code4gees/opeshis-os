@@ -15,7 +15,7 @@
 
 
 <div class="max-w-7xl mx-auto space-y-8 animate-fade-in pb-20">
- 
+
  <!-- Header -->
  <header class="flex flex-col md:flex-row justify-between items-start md:items-center bg-card border border-subtle rounded-xl p-6 ">
  <div>

@@ -14,7 +14,7 @@
 
 <div class="space-y-8 animate-fade-in">
 
- 
+
  <div class="flex justify-between items-start border-b border-subtle pb-8">
  <div>
  <h2 class="text-2xl font-semibold uppercase text-white tracking-tight">CSSD & Sterile Logistics</h2>
@@ -27,7 +27,7 @@
  </div>
  </div>
 
- 
+
  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
  <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = [
  ['Today\'s Loads', $loadStats->total ?? 0, 'indigo'],
@@ -42,7 +42,7 @@
  <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
  </div>
 
- 
+
  <div class="bg-card rounded-[2.5rem] border border-subtle shadow-lg overflow-hidden">
  <div class="px-10 py-6 border-b border-subtle bg-slate-50/30">
  <h3 class="text-xs font-semibold text-white font-medium">Active Sterilization Cycles</h3>

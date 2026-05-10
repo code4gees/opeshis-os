@@ -11,7 +11,7 @@
 <?php $component->withAttributes(['title' => 'Operational Queue','icon' => 'fa-hospital-user']); ?>
 <?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::processComponentKey($component); ?>
 
-  <?php $__env->slot('action', null, []); ?> 
+  <?php $__env->slot('action', null, []); ?>
  <div class="flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
  <span class="text-[8px] font-semibold text-emerald-500 font-medium">Neural Link Active</span>
@@ -129,7 +129,7 @@
 <?php unset($__componentOriginal11958e14de982b4883e7282860cbd101); ?>
 <?php endif; ?>
 
-  <?php $__env->slot('footer', null, []); ?> 
+  <?php $__env->slot('footer', null, []); ?>
  <div class="flex justify-between items-center text-[12px] font-semibold text-slate-500 font-medium">
  <span>Displaying Top <?php echo e(count($queue)); ?> Active Signal<?php echo e(count($queue) != 1 ? 's' : ''); ?></span>
  <span>Last Updated: <?php echo e(now()->format('H:i:s')); ?></span>

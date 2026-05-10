@@ -11,11 +11,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="antialiased selection:bg-[#82c09a]/20 selection:text-[#82c09a] overflow-hidden flex h-screen bg-[#1a1d24] text-white font-outfit">
+<body class="antialiased selection:bg-sage/20 selection:text-sage overflow-hidden flex h-screen bg-surface-deep text-slate-50 font-outfit">
     
     <!-- Sidebar -->
     @if(!$noSidebar)
@@ -29,5 +30,8 @@
     </div>
     
     @livewireScripts
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>

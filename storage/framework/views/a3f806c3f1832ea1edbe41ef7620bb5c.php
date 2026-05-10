@@ -15,7 +15,7 @@
 
 
 <div class="space-y-8 pb-20">
- 
+
  <!-- Institutional Header -->
  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
  <div>
@@ -377,12 +377,12 @@
  <h4 id="modalPatient" class="text-xs font-semibold text-slate-200 uppercase tracking-tight">--</h4>
  <p id="modalTest" class="text-[12px] font-semibold text-sage font-medium mt-1">--</p>
  </div>
- 
+
   <form method="POST" action="<?php echo e(route('operations.diagnostics.radiology.action')); ?>" enctype="multipart/form-data" class="space-y-6">
  <?php echo csrf_field(); ?>
  <input type="hidden" name="action" value="submit_result">
  <input type="hidden" name="order_id" id="modalOrderId">
- 
+
  <div class="space-y-4">
  <div>
  <label class="block text-[12px] font-semibold text-slate-500 font-medium mb-2">Radiological Findings</label>
@@ -407,7 +407,7 @@
  </div>
  </div>
  </div>
- 
+
  <div class="flex gap-3 pt-4">
  <?php if (isset($component)) { $__componentOriginal2d350f6afc4d732ce961fba75ba7e203 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal2d350f6afc4d732ce961fba75ba7e203 = $attributes; } ?>

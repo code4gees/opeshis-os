@@ -9,7 +9,7 @@
 
  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
  <?php $latest = $vitals->first(); ?>
- 
+
  <div class="p-5 bg-card/40 border border-subtle rounded-2xl hover:border-indigo-500/30 transition-all group">
  <div class="flex items-center gap-3 mb-3">
  <i class="fas fa-heart-pulse text-rose-500 text-xs"></i>

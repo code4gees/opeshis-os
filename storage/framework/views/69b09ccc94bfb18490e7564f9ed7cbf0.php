@@ -35,7 +35,7 @@
  <h3 class="text-xs font-semibold text-white font-medium ">Live Incident Surveillance Feed</h3>
  <span class="px-3 py-1 bg-[#2a2e38] text-slate-400 rounded-lg text-[8px] font-semibold font-medium border border-subtle ">Ledger Sync: <?php echo e($incidents->count()); ?> Entries</span>
  </div>
- 
+
  <div class="space-y-6">
  <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $incidents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
  <div class="bg-card rounded-[3rem] border border-subtle p-10 hover:border-rose-500/30 transition-all relative group bg-card">
@@ -59,11 +59,11 @@
  <span class="px-3 py-1 bg-[#2a2e38] text-sage rounded-lg text-[12px] font-semibold font-medium border border-subtle"><?php echo e($i->status); ?></span>
  </div>
  </div>
- 
+
  <div class="p-8 bg-[#2a2e38] rounded-[2.5rem] border border-subtle mb-10">
  <p class="text-slate-300 text-[13px] font-bold leading-relaxed uppercase tracking-tight">"<?php echo e($i->description); ?>"</p>
  </div>
- 
+
  <div class="flex justify-between items-center pt-8 border-t border-subtle">
  <div class="text-[12px] font-semibold text-slate-500 font-medium ">
  Source Protocol: <span class="text-white ml-1"><?php echo e($i->is_anonymous ? 'ANONYMOUS_ENTITY_REPORT' : ($i->reporter_name ?? 'SYSTEM_AUTOMATED_FLAG')); ?></span>

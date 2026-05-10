@@ -142,11 +142,11 @@
  <div class="bg-card border border-subtle rounded-2xl w-full max-w-md p-6">
  <h3 class="text-xl font-semibold text-white mb-4 uppercase tracking-tight">Stock Update</h3>
  <p class="text-xs text-slate-400 mb-6 font-medium">Item: <span id="modalItemName" class="text-sage font-bold"></span></p>
- 
+
  <form method="POST" action="<?php echo e(route('inventory.action')); ?>" class="space-y-4">
  <?php echo csrf_field(); ?>
  <input type="hidden" name="item_id" id="modalItemId">
- 
+
  <div>
  <label class="block text-[12px] font-semibold font-medium text-slate-500 mb-2">Action</label>
  <select name="action_type" class="w-full bg-[#2a2e38] border border-slate-700 rounded-xl p-3 text-sm text-white">
@@ -154,7 +154,7 @@
  <option value="dispatch">Dispatch (-)</option>
  </select>
  </div>
- 
+
  <div>
  <label class="block text-[12px] font-semibold font-medium text-slate-500 mb-2">Quantity</label>
  <input type="number" name="quantity" min="1" required class="w-full bg-[#2a2e38] border border-slate-700 rounded-xl p-3 text-sm text-white" placeholder="Enter amount">

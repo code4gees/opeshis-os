@@ -15,7 +15,7 @@
 
 
 <div class="space-y-8 pb-20">
- 
+
  <!-- Institutional Header -->
  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
  <div>
@@ -154,7 +154,7 @@
 <?php $component->withAttributes(['title' => 'Institutional HDU Census Matrix','icon' => 'fa-hospital-user']); ?>
 <?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::processComponentKey($component); ?>
 
-  <?php $__env->slot('action', null, []); ?> 
+  <?php $__env->slot('action', null, []); ?>
  <span class="px-2 py-0.5 bg-amber-500/10 text-amber-500 border border-amber-500/20 rounded text-[12px] font-semibold font-medium animate-pulse">Live Surveillance</span>
   <?php $__env->endSlot(); ?>
 

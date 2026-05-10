@@ -15,7 +15,7 @@
 
 
 <div class="max-w-7xl mx-auto space-y-8 animate-fade-in pb-20">
- 
+
  <!-- Profile Header -->
  <div class="bg-[#2a2e38] rounded-xl p-8 border border-subtle flex flex-col md:flex-row gap-8 items-start relative overflow-hidden">
  <div class="w-32 h-32 rounded-xl bg-sage flex items-center justify-center text-white text-4xl font-bold /20 z-10">

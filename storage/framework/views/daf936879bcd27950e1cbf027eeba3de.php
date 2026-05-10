@@ -60,7 +60,7 @@
  <div class="text-[12px] text-slate-400 max-w-xs truncate group-hover:whitespace-normal group-hover:overflow-visible transition-all">"<?php echo e($p->restrictions ?: 'No documented clinical restrictions'); ?>"</div>
  </td>
  <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = ['Breakfast', 'Lunch', 'Dinner']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $meal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
- <?php 
+ <?php
  $delivery = $p->deliveries->where('meal_name', $meal)->first();
  $status = $delivery->meal_status ?? 'pending';
  ?>

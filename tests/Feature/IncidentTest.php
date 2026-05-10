@@ -21,7 +21,7 @@ class IncidentTest extends TestCase
         
         \Illuminate\Support\Facades\Cache::flush();
         
-        $response = $this->actingAs($user)->get('/ops/incidents');
+        $response = $this->actingAs($user)->get(route('operations.clinical.incidents.index'));
 
         $response->assertStatus(200);
     }
@@ -36,7 +36,7 @@ class IncidentTest extends TestCase
         
         \Illuminate\Support\Facades\Cache::flush();
         
-        $response = $this->actingAs($user)->post('/ops/incidents', [
+        $response = $this->actingAs($user)->post(route('operations.clinical.incidents.submit'), [
             'type' => 'Near Miss',
             'incident_date' => now()->format('Y-m-d'),
             'location' => 'Institutional Pharmacy',
@@ -71,7 +71,7 @@ class IncidentTest extends TestCase
             'reported_by' => $user->id,
         ]);
 
-        $response = $this->actingAs($user)->post("/ops/incidents/{$incident->id}/investigate", [
+        $response = $this->actingAs($user)->post(route('operations.clinical.incidents.investigate', ['id' => $incident->id]), [
             'root_cause' => 'Battery depletion due to failed charging protocol.',
             'action' => 'Replacement of battery unit and audit of charging matrix.',
         ]);

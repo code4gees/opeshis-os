@@ -100,7 +100,7 @@
 
  <!-- MAIN TWO COLUMNS -->
  <div class="grid grid-cols-12 gap-6">
- 
+
  <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->user()->hasPermission('module_clinical')): ?>
  <!-- LEFT COLUMN: Patient Queue -->
  <div class="col-span-5 bg-card rounded-xl border border-subtle flex flex-col h-[820px]">
@@ -110,7 +110,7 @@
  <i class="fas fa-plus text-[12px]"></i> See All
  </a>
  </div>
- 
+
  <div class="flex-1 overflow-y-auto custom-scrollbar">
  <table class="w-full text-left">
  <thead class="sticky top-0 bg-card z-10 border-b border-subtle">
@@ -153,14 +153,14 @@
 
  <!-- RIGHT COLUMN -->
  <div class="col-span-7 flex flex-col gap-6 h-[820px]">
- 
+
  <!-- Top Chart -->
  <div class="bg-card rounded-xl border border-subtle p-5 flex flex-col h-[320px] shrink-0">
  <div class="flex justify-between items-center mb-6">
  <h2 class="text-[15px] font-medium text-white">Clinical Charts</h2>
  <button class="px-3 py-1 rounded bg-[#2a2e38] text-[12px] text-slate-300 border border-subtle">Patient Stats</button>
  </div>
- 
+
  <h3 class="text-[12px] text-slate-300 mb-2 flex items-center justify-between">
  Patient Inflow over 24h
  <div class="flex items-center gap-4 text-[12px] text-slate-400">
@@ -168,7 +168,7 @@
  <span class="flex items-center gap-1.5"><div class="w-2 h-2 rounded-full bg-slate-500"></div> Series</span>
  </div>
  </h3>
- 
+
  <div class="flex-1 relative">
  <canvas id="mainChart"></canvas>
  </div>
@@ -176,7 +176,7 @@
 
  <!-- Middle Row: Bar Charts -->
  <div class="grid grid-cols-2 gap-6 h-[220px] shrink-0">
- 
+
  <!-- Bar Chart 1 -->
  <div class="bg-card rounded-xl border border-subtle p-4 flex flex-col">
  <h3 class="text-[12px] text-white mb-2">Resource Allocation by Department</h3>
@@ -223,7 +223,7 @@
  <a href="<?php echo e(route('wards')); ?>" class="px-3 py-1 rounded bg-[#2a2e38] text-[12px] text-slate-300 border border-subtle">Ward Details</a>
  <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
  </div>
- 
+
  <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->user()->hasPermission('module_clinical')): ?>
  <div class="flex gap-4 flex-1">
  <!-- Floor Plan Block 1 -->
@@ -297,9 +297,9 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
  document.addEventListener("DOMContentLoaded", function() {
- Chart.defaults.color = '#64748b'; 
+ Chart.defaults.color = '#64748b';
  Chart.defaults.font.family = 'Inter, sans-serif';
- 
+
  const ctx = document.getElementById('mainChart');
  if(ctx) {
  new Chart(ctx, {

@@ -20,14 +20,14 @@ class AdmitNeonatalPatientActionTest extends TestCase
     {
         $user = User::factory()->create(['role' => 'Physician']);
         $baby = Patient::create([
-            'id' => Str::uuid(),
+            'id' => (string) Str::uuid(),
             'full_name' => 'Baby Doe',
             'medical_id' => 'B-001',
             'gender' => 'Male',
             'dob' => now()->toDateString(),
         ]);
         $mother = Patient::create([
-            'id' => Str::uuid(),
+            'id' => (string) Str::uuid(),
             'full_name' => 'Jane Doe',
             'medical_id' => 'M-001',
             'gender' => 'Female',
@@ -46,17 +46,16 @@ class AdmitNeonatalPatientActionTest extends TestCase
             'diagnosis' => 'Institutional Neonatal Protocol',
         ]);
 
-        $this->assertDatabaseHas('nicu_admissions', [
+        $this->assertDatabaseHas('admissions', [
             'id' => $admission->id,
-            'birth_weight' => 2.5,
-            'gestational_age' => 38,
+            'admission_type' => 'nicu',
             'status' => 'admitted',
         ]);
 
         $this->assertDatabaseHas('sys_audit_log', [
-            'table_name' => 'nicu_admissions',
+            'table_name' => 'admissions',
             'record_id' => $admission->id,
-            'action' => 'CREATE_NICU_ADMISSIONS',
+            'action' => 'NICU_ADMIT',
         ]);
     }
 }

@@ -45,7 +45,7 @@ unset($__defined_vars, $__key, $__value); ?>
 
 </head>
 <body class="antialiased selection:bg-[#82c09a]/20 selection:text-[#82c09a] overflow-hidden flex h-screen bg-[#1a1d24] text-white font-outfit">
-    
+
     <!-- Sidebar -->
     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!$noSidebar): ?>
         <?php echo $__env->make('partials.sidebar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
@@ -57,7 +57,7 @@ unset($__defined_vars, $__key, $__value); ?>
 
         </main>
     </div>
-    
+
     <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::scripts(); ?>
 
 </body>

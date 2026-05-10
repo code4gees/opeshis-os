@@ -14,7 +14,7 @@
 <?php $__env->startSection('title', 'Rehab & Physiotherapy Command - Opeshis OS'); ?>
 
 <div class="space-y-8 pb-20">
- 
+
  <!-- Institutional Header -->
  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
  <div>

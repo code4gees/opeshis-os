@@ -15,7 +15,7 @@
 
 
 <div class="max-w-7xl mx-auto space-y-6 pb-20">
- 
+
  <!-- Institutional Clinical Header -->
  <div class="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-subtle pb-8">
  <div class="flex items-center gap-6">
@@ -105,10 +105,10 @@
  <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
  <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
- 
+
  <!-- Main Documentation Engine (3 Columns) -->
  <div class="lg:col-span-3 space-y-6">
- 
+
  <div class="cc-card rounded-2xl border border-subtle bg-card/50 overflow-hidden ">
  <!-- SOAP Navigation Architecture -->
  <div class="flex border-b border-subtle bg-card">
@@ -119,7 +119,7 @@
  </button>
  <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
  </div>
- 
+
  <!-- Documentation Panels -->
  <div class="p-8 min-h-[500px]">
  <div id="soap-subjective" class="soap-panel">
@@ -129,7 +129,7 @@
  </div>
  <textarea id="subjective" oninput="syncInputs()" class="w-full h-96 bg-[#1a1d24]/50 border border-subtle rounded-2xl p-6 text-sm font-medium text-slate-200 placeholder-slate-700 outline-none focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition-all resize-none " placeholder="Document patient complaints and clinical history..."><?php echo e($consult->subjective ?? ''); ?></textarea>
  </div>
- 
+
  <div id="soap-objective" class="soap-panel hidden">
  <div class="flex items-center gap-2 text-[12px] font-semibold text-slate-500 font-medium mb-4">
  <i class="fas fa-microscope text-sage/50"></i>
@@ -146,7 +146,7 @@
  </div>
  <textarea id="assessment" oninput="syncInputs()" class="w-full h-48 bg-[#1a1d24]/50 border border-subtle rounded-2xl p-6 text-sm font-medium text-slate-200 placeholder-slate-700 outline-none focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition-all resize-none " placeholder="Document working diagnosis..."><?php echo e($consult->assessment ?? ''); ?></textarea>
  </div>
- 
+
  <?php if (isset($component)) { $__componentOriginal4da797a88693fb589dd89646de275649 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal4da797a88693fb589dd89646de275649 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.cc-card','data' => ['title' => 'ICD-11 Diagnostic Encoding','icon' => 'fa-barcode']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
@@ -211,7 +211,7 @@
  <div id="icdList" class="flex flex-wrap gap-2">
  <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $icd10; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $code): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
  <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-sage/10 text-sage border border-blue-500/20 rounded-xl text-[12px] font-semibold uppercase tracking-tight">
- <?php echo e($code); ?> 
+ <?php echo e($code); ?>
  <button class="hover:text-white transition-colors">✕</button>
  </span>
  <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
@@ -236,7 +236,7 @@
  </div>
  <textarea id="plan" oninput="syncInputs()" class="w-full h-48 bg-[#1a1d24]/50 border border-subtle rounded-2xl p-6 text-sm font-medium text-slate-200 placeholder-slate-700 outline-none focus:border-blue-500/50 focus:ring-4 focus:ring-blue-500/10 transition-all resize-none " placeholder="Outline treatment plan and follow-up instructions..."><?php echo e($consult->plan ?? ''); ?></textarea>
  </div>
- 
+
  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
  <?php if (isset($component)) { $__componentOriginal4da797a88693fb589dd89646de275649 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal4da797a88693fb589dd89646de275649 = $attributes; } ?>
@@ -294,7 +294,7 @@
 <?php $component = $__componentOriginal4da797a88693fb589dd89646de275649; ?>
 <?php unset($__componentOriginal4da797a88693fb589dd89646de275649); ?>
 <?php endif; ?>
- 
+
  <?php if (isset($component)) { $__componentOriginal4da797a88693fb589dd89646de275649 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal4da797a88693fb589dd89646de275649 = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.cc-card','data' => ['title' => 'Diagnostic Investigations','icon' => 'fa-microscope']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
@@ -321,7 +321,7 @@
  </div>
  </div>
  </div>
- 
+
  <!-- Forensic Command Strip -->
  <div class="p-6 bg-card border-t border-subtle flex justify-between items-center">
  <div class="text-[12px] font-semibold text-slate-500 font-medium flex items-center gap-2">
@@ -357,7 +357,7 @@
 
  <!-- Clinical Intelligence Panel (1 Column) -->
  <div class="lg:col-span-1 space-y-6">
- 
+
  <!-- Dynamic Vitals Pulse -->
  <?php if (isset($component)) { $__componentOriginal4da797a88693fb589dd89646de275649 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal4da797a88693fb589dd89646de275649 = $attributes; } ?>
@@ -448,7 +448,7 @@
 
  <div class="space-y-6 relative">
  <div class="absolute left-2.5 top-2 bottom-2 w-px bg-[#2a2e38]"></div>
- 
+
  <div class="pl-8 relative">
  <div class="absolute left-0 top-1 w-5 h-5 rounded-full bg-sage/10 border border-blue-500 flex items-center justify-center z-10 shadow-[0_0_15px_rgba(59,130,246,0.3)]">
  <div class="w-1.5 h-1.5 rounded-full bg-sage"></div>
@@ -457,7 +457,7 @@
  <h4 class="text-xs font-semibold text-white uppercase mt-1">EMR Documentation</h4>
  <p class="text-[12px] font-medium text-slate-500 mt-1">Started <?php echo e(\Carbon\Carbon::parse($encounter->created_at)->format('H:i')); ?></p>
  </div>
- 
+
  <div class="pl-8 relative">
  <div class="absolute left-0 top-1 w-5 h-5 rounded-full bg-[#2a2e38] border border-slate-700 flex items-center justify-center z-10">
  <div class="w-1.5 h-1.5 rounded-full bg-slate-600"></div>
@@ -477,7 +477,7 @@
 <?php $component = $__componentOriginal4da797a88693fb589dd89646de275649; ?>
 <?php unset($__componentOriginal4da797a88693fb589dd89646de275649); ?>
 <?php endif; ?>
- 
+
  </div>
  </div>
 </div>
@@ -503,7 +503,7 @@
  function setSoapTab(name) {
  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
  document.getElementById('btn-' + name).classList.add('active');
- 
+
  document.querySelectorAll('.soap-panel').forEach(p => p.classList.add('hidden'));
  document.getElementById('soap-' + name).classList.remove('hidden');
  }

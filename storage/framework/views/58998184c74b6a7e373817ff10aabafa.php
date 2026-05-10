@@ -13,7 +13,7 @@
 
 <div class="max-w-[1600px] mx-auto pb-10">
 
- 
+
  <div class="flex items-center justify-between mb-10">
  <div>
  <h1 class="text-3xl font-extrabold text-white tracking-tighter uppercase">Patient Registry</h1>
@@ -33,7 +33,7 @@
  </div>
  <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
- 
+
  <div class="cc-card p-6 mb-10">
  <form method="GET" class="flex items-end gap-6">
  <div class="flex-1">
@@ -51,7 +51,7 @@
  </form>
  </div>
 
- 
+
  <div class="cc-card overflow-hidden">
  <div class="px-8 py-6 border-b border-white/[0.04] flex items-center justify-between bg-white/[0.02]">
  <h2 class="text-[12px] font-bold text-white/40 uppercase tracking-[0.2em] flex items-center gap-3">
@@ -77,7 +77,7 @@
  <tbody class="divide-y divide-white/[0.04]">
  <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $patients; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
  <tr class="hover:bg-white/[0.02] transition-colors group">
- 
+
  <td class="px-8 py-5">
  <div class="flex items-center gap-4">
  <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-sage text-[13px] font-bold group-hover:scale-110 transition-transform">
@@ -96,7 +96,7 @@
  </div>
  </div>
  </td>
- 
+
  <td class="px-8 py-5">
  <div class="text-[11px] font-bold text-white/40 tracking-tight">
  <?php echo e($p->phone ?: 'Unspecified'); ?>
@@ -107,24 +107,24 @@
 
  </div>
  </td>
- 
+
  <td class="px-8 py-5">
  <span class="px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider
- <?php echo e(strtolower($p->gender) === 'male' ? 'bg-blue-500/10 text-blue-400' 
- : (strtolower($p->gender) === 'female' ? 'bg-pink-500/10 text-pink-400' 
+ <?php echo e(strtolower($p->gender) === 'male' ? 'bg-blue-500/10 text-blue-400'
+ : (strtolower($p->gender) === 'female' ? 'bg-pink-500/10 text-pink-400'
  : 'bg-white/5 text-white/40')); ?>">
  <?php echo e($p->gender); ?>
 
  </span>
  </td>
- 
+
  <td class="px-8 py-5">
  <div class="text-[11px] font-bold text-white/20 tracking-tighter">
  <?php echo e($p->created_at->format('M d, Y')); ?>
 
  </div>
  </td>
- 
+
  <td class="px-8 py-5 text-right">
  <a href="<?php echo e(route('patients.show', $p->id)); ?>"
  class="cc-button-primary !py-2 !px-5 inline-flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
@@ -177,7 +177,7 @@
                         placeholder="Surname, First Name">
                 </div>
             </div>
-            
+
             <div class="grid grid-cols-2 gap-6">
                 <div>
                     <label class="block text-[10px] font-bold text-white/20 uppercase tracking-widest mb-3">Biological Gender</label>

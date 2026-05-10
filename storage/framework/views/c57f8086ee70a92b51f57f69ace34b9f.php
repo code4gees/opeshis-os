@@ -26,7 +26,7 @@
 <section class="py-24 bg-[#050505]">
  <div class="max-w-7xl mx-auto px-6 lg:px-8">
  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
- 
+
  <!-- EMR Card -->
  <div class="feature-card rounded-[3rem] p-10 group fade-up">
  <div class="w-14 h-14 bg-sage/10 text-sage rounded-2xl flex items-center justify-center mb-8 group-hover:bg-sage group-hover:text-white transition-colors">

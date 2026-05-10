@@ -61,6 +61,10 @@ return new class extends Migration
             $table->uuid('patient_id');
             $table->string('status', 20)->default('waiting');
             $table->string('priority', 20)->default('normal');
+            $table->json('vitals_data')->nullable();
+            $table->json('complaint_data')->nullable();
+            $table->string('intent', 50)->nullable();
+            $table->boolean('is_nurse_validated')->default(false);
             $table->timestamps();
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
         });

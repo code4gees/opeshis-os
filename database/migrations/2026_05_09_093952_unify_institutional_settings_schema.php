@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         // 1. Drop the legacy view if it exists
-        \DB::statement('DROP VIEW IF EXISTS sys_settings CASCADE');
+        // (Handled by migration logic: only drop if it is indeed a view in PGSQL, or ignore in SQLite if table exists)
+        if (config('database.default') === 'pgsql') {
+            \DB::statement('DROP VIEW IF EXISTS sys_settings CASCADE');
+        }
 
         // 2. If the real table system_settings exists, rename it to sys_settings
         if (Schema::hasTable('system_settings')) {

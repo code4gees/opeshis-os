@@ -11,9 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('standard', function (Blueprint $table) {
-            //
-        });
+        // Institutional decision: active_queue schema initialized in base migration
     }
 
     /**
@@ -21,8 +19,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('standard', function (Blueprint $table) {
-            //
-        });
+        //
     }
 };

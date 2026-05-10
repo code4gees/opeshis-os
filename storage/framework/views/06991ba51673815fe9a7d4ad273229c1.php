@@ -14,7 +14,7 @@
 <?php $__env->startSection('title', 'Laboratory Services - Opeshis OS'); ?>
 
 <div class="space-y-8 animate-fade-in pb-20">
- 
+
  <!-- Header -->
  <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-8 border-b border-subtle">
  <div>
@@ -124,7 +124,7 @@
 <?php $component = $__componentOriginal20f354184d3b88d04bf151863b9992fb; ?>
 <?php unset($__componentOriginal20f354184d3b88d04bf151863b9992fb); ?>
 <?php endif; ?>
- 
+
  <?php if (isset($component)) { $__componentOriginal20f354184d3b88d04bf151863b9992fb = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal20f354184d3b88d04bf151863b9992fb = $attributes; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.clinical-card','data' => ['title' => 'System Integrity','icon' => 'fa-shield-heart','badge' => 'Operational']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>

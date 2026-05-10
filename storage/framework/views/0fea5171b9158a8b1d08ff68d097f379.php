@@ -44,7 +44,7 @@
  <p>
  This institutional analysis explores the complex dynamics of medical infrastructure within the regional context. At Opeshis OS, we believe that the stability of clinical outcomes is directly proportional to the robustness of the underlying technology stack.
  </p>
- 
+
  <h3 class="text-2xl font-bold text-white tracking-tight pt-8 uppercase">The Institutional Mandate</h3>
  <p>
  Standardizing medical records across diverse clinical environments requires a unified protocol that prioritizes data integrity and high-availability access. Legacy systems often fail due to a lack of localized engineering, creating gaps in the diagnostic chain that lead to operational friction.

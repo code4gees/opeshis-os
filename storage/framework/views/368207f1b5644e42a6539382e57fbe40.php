@@ -31,7 +31,7 @@ unset($__defined_vars, $__key, $__value); ?>
 <div <?php echo e($attributes->merge(['class' => 'group relative overflow-hidden rounded-2xl border border-subtle bg-card/40 p-6  transition-all hover:border-indigo-500/30 hover:bg-card'])); ?>>
     <!-- Ambient Glow -->
     <div class="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-sage/5 blur-[100px] transition-all group-hover:bg-sage/10"></div>
-    
+
     <div class="relative flex flex-col gap-4">
         <div class="flex items-start justify-between">
             <div class="flex items-center gap-3">

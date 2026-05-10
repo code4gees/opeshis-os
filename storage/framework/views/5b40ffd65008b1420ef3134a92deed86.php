@@ -45,10 +45,10 @@ unset($__defined_vars, $__key, $__value); ?>
 
 
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #1a1d24; 
-            color: #ffffff; 
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1d24;
+            color: #ffffff;
         }
         .bg-sidebar { background-color: #16191f; }
         .bg-card { background-color: #22262f; }
@@ -57,7 +57,7 @@ unset($__defined_vars, $__key, $__value); ?>
         .text-sage { color: #82c09a; }
         .bg-sage { background-color: #82c09a; }
         .text-alert { color: #d9776c; }
-        
+
         .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #3b4252; border-radius: 4px; }
@@ -70,7 +70,7 @@ unset($__defined_vars, $__key, $__value); ?>
     </style>
 </head>
 <body class="antialiased selection:bg-[#82c09a]/20 selection:text-[#82c09a] overflow-hidden flex h-screen">
-    
+
     <!-- Sidebar -->
     <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(!$noSidebar): ?>
         <?php echo $__env->make('partials.sidebar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
@@ -82,7 +82,7 @@ unset($__defined_vars, $__key, $__value); ?>
 
         </main>
     </div>
-    
+
     <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::scripts(); ?>
 
 </body>

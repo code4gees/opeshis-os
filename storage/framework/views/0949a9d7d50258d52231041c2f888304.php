@@ -13,14 +13,14 @@
 
 <div class="max-w-[1600px] mx-auto pb-10">
 
-    
+
     <div class="flex items-center justify-between mb-10">
         <div>
             <h1 class="text-3xl font-extrabold text-white tracking-tighter uppercase">Ward Command</h1>
             <p class="text-[11px] font-bold text-white/20 uppercase tracking-[0.2em] mt-1">Institutional Bed Management & Inpatient Census</p>
         </div>
         <div class="flex items-center gap-6">
-            
+
             <div class="flex items-center gap-8 px-6 py-4 cc-card bg-white/[0.02]">
                 <div class="text-center">
                     <p class="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-1">Occupancy</p>
@@ -32,7 +32,7 @@
                     <p class="text-xl font-bold text-white tracking-tighter leading-none"><?php echo e($admissions->count()); ?></p>
                 </div>
             </div>
-            
+
             <button onclick="document.getElementById('admitModal').classList.remove('hidden')"
                 class="cc-button-primary flex items-center gap-2">
                 <i class="fas fa-plus text-[10px]"></i>
@@ -47,7 +47,7 @@
  </div>
  <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-    
+
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $wards; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $w): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
         <?php
@@ -57,7 +57,7 @@
             $rate = $total > 0 ? round(($occupied / $total) * 100) : 0;
         ?>
         <div class="cc-card p-6 group relative overflow-hidden transition-all duration-500 hover:border-sage/30">
-            
+
             <div class="flex items-center justify-between mb-6">
                 <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-sage group-hover:scale-110 transition-transform">
                     <i class="fas fa-door-open text-[14px]"></i>
@@ -70,7 +70,7 @@
 
             <h4 class="text-[13px] font-bold text-white mb-4 truncate tracking-tight uppercase"><?php echo e($w->name); ?></h4>
 
-            
+
             <div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden mb-4">
                 <div class="h-full rounded-full transition-all duration-1000
                     <?php echo e($rate >= 90 ? 'bg-alert' : ($rate >= 70 ? 'bg-amber-500' : 'bg-sage shadow-[0_0_10px_rgba(130,192,154,0.3)]')); ?>"
@@ -93,7 +93,7 @@
         <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
     </div>
 
-    
+
     <div class="cc-card overflow-hidden">
         <div class="px-8 py-6 border-b border-white/[0.04] flex items-center justify-between bg-white/[0.02]">
             <h2 class="text-[12px] font-bold text-white/40 uppercase tracking-[0.2em] flex items-center gap-3">
@@ -120,7 +120,7 @@
  <tbody class="divide-y divide-white/[0.04]">
  <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $admissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $a): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
  <tr class="hover:bg-white/[0.02] transition-colors group">
- 
+
  <td class="px-8 py-5">
  <div class="flex items-center gap-4">
  <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-sage text-[13px] font-bold group-hover:scale-110 transition-transform">
@@ -139,7 +139,7 @@
  </div>
  </div>
  </td>
- 
+
  <td class="px-8 py-5">
  <div class="text-[11px] font-bold text-white tracking-tight uppercase">
  <?php echo e($a->bed->ward->name ?? 'Allocation Unknown'); ?>
@@ -150,18 +150,18 @@
 
  </div>
  </td>
- 
+
  <td class="px-8 py-5">
  <div class="text-[11px] text-white/40 max-w-[220px] truncate italic">
  "<?php echo e($a->diagnosis_at_admission ?? 'Observation'); ?>"
  </div>
  </td>
- 
+
  <td class="px-8 py-5 text-[11px] font-bold text-white/20 uppercase tracking-tighter">
  <?php echo e(\Carbon\Carbon::parse($a->admission_date ?? $a->created_at)->diffForHumans()); ?>
 
  </td>
- 
+
  <td class="px-8 py-5">
  <span class="px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider
  <?php echo e(($a->status ?? '') === 'admitted' ? 'bg-sage/10 text-sage'
@@ -171,7 +171,7 @@
 
  </span>
  </td>
- 
+
  <td class="px-8 py-5 text-right">
  <div class="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
  <button class="cc-button-primary !py-2 !px-4 !bg-white/5 !text-white/40 border border-white/5 hover:!text-white">
@@ -223,7 +223,7 @@
                         placeholder="Enter Patient UUID or Medical ID">
                 </div>
             </div>
-            
+
             <div class="grid grid-cols-2 gap-6">
                 <div>
                     <label class="block text-[10px] font-bold text-white/20 uppercase tracking-widest mb-3">Ward Allocation</label>

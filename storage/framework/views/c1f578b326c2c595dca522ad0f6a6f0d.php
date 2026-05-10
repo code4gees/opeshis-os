@@ -22,10 +22,10 @@
 <section class="pub-section">
  <div class="pub-container">
  <div style="display:grid;gap:3rem;grid-template-columns:1fr;" >
- 
+
  <div style="display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-bottom:1rem;">
 
- 
+
  <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
  <div style="width:42px;height:42px;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;">
  <svg width="18" height="18" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
@@ -37,7 +37,7 @@
  </div>
  </div>
 
- 
+
  <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
  <div style="width:42px;height:42px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;">
  <svg width="18" height="18" fill="none" stroke="#6ee7b7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -49,7 +49,7 @@
  </div>
  </div>
 
- 
+
  <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
  <div style="width:42px;height:42px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;">
  <svg width="18" height="18" fill="none" stroke="#fcd34d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -63,7 +63,7 @@
 
  </div>
 
- 
+
  <div style="background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.07);border-radius:24px;padding:2.5rem;">
  <div style="margin-bottom:2rem;">
  <h2 style="font-size:1.4rem;font-weight:900;letter-spacing:-.03em;text-transform:uppercase;color:#fff;margin-bottom:.4rem;">Send a Message</h2>

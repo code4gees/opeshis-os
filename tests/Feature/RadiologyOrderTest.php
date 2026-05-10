@@ -46,7 +46,7 @@ class RadiologyOrderTest extends TestCase
         ]);
 
         $this->withoutExceptionHandling();
-        $response = $this->actingAs($user)->post('/radiology/order', [
+        $response = $this->actingAs($user)->post(route('operations.diagnostics.radiology.order'), [
             'patient_id' => $patientId,
             'test_name' => 'Chest X-Ray',
             'indications' => 'Persistent cough',
@@ -60,7 +60,7 @@ class RadiologyOrderTest extends TestCase
     {
         $user = User::factory()->create(['role' => 'doctor']);
 
-        $response = $this->actingAs($user)->post('/radiology/order', [
+        $response = $this->actingAs($user)->post(route('operations.diagnostics.radiology.order'), [
             'test_name' => 'Chest X-Ray',
         ]);
 

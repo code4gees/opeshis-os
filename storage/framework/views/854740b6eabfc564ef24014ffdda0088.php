@@ -151,7 +151,7 @@
 <?php $component->withAttributes(['title' => 'Institutional Quality & Incident Matrix','icon' => 'fa-database']); ?>
 <?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::processComponentKey($component); ?>
 
-  <?php $__env->slot('action', null, []); ?> 
+  <?php $__env->slot('action', null, []); ?>
  <span class="px-2 py-0.5 bg-rose-500/10 text-rose-500 border border-rose-500/20 rounded text-[12px] font-semibold font-medium ">Live Surveillance Active</span>
   <?php $__env->endSlot(); ?>
 

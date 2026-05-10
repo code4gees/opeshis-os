@@ -15,7 +15,7 @@
 
 
 <div class="space-y-8 pb-20">
- 
+
  <!-- Institutional Header -->
  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
  <div>
@@ -156,7 +156,7 @@
 <?php $component->withAttributes(['title' => 'Active Trauma & Resuscitation Queue','icon' => 'fa-list-ul']); ?>
 <?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::processComponentKey($component); ?>
 
-  <?php $__env->slot('action', null, []); ?> 
+  <?php $__env->slot('action', null, []); ?>
  <span class="px-2 py-0.5 bg-rose-500/10 text-rose-500 border border-rose-500/20 rounded text-[12px] font-semibold font-medium">Live Updates</span>
   <?php $__env->endSlot(); ?>
 

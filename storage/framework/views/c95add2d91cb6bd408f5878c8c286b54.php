@@ -44,7 +44,7 @@ unset($__defined_vars, $__key, $__value); ?>
                 <?php echo e($value); ?>
 
             </h4>
-            
+
             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($trend): ?>
             <div class="mt-2 flex items-center space-x-1.5 <?php echo e($trendUp ? 'text-sage' : 'text-alert'); ?>">
                 <i class="fas <?php echo e($trendUp ? 'fa-arrow-up' : 'fa-arrow-down'); ?> text-[10px]"></i>

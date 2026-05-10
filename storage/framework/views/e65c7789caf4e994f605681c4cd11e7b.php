@@ -15,7 +15,7 @@
 
 
 <div class="space-y-8 pb-20">
- 
+
  <!-- Institutional Header -->
  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
  <div>
@@ -190,7 +190,7 @@
 <?php $component->withAttributes(['title' => 'Live Operative Manifest Matrix','icon' => 'fa-database']); ?>
 <?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::processComponentKey($component); ?>
 
-  <?php $__env->slot('action', null, []); ?> 
+  <?php $__env->slot('action', null, []); ?>
  <span class="px-2 py-0.5 bg-sage/10 text-sage border border-indigo-500/20 rounded text-[12px] font-semibold font-medium">Global Manifest Sync</span>
   <?php $__env->endSlot(); ?>
 

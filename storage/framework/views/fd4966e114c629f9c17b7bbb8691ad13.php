@@ -221,7 +221,7 @@
  <span>Without Limits.</span>
  </h1>
  <p class="hero-desc">
- The world's first offline-first, multi-branch hospital operating system. 
+ The world's first offline-first, multi-branch hospital operating system.
  Engineered for high-density clinical environments.
  </p>
  <div class="stat-row">

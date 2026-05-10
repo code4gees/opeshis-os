@@ -82,7 +82,7 @@
 
 
 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($actionText)): ?>
- <?php $__env->slot('subcopy', null, []); ?> 
+ <?php $__env->slot('subcopy', null, []); ?>
 <?php echo app('translator')->get(
     "If you're having trouble clicking the \":actionText\" button, copy and paste the URL below\n".
     'into your web browser:',

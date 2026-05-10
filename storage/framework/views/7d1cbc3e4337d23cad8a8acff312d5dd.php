@@ -20,7 +20,7 @@
  : 'text-slate-400 hover:text-white hover:bg-[#22262f] transition-colors';
  $iconCls = $active ? 'text-[#16191f]' : 'text-slate-500';
  $textCls = $active ? 'text-[#16191f]' : '';
- 
+
  return "
  <a href=\"{$href}\" class=\"flex items-center gap-4 px-4 py-2.5 rounded-lg {$cls}\">
  <i class=\"fas {$icon} w-4 text-center text-sm {$iconCls}\"></i>
@@ -126,7 +126,7 @@
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
 
- 
+
  <div class="mt-auto pb-4">
  <form method="POST" action="<?php echo e(route('logout')); ?>" class="w-full">
  <?php echo csrf_field(); ?>

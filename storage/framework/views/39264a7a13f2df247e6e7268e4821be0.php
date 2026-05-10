@@ -27,7 +27,7 @@
 
 <section class="py-24 bg-[#050505]">
  <div class="max-w-7xl mx-auto px-6 lg:px-8">
- 
+
  <div class="grid grid-cols-1 lg:grid-cols-2 gap-24 items-start mb-40">
  <div class="fade-up">
  <h2 class="text-[12px] font-semibold text-sage uppercase tracking-[0.3em] mb-8">The Opeshis Genesis</h2>
@@ -41,7 +41,7 @@
  </p>
  </div>
  </div>
- 
+
  <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
  <div class="feature-card p-10 rounded-[3rem] fade-up">
  <h4 class="text-4xl font-semibold text-sage mb-4 tracking-tighter">22</h4>

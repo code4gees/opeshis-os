@@ -13,7 +13,7 @@
 
 <div class="max-w-[1400px] mx-auto pb-10">
 
- 
+
  <div class="flex items-center justify-between mb-6">
  <div>
  <h1 class="text-3xl font-extrabold text-white tracking-tighter uppercase">Clinical Engine</h1>
@@ -33,7 +33,7 @@
  </div>
  <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
- 
+
  <div class="cc-card overflow-hidden">
  <div class="px-8 py-6 border-b border-white/[0.04] flex items-center justify-between bg-white/[0.02]">
  <h2 class="text-[12px] font-bold text-white/40 uppercase tracking-[0.2em] flex items-center gap-3">
@@ -110,7 +110,7 @@
  <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
  </div>
 
- 
+
  <div class="grid grid-cols-3 gap-6 mt-10">
  <?php if (isset($component)) { $__componentOriginalf6daf6fe1df9fcd4f85c4bb30e85ca43 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginalf6daf6fe1df9fcd4f85c4bb30e85ca43 = $attributes; } ?>

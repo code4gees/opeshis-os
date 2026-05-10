@@ -15,7 +15,7 @@
 
 
 <div class="max-w-7xl mx-auto space-y-8 animate-fade-in pb-20">
- 
+
  <!-- Header -->
  <header class="flex flex-col md:flex-row justify-between items-start md:items-center bg-card border border-subtle rounded-xl p-6 ">
  <div>
@@ -37,7 +37,7 @@
  <form method="POST" action="<?php echo e(route('settings.update')); ?>" enctype="multipart/form-data" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
  <?php echo csrf_field(); ?>
  <div class="lg:col-span-2 space-y-8">
- 
+
  <!-- Hospital Identity -->
  <div class="bg-[#2a2e38] rounded-xl p-8 border border-subtle ">
  <h3 class="text-sm font-bold text-slate-200 font-medium mb-8 border-b border-subtle pb-4">

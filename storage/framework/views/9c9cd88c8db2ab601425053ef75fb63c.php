@@ -24,12 +24,12 @@
  <div class="logo">OPESHIS OS</div>
  <div class="type">Medical Passport</div>
  </div>
- 
+
  <div class="chip"></div>
- 
+
  <div class="name"><?php echo e($data->full_name); ?></div>
  <div class="id">ID: <?php echo e($data->medical_id); ?></div>
- 
+
  <div class="footer">
  <div style="font-size: 1.5mm; color: #475569;">Valid Institutional ID | Sentinel Protocol V3</div>
  <div class="barcode"></div>

@@ -57,7 +57,7 @@
  </div>
  </div>
  </div>
- 
+
  <div class="bg-card p-10 rounded-[3rem] border border-subtle bg-card relative overflow-hidden">
  <div class="relative z-10">
  <h3 class="text-[12px] font-semibold text-sage font-medium mb-8 border-b border-subtle pb-6 ">Institutional Status</h3>
@@ -86,7 +86,7 @@
  <h3 class="text-xs font-semibold text-white font-medium ">Longitudinal Medical Temporal Matrix</h3>
  <span class="px-4 py-1.5 bg-[#2a2e38] text-slate-500 border border-subtle rounded-xl text-[8px] font-semibold font-medium ">Temporal Stream: Active</span>
  </div>
- 
+
  <div class="p-12">
  <div class="relative space-y-16 before:absolute before:left-[27px] before:top-4 before:bottom-0 before:w-1 before:bg-[#2a2e38] before:">
  <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $encounters; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $e): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>

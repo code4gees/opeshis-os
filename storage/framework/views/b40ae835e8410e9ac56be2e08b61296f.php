@@ -22,7 +22,7 @@
             ? 'bg-sage text-[#1a1d24] font-bold shadow-[0_0_15px_rgba(130,192,154,0.2)]'
             : 'text-white/30 hover:text-white hover:bg-white/5 transition-all duration-300';
         $iconCls = $active ? 'text-[#1a1d24]' : 'text-white/20';
-        
+
         return "
             <a href=\"{$href}\" class=\"flex items-center gap-4 px-5 py-3 rounded-xl {$cls} group\">
                 <i class=\"fas {$icon} w-5 text-center text-[13px] {$iconCls} group-hover:scale-110 transition-transform\"></i>
@@ -151,7 +151,7 @@
     <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
 
- 
+
     <div class="mt-auto pb-8 px-4">
         <form method="POST" action="<?php echo e(route('logout')); ?>" class="w-full">
             <?php echo csrf_field(); ?>

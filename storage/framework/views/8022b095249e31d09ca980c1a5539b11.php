@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="<?php echo e(asset('css/app.css')); ?>">
 
@@ -40,7 +40,7 @@
         .grid-bg {
             position: absolute;
             inset: 0;
-            background-image: 
+            background-image:
                 radial-gradient(circle at 2px 2px, rgba(255,255,255,0.02) 1px, transparent 0);
             background-size: 40px 40px;
         }
@@ -180,10 +180,10 @@
             <span>Without Limits.</span>
         </h1>
         <p class="hero-desc">
-            The institutional operating system for high-density medical environments. 
+            The institutional operating system for high-density medical environments.
             Engineered for clinical intelligence and zero-leakage operations.
         </p>
-        
+
         <div class="flex gap-16">
             <div>
                 <div class="stat-num text-sage">22</div>
@@ -222,13 +222,13 @@
             <?php echo csrf_field(); ?>
             <div class="form-group mb-6">
                 <label class="block text-[10px] font-bold text-white/20 uppercase tracking-widest mb-3" for="email">Institutional Email</label>
-                <input id="email" type="email" name="email" value="<?php echo e(old('email')); ?>" required 
+                <input id="email" type="email" name="email" value="<?php echo e(old('email')); ?>" required
                     class="cc-input w-full" placeholder="name@institution.com">
             </div>
 
             <div class="form-group mb-6">
                 <label class="block text-[10px] font-bold text-white/20 uppercase tracking-widest mb-3" for="password">Security Protocol</label>
-                <input id="password" type="password" name="password" required 
+                <input id="password" type="password" name="password" required
                     class="cc-input w-full" placeholder="••••••••">
             </div>
 

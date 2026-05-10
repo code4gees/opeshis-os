@@ -13,7 +13,7 @@
 
 <div class="max-w-[1400px] mx-auto pb-10">
 
- 
+
  <div class="flex items-center justify-between mb-6">
  <div>
  <h1 class="text-xl font-semibold text-white">Clinical Engine</h1>
@@ -33,7 +33,7 @@
  </div>
  <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
- 
+
  <div class="bg-card rounded-xl border border-subtle">
  <div class="px-6 py-4 border-b border-subtle flex items-center justify-between">
  <h2 class="text-[14px] font-medium text-white flex items-center gap-2">
@@ -110,7 +110,7 @@
  <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
  </div>
 
- 
+
  <div class="grid grid-cols-3 gap-4 mt-6">
  <div class="bg-card rounded-xl border border-subtle p-4">
  <p class="text-[12px] text-slate-400 mb-1">Patients in Queue</p>

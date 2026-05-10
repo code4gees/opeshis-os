@@ -25,9 +25,9 @@
 
 <section class="py-24 bg-[#050505]">
  <div class="max-w-5xl mx-auto px-6 lg:px-8">
- 
+
  <div class="space-y-16">
- 
+
  <!-- Clinical Section -->
  <div class="fade-up">
  <div class="flex items-center gap-4 mb-8">
@@ -73,7 +73,7 @@
  </div>
 
  </div>
- 
+
  <div class="mt-32 p-16 bg-sage/5 border border-subtle rounded-[4rem] text-white text-center fade-up relative overflow-hidden">
  <div class="relative z-10">
  <h3 class="text-3xl md:text-5xl font-semibold mb-8 tracking-tighter uppercase">Still have questions?</h3>

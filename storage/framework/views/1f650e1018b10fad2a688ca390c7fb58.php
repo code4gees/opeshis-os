@@ -17,7 +17,7 @@
 <div class="min-h-[80vh] flex items-center justify-center p-8">
  <div class="bg-[#2a2e38] border border-subtle w-full max-w-md rounded-[2.5rem] p-12 relative overflow-hidden">
  <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-emerald-500 to-indigo-500"></div>
- 
+
  <div class="mb-10 text-center">
  <h2 class="text-3xl font-semibold text-white uppercase tracking-tight mb-2">Verification</h2>
  <p class="text-xs font-bold text-slate-400 font-medium">Institutional Access Protocol</p>

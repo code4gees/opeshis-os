@@ -17,7 +17,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="max-w-7xl mx-auto space-y-8 animate-fade-in pb-20">
- 
+
  <!-- Header -->
  <header class="flex flex-col md:flex-row justify-between items-start md:items-center bg-card border border-subtle rounded-xl p-6 ">
  <div>
@@ -42,7 +42,7 @@
  <div class="bg-emerald-500 h-full" style="width: <?php echo e($collectionEfficiency); ?>%"></div>
  </div>
  </div>
- 
+
  <div class="bg-[#2a2e38] p-6 rounded-xl border border-subtle ">
  <p class="text-xs font-bold text-slate-500 font-medium mb-4">Avg. Patient Wait (OPD)</p>
  <div class="flex items-end gap-2">

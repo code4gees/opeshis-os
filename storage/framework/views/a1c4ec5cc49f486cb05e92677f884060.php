@@ -241,7 +241,7 @@
               Master Index
             </a>
           </div>
-          
+
           <div class="flex-1 overflow-y-auto custom-scrollbar">
             <?php if (isset($component)) { $__componentOriginal11958e14de982b4883e7282860cbd101 = $component; } ?>
 <?php if (isset($attributes)) { $__attributesOriginal11958e14de982b4883e7282860cbd101 = $attributes; } ?>
@@ -475,7 +475,7 @@
             <a href="<?php echo e(route('wards')); ?>" class="text-[10px] font-bold text-sage uppercase tracking-widest hover:text-white transition-colors">Full Census Protocol</a>
           <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         </div>
-        
+
         <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->user()->hasPermission('module_clinical')): ?>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1">
             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = ['Ground Floor / A-Wing', 'First Floor / B-Wing']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $floor): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
@@ -519,9 +519,9 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
  document.addEventListener("DOMContentLoaded", function() {
- Chart.defaults.color = '#64748b'; 
+ Chart.defaults.color = '#64748b';
  Chart.defaults.font.family = 'Inter, sans-serif';
- 
+
  const ctx = document.getElementById('mainChart');
  if(ctx) {
  new Chart(ctx, {

@@ -44,7 +44,7 @@ unset($__defined_vars, $__key, $__value); ?>
                 <?php echo e($value); ?>
 
             </h4>
-            
+
             <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($trend): ?>
             <div class="mt-4 flex items-center gap-2 <?php echo e($trendUp ? 'text-sage' : 'text-alert'); ?>">
                 <div class="w-5 h-5 rounded-full <?php echo e($trendUp ? 'bg-sage/10' : 'bg-alert/10'); ?> flex items-center justify-center">
@@ -59,8 +59,8 @@ unset($__defined_vars, $__key, $__value); ?>
             <i class="fas <?php echo e($icon); ?> text-lg"></i>
         </div>
     </div>
-    
-    
+
+
     <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-sage/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 </div>
 <?php /**PATH C:\laragon\www\opeshis\resources\views/components/cc-stat.blade.php ENDPATH**/ ?>

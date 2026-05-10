@@ -69,7 +69,7 @@
  </div>
 
  <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($a->last_vitals->news2_score)): ?>
- <?php 
+ <?php
  $riskColor = match($a->last_vitals->risk_level) {
  'HIGH' => 'bg-rose-500/10 text-rose-500 border-rose-500/20 /5',
  'MEDIUM' => 'bg-amber-500/10 text-amber-500 border-amber-500/20 /5',

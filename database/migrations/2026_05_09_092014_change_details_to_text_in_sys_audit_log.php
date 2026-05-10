@@ -11,11 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement('ALTER TABLE sys_audit_log ALTER COLUMN details TYPE TEXT USING details::text');
+        if (config('database.default') === 'pgsql') {
+            DB::statement('ALTER TABLE sys_audit_log ALTER COLUMN details TYPE TEXT USING details::text');
+        } else {
+            Schema::table('sys_audit_log', function (Blueprint $table) {
+                $table->text('details')->change();
+            });
+        }
     }
 
     public function down(): void
     {
-        DB::statement('ALTER TABLE sys_audit_log ALTER COLUMN details TYPE JSONB USING details::jsonb');
+        if (config('database.default') === 'pgsql') {
+            DB::statement('ALTER TABLE sys_audit_log ALTER COLUMN details TYPE JSONB USING details::jsonb');
+        } else {
+            Schema::table('sys_audit_log', function (Blueprint $table) {
+                $table->json('details')->change();
+            });
+        }
     }
 };

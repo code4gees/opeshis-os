@@ -14,7 +14,7 @@
 <?php $__env->startSection('title', 'Billing & Finance - Opeshis OS'); ?>
 
 <div class="space-y-8 animate-fade-in pb-20">
- 
+
  <!-- Header -->
  <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 pb-8 border-b border-subtle">
  <div>
