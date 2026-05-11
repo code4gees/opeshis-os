@@ -25,9 +25,9 @@ Route::middleware(['permission:module_clinical'])->group(function () {
     });
 
     // Patient Dossier & Signal Processing
-    Route::prefix('dossier')->name('clinical.dossier.')->group(function() {
-        Route::get('/{id}', [ClinicalController::class, 'dossier'])->name('show');
-        Route::post('/{id}/resolve', [ClinicalController::class, 'resolveSignal'])->name('resolve');
+    Route::prefix('dossier')->group(function() {
+        Route::get('/{id}', [ClinicalController::class, 'dossier'])->name('clinical.dossier');
+        Route::post('/{id}/resolve', [ClinicalController::class, 'resolveSignal'])->name('clinical.dossier.resolve');
     });
     
     // Institutional OPD (Outpatient)

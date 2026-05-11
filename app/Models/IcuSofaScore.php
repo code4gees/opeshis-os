@@ -25,7 +25,7 @@ class IcuSofaScore extends Model
 
     public function admission()
     {
-        return $this->belongsTo(IcuAdmission::class, 'admission_id');
+        return $this->belongsTo(Admission::class, 'admission_id');
     }
 
     public function clinician()

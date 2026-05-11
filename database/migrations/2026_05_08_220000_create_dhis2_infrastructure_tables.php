@@ -26,7 +26,7 @@ return new class extends Migration
                 $table->string('report_period', 20)->nullable();
                 $table->string('report_type', 50)->nullable();
                 $table->uuid('generated_by')->nullable();
-                $table->jsonb('data_payload')->nullable();
+                $table->json('data_payload')->nullable();
                 $table->string('status', 20)->default('DRAFT');
                 $table->timestamps();
 

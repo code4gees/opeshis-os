@@ -12,7 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         // 1. Drop the legacy view if it exists
-        \DB::statement('DROP VIEW IF EXISTS sys_settings CASCADE');
+        if (DB::getDriverName() === 'pgsql') {
+            \DB::statement('DROP VIEW IF EXISTS sys_settings CASCADE');
+        } elseif (DB::getDriverName() === 'sqlite') {
+            // SQLite fails if we try to DROP VIEW on a table
+            try {
+                \DB::statement('DROP VIEW IF EXISTS sys_settings');
+            } catch (\Exception $e) {
+                // Ignore if it's actually a table
+            }
+        } else {
+            \DB::statement('DROP VIEW IF EXISTS sys_settings');
+        }
 
         // 2. If the real table system_settings exists, rename it to sys_settings
         if (Schema::hasTable('system_settings')) {

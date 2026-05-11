@@ -39,8 +39,8 @@ return new class extends Migration
             $table->text('objective')->nullable();
             $table->text('assessment')->nullable();
             $table->text('plan')->nullable();
-            $table->jsonb('icd10_codes')->nullable();
-            $table->jsonb('prescriptions_json')->nullable();
+            $table->json('icd10_codes')->nullable();
+            $table->json('prescriptions_json')->nullable();
             $table->text('procedure_notes')->nullable();
             $table->boolean('finalized')->default(false);
             $table->uuid('branch_id')->nullable();
@@ -71,7 +71,7 @@ return new class extends Migration
         // 2. Finalize Admissions Consolidation (Hybrid Specialty Architecture)
         Schema::table('admissions', function (Blueprint $table) {
             if (!Schema::hasColumn('admissions', 'specialty_data')) {
-                $table->jsonb('specialty_data')->nullable()->after('admission_type');
+                $table->json('specialty_data')->nullable()->after('admission_type');
             }
             if (!Schema::hasColumn('admissions', 'outcome')) {
                 $table->string('outcome', 50)->nullable();
@@ -84,9 +84,9 @@ return new class extends Migration
             DB::statement("DROP TABLE IF EXISTS obstetrics_admissions");
             DB::statement("DROP TABLE IF EXISTS ward_admissions");
         } else {
-            DB::statement("DROP TABLE IF EXISTS icu_admissions CASCADE");
-            DB::statement("DROP TABLE IF EXISTS obstetrics_admissions CASCADE");
-            DB::statement("DROP TABLE IF EXISTS ward_admissions CASCADE");
+            DB::statement("DROP TABLE IF EXISTS icu_admissions");
+            DB::statement("DROP TABLE IF EXISTS obstetrics_admissions");
+            DB::statement("DROP TABLE IF EXISTS ward_admissions");
         }
     }
 

@@ -19,9 +19,9 @@ Route::middleware(['permission:module_admin'])->group(function () {
     Route::post('/action', [AdminController::class, 'action'])->name('admin.action');
     
     // Intelligence & Reporting Domain
-    Route::prefix('intelligence')->name('admin.intelligence.')->group(function() {
-        Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
-        Route::get('/reporting', [ReportingController::class, 'index'])->name('reporting');
+    Route::prefix('intelligence')->group(function() {
+        Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
+        Route::get('/reporting', [ReportingController::class, 'index'])->name('reporting.index');
         Route::post('/reporting/generate', [ReportingController::class, 'generate'])->name('reporting.generate');
         Route::post('/reporting/dhis2/export', [ReportingController::class, 'exportDHIS2'])->name('reporting.dhis2.export');
     });

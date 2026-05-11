@@ -36,15 +36,14 @@ class DashboardTest extends TestCase
 
         \Illuminate\Support\Facades\Cache::flush();
 
-        $response = $this->actingAs($user)->get('/dashboard');
+        $response = $this->actingAs($user)->get('/dashboard?force_dashboard=1');
 
         $response->assertStatus(200);
         $response->assertSee('Clinical');
         $response->assertSee('Dashboard');
-        $response->assertSee('Hospital Dashboard');
-        $response->assertSee('Neural Core');
-        $response->assertSee('Institutional Activity');
-        $response->assertSee('Operational Queue');
+        $response->assertSee('Self-Service Vitals');
+        $response->assertSee('Bed Occupancy');
+        $response->assertSee('Institutional Live Queue');
     }
 
     /**
