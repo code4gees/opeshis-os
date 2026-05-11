@@ -25,7 +25,7 @@ return new class extends Migration
                         patient_id, admission_diagnosis, admission_time, discharge_time, 
                         discharge_notes, status, NULL, branch_id, created_at, updated_at, 
                         'paeds', 
-                        jsonb_build_object(
+                        json_build_object(
                             'ward_bed_id', ward_bed_id,
                             'admission_source', admission_source,
                             'weight_kg', weight_kg,

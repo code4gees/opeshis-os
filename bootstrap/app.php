@@ -49,8 +49,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Handle 500 (Internal Server Error)
         $exceptions->render(function (\Throwable $e, Request $request) {
-            if ($e instanceof \Symfony\Component\HttpKernel\Exception\HttpException) {
-                return null; // Let default handler handle other HTTP exceptions
+            if ($e instanceof \Illuminate\Validation\ValidationException || $e instanceof \Symfony\Component\HttpKernel\Exception\HttpException) {
+                return null; // Let default handler handle validation and other HTTP exceptions
             }
             
             Log::critical('Institutional System Error', [

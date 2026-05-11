@@ -15,20 +15,75 @@ class MaternalController extends Controller
     public function index()
     {
         $ancPatients = \App\Models\AncTracking::with(['patient', 'doctor'])
+            ->when(auth()->user()->branch_id, function ($query, $branchId) {
+                return $query->whereHas('patient', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                });
+            })
             ->orderBy('edd_date', 'asc')
             ->get();
 
         $recentBirths = \App\Models\BirthRecord::with(['mother', 'clinician'])
+            ->when(auth()->user()->branch_id, function ($query, $branchId) {
+                return $query->whereHas('mother', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                });
+            })
             ->orderBy('birth_datetime', 'desc')
             ->limit(10)
             ->get();
 
         $activeAdmissions = \App\Models\Admission::where('admission_type', 'obstetrics')
+            ->when(auth()->user()->branch_id, function ($query, $branchId) {
+                return $query->where('branch_id', $branchId);
+            })
             ->with('patient')
             ->where('status', 'admitted')
             ->get();
 
         return view('maternal.index', compact('ancPatients', 'recentBirths', 'activeAdmissions'));
+    }
+
+    /**
+     * Authorize Institutional Obstetric Admission Protocol via Action
+     */
+    public function admit(Request $request, \App\Actions\Clinical\AdmitObstetricsPatientAction $action)
+    {
+        $validated = $request->validate([
+            'patient_id' => ['required', 'uuid', 'exists:patients,id'],
+            'gravida' => ['required', 'integer'],
+            'parity' => ['required', 'integer'],
+            'gest_weeks' => ['required', 'integer'],
+            'reason' => ['required', 'string'],
+        ]);
+
+        try {
+            $action->execute($validated);
+            return redirect()->back()->with('success', 'Institutional obstetric admission protocol authorized.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    /**
+     * Commit Institutional Obstetric Observation Intelligence via Action
+     */
+    public function logObservation(Request $request, \App\Actions\Clinical\LogObstetricsObservationAction $action)
+    {
+        $validated = $request->validate([
+            'admission_id' => ['required', 'uuid', 'exists:admissions,id'],
+            'fhr' => ['required', 'integer'],
+            'contractions' => ['required', 'string'],
+            'dilation' => ['required', 'integer'],
+            'notes' => ['nullable', 'string'],
+        ]);
+
+        try {
+            $action->execute($validated);
+            return redirect()->back()->with('success', 'Institutional obstetric observation committed.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -68,32 +123,22 @@ class MaternalController extends Controller
     /**
      * Record Institutional Birth Protocol
      */
-    public function recordBirth(Request $request)
+    public function recordBirth(Request $request, \App\Actions\Clinical\RecordObstetricsDeliveryAction $action)
     {
-        $request->validate([
-            'mother_id' => 'required|uuid|exists:patients,id',
-            'gender' => 'required|in:Male,Female,Indeterminate',
-            'birth_datetime' => 'required|date',
-            'weight' => 'required|numeric',
+        $validated = $request->validate([
+            'admission_id' => ['required', 'uuid', 'exists:admissions,id'],
+            'mode' => ['required', 'string'],
+            'baby_weight' => ['required', 'numeric'],
+            'apgar_1' => ['required', 'integer'],
+            'apgar_5' => ['required', 'integer'],
+            'complications' => ['nullable', 'string'],
         ]);
 
-        $birth = \App\Models\BirthRecord::create([
-            'mother_id' => $request->input('mother_id'),
-            'baby_name' => $request->input('baby_name'),
-            'gender' => $request->input('gender'),
-            'birth_datetime' => $request->input('birth_datetime'),
-            'weight_kg' => $request->input('weight'),
-            'delivery_type' => $request->input('delivery_type', 'Normal Vaginal'),
-            'attending_clinician_id' => auth()->id(),
-        ]);
-
-        Opeshis::logAction(
-            'MATERNAL_BIRTH_RECORD',
-            'birth_records',
-            $birth->id,
-            "Recorded Institutional birth of baby: " . ($request->input('baby_name') ?: 'Unknown')
-        );
-
-        return redirect()->back()->with('success', 'Birth record finalized in Institutional Maternal registry.');
+        try {
+            $action->execute($validated);
+            return redirect()->back()->with('success', 'Institutional delivery record finalized.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }

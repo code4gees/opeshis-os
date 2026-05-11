@@ -7,7 +7,7 @@ namespace Tests\Feature\Actions\Clinical;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Patient;
-use App\Models\NicuAdmission;
+use App\Models\Admission;
 use App\Actions\Clinical\AdmitNeonatalPatientAction;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
@@ -46,17 +46,16 @@ class AdmitNeonatalPatientActionTest extends TestCase
             'diagnosis' => 'Institutional Neonatal Protocol',
         ]);
 
-        $this->assertDatabaseHas('nicu_admissions', [
+        $this->assertDatabaseHas('admissions', [
             'id' => $admission->id,
-            'birth_weight' => 2.5,
-            'gestational_age' => 38,
+            'admission_type' => 'nicu',
             'status' => 'admitted',
         ]);
 
         $this->assertDatabaseHas('sys_audit_log', [
-            'table_name' => 'nicu_admissions',
+            'table_name' => 'admissions',
             'record_id' => $admission->id,
-            'action' => 'CREATE_NICU_ADMISSIONS',
+            'action' => 'NICU_ADMIT',
         ]);
     }
 }

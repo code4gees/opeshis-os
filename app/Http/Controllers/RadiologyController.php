@@ -32,13 +32,23 @@ class RadiologyController extends Controller
         ];
 
         if ($tab === 'pending') {
-            $data['orders'] = RadiologyOrder::with(['patient', 'doctor'])
+            $data['orders'] = RadiologyOrder::when(auth()->user()->branch_id, function ($query, $branchId) {
+                    return $query->whereHas('patient', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    });
+                })
+                ->with(['patient', 'doctor'])
                 ->where('status', 'pending')
                 ->orderBy('ordered_at', 'asc')
                 ->get();
 
         } elseif ($tab === 'archive') {
-            $data['orders'] = RadiologyOrder::with(['patient', 'doctor', 'radiologist'])
+            $data['orders'] = RadiologyOrder::when(auth()->user()->branch_id, function ($query, $branchId) {
+                    return $query->whereHas('patient', function ($q) use ($branchId) {
+                        $q->where('branch_id', $branchId);
+                    });
+                })
+                ->with(['patient', 'doctor', 'radiologist'])
                 ->where('status', 'completed')
                 ->orderBy('completed_at', 'desc')
                 ->limit(50)

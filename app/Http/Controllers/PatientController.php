@@ -23,12 +23,16 @@ class PatientController extends Controller
     public function index(Request $request): View
     {
         $search = $request->query('q', '');
-        $query = Patient::query();
+        $query = Patient::when(auth()->user()->branch_id, function ($query, $branchId) {
+            return $query->where('branch_id', $branchId);
+        });
 
         if ($search) {
             $hash = Opeshis::generateSearchHash((string) $search);
-            $query->where('medical_id', 'ILIKE', "%$search%")
+            $query->where(function($q) use ($search, $hash) {
+                $q->where('medical_id', 'LIKE', "%$search%")
                   ->orWhere('search_hash', $hash);
+            });
         }
 
         $patients = $query->orderBy('created_at', 'desc')->paginate(20);

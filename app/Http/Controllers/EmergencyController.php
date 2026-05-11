@@ -51,7 +51,8 @@ class EmergencyController extends Controller
                     'medical_id' => $medicalId,
                     'full_name' => $request->input('full_name'),
                     'gender' => $request->input('gender'),
-                    'verification_status' => 'verified',
+                    'dob' => now()->subYears(20)->toDateString(), // Mock DOB for emergency
+                    'branch_id' => auth()->user()->branch_id ?? null,
                 ]);
 
                 $medicalIdPool->update([

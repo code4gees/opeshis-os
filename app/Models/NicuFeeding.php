@@ -14,6 +14,6 @@ class NicuFeeding extends Model
 
     public function admission()
     {
-        return $this->belongsTo(NicuAdmission::class, 'admission_id');
+        return $this->belongsTo(Admission::class, 'admission_id');
     }
 }

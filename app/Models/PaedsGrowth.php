@@ -22,7 +22,7 @@ class PaedsGrowth extends Model
 
     public function admission()
     {
-        return $this->belongsTo(PaedsAdmission::class, 'admission_id');
+        return $this->belongsTo(Admission::class, 'admission_id');
     }
 
     public function clinician()
