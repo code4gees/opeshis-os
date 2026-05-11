@@ -42,23 +42,13 @@ class LabController extends Controller
         ];
 
         if ($tab === 'orders') {
-            $data['pendingOrders'] = LabOrder::when(auth()->user()->branch_id, function ($query, $branchId) {
-                    return $query->whereHas('patient', function ($q) use ($branchId) {
-                        $q->where('branch_id', $branchId);
-                    });
-                })
-                ->with('patient')
+            $data['pendingOrders'] = LabOrder::with('patient')
                 ->where('status', 'pending')
                 ->orderBy('created_at', 'asc')
                 ->get();
 
         } elseif ($tab === 'history') {
-            $data['history'] = LabOrder::when(auth()->user()->branch_id, function ($query, $branchId) {
-                    return $query->whereHas('patient', function ($q) use ($branchId) {
-                        $q->where('branch_id', $branchId);
-                    });
-                })
-                ->with(['patient'])
+            $data['history'] = LabOrder::with(['patient'])
                 ->where('status', 'completed')
                 ->orderBy('updated_at', 'desc')
                 ->limit(100)

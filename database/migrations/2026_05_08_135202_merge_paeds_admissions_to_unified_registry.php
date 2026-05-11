@@ -13,33 +13,38 @@ return new class extends Migration
     public function up(): void
     {
         if (Schema::hasTable('paeds_admissions')) {
-            if (DB::getDriverName() !== 'sqlite') {
-                // Data Migration (Forensic Protocol)
-                DB::statement("
-                    INSERT INTO admissions (
-                        patient_id, diagnosis_at_admission, admission_date, discharge_date, 
-                        discharge_summary, status, admitted_by, branch_id, created_at, updated_at, 
-                        admission_type, specialty_data
-                    )
-                    SELECT 
-                        patient_id, admission_diagnosis, admission_time, discharge_time, 
-                        discharge_notes, status, NULL, branch_id, created_at, updated_at, 
-                        'paeds', 
-                        json_build_object(
-                            'ward_bed_id', ward_bed_id,
-                            'admission_source', admission_source,
-                            'weight_kg', weight_kg,
-                            'height_cm', height_cm,
-                            'muac_cm', muac_cm,
-                            'guardian_name', guardian_name
-                        )
-                    FROM paeds_admissions
-                ");
+            // Data Migration (Safe PHP Protocol)
+            DB::table('paeds_admissions')->orderBy('created_at')->chunk(100, function ($rows) {
+                foreach ($rows as $row) {
+                    DB::table('admissions')->insert([
+                        'patient_id' => $row->patient_id,
+                        'diagnosis_at_admission' => $row->admission_diagnosis,
+                        'admission_date' => $row->admission_time,
+                        'discharge_date' => $row->discharge_time,
+                        'discharge_summary' => $row->discharge_notes,
+                        'status' => $row->status,
+                        'admitted_by' => null,
+                        'branch_id' => $row->branch_id,
+                        'created_at' => $row->created_at,
+                        'updated_at' => $row->updated_at,
+                        'admission_type' => 'paeds',
+                        'specialty_data' => json_encode([
+                            'ward_bed_id' => $row->ward_bed_id,
+                            'admission_source' => $row->admission_source,
+                            'weight_kg' => $row->weight_kg,
+                            'height_cm' => $row->height_cm,
+                            'muac_cm' => $row->muac_cm,
+                            'guardian_name' => $row->guardian_name
+                        ])
+                    ]);
+                }
+            });
 
-                // Decommission (Forensic CASCADE)
-                DB::statement("DROP TABLE IF EXISTS paeds_admissions CASCADE");
-            } else {
+            // Decommission (Forensic CASCADE)
+            if (DB::getDriverName() === 'sqlite') {
                 Schema::dropIfExists('paeds_admissions');
+            } else {
+                Schema::dropIfExists("paeds_admissions");
             }
         }
     }

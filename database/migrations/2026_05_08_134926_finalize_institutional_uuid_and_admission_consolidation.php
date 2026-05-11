@@ -84,9 +84,9 @@ return new class extends Migration
             DB::statement("DROP TABLE IF EXISTS obstetrics_admissions");
             DB::statement("DROP TABLE IF EXISTS ward_admissions");
         } else {
-            DB::statement("DROP TABLE IF EXISTS icu_admissions CASCADE");
-            DB::statement("DROP TABLE IF EXISTS obstetrics_admissions CASCADE");
-            DB::statement("DROP TABLE IF EXISTS ward_admissions CASCADE");
+            DB::statement("DROP TABLE IF EXISTS icu_admissions");
+            DB::statement("DROP TABLE IF EXISTS obstetrics_admissions");
+            DB::statement("DROP TABLE IF EXISTS ward_admissions");
         }
     }
 

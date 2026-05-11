@@ -3,7 +3,6 @@ namespace App\Http\Controllers;
 use App\Models\Admission;
 use App\Models\PaedsOrder;
 use App\Models\PaedsVital;
-use Illuminate\Http\Request;
 use App\Actions\Clinical\AdmitPaedsPatientAction;
 use App\Actions\Clinical\DischargePaedsPatientAction;
 use App\Actions\Clinical\LogPaedsVitalsAction;
